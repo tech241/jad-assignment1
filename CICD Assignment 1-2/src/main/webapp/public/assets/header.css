@@ -61,7 +61,10 @@
 
     #menu-button:hover {
         cursor: pointer;
-        opacity: 75%;
+    }
+    
+    #menu-button:active {
+    	opacity: 75%;
     }
 
     .menu-options {
@@ -111,6 +114,11 @@
             #divider-top, #divider-bottom {
                 display: none;
             }
+            
+            #login-signup {
+            	display: flex;
+            	gap: 32px;
+        	}
         }
 
         #logo-small {
