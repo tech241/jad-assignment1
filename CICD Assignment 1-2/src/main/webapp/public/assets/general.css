@@ -4,10 +4,12 @@
 @import url(variables.css);
 @import url(header.css);
 @import url(footer.css);
+@import url(form.css);
 @import url("https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css");
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    margin: 0 0 16px;
 }
 
 * {
@@ -24,6 +26,18 @@ body {
 
 main {
     min-height: calc(100vh -  53px);
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+a:active {
+    opacity: 75%;
 }
 
 .font-handwriting {

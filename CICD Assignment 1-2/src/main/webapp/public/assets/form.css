@@ -1,0 +1,48 @@
+input, button {
+    height: auto;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+input {
+    border: 1px solid hsla(from var(--colour-text-plain) h s l / 0.5);
+    outline: 0;
+}
+
+input:focus {
+    border: 1px solid var(--colour-bg-colour);
+    box-shadow: 0 0 0 2px hsla(from var(--colour-bg-colour) h s l / 0.5);
+}
+
+input[type="checkbox"] {
+    accent-color: var(--colour-bg-colour);
+    transform: translateY(1.5px);
+}
+
+button, input[type="submit"], input[type="reset"] {
+    background-color: var(--colour-bg-colour);
+    color: var(--colour-text-colour);
+    box-sizing: content-box;
+    border: none;
+}
+
+button.secondary-button, input[type="submit"].secondary-button, input[type="reset"].secondary-button {
+    background-color: transparent;
+    color: var(--colour-text-plain);
+    border: 1px solid var(--colour-text-plain)
+}
+
+button:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:active, input[type="submit"]:active, input[type="reset"]:active {
+    opacity: 75%;
+}
+
+input:user-invalid {
+    border: 1px solid var(--system-colour-red);
+    box-shadow: 0 0 0 2px hsla(from var(--system-colour-red) h s l / 0.5);
+}

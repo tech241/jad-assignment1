@@ -10,15 +10,15 @@
 </head>
 <body>
 
-	<!-- header.html goes here -->
-	<%@ include file="assets/components/header.html"%>
-
     <main>
         
     </main>
     
+    <!-- header.html goes here -->
+	<%@ include file="assets/components/header.html" %>
+    
     <!-- footer.html goes here -->
-	<%@ include file="assets/components/footer.jsp"%>
+	<%@ include file="assets/components/footer.jsp" %>
 
 </body>
 </html>

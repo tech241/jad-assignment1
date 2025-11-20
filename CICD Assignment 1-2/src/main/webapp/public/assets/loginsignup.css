@@ -1,0 +1,59 @@
+@import url(general.css);
+
+main {
+    background: url("images/elderly\ care\ photo.jpg") center;
+    background-size: cover;
+}
+
+.position-relative {
+    position: relative;
+
+    width: 100%;
+    height: calc(100vh - 117px);
+    padding-top: 64px;
+}
+
+.position-absolute {
+    background-color: var(--colour-bg-plain);
+    border-radius: 16px;
+
+    width: 268px;
+    height: auto;
+    max-width: calc(100% - 50px);
+    max-height: calc(100% - 150px);
+    padding: 32px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 33px));
+
+    & input:not([type="checkbox"]), button {
+        width: calc(100% - 16px);
+    }
+
+    & input, #button-group {
+        margin: 8px 0;
+    }
+
+    & #button-group {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+/* .login {
+    height: 310px;
+} */
+
+/* .signup {
+    height: 425px;
+} */
+
+#credit {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 8px;
+    color: var(--colour-text-colour)
+}
