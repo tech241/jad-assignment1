@@ -25,4 +25,7 @@
     --font-heading: "Quicksand", var(--font-base);
     --font-body: "Nata Sans", var(--font-base);
     --font-handwriting: "Gaegu", var(--font-base);
+    
+    /* useful heights */
+    --height-no-scroll: calc(100vh - 117px);
 }

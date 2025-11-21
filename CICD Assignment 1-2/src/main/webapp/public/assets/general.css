@@ -25,7 +25,8 @@ body {
 }
 
 main {
-    min-height: calc(100vh -  53px);
+    min-height: var(--height-no-scroll);
+    margin-top: 64px;
 }
 
 a {
