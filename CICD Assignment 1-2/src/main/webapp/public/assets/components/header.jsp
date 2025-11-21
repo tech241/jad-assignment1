@@ -11,6 +11,10 @@
 	<div>
         <input type="checkbox" id="toggle-menu-short">
         
+        <% if (isLoggedIn) { %>
+        <input type="checkbox" id="toggle-account-dropdown">
+        <% } %>
+        
         <div class="header">
 
             <a href="index.jsp"><img src="assets/images/placeholderlogo.png" id="logo"><img src="assets/images/placeholderlogosmall.png" id="logo-small"></a>
@@ -22,14 +26,38 @@
                 </label>
 
                 <ul class="menu-options">
+                	<!-- base options, everyone receives it -->
                     <li><a href="index.jsp"><i class='bxr bx-home'></i>Home</a></li>
-                    <li><a href="search.jsp"><i class='bxr bx-search'></i>Search</a></li>
+                    <li><a href="services.jsp"><i class='bxr bx-handshake'></i>Services</a></li>
+                    
+                    <% if (isLoggedIn) { %>
+                    
+                    <!-- options if the person is logged in -->
+                    <div id="account-dropdown">
+                    	<label for="toggle-account-dropdown" id="account-dropdown-button">
+                    		<i class='bxr bx-user'></i>
+                    		<span><%= name %></span>
+                    		<i class='bxr bx-caret-big-down' id="open-dropdown"></i>
+                    		<i class='bxr bx-caret-big-up' id="close-dropdown"></i>
+                    	</label>
+                    	
+                    	<ul id="account-dropdown-menu">
+                			<li><a href="account.jsp">View Account</a><li>
+                			<li><a href="#">Log Out</a><li>
+                		</ul>
+                    </div>
+                    
+                    <% } else { %>
+                    
+                    <!-- options if the person is not logged in -->
                     <div id="login-signup">
                         <li><a href="login.jsp">Log In</a></li>
                         <div id="divider-top"></div>
                         <li><a href="signup.jsp" id="login">Sign Up</a></li>
                         <div id="divider-bottom"></div>
                     </div>
+                    
+                    <% } %>
                 </ul>
             </div>
         </div>

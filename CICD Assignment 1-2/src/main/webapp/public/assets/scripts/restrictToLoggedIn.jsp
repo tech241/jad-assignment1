@@ -8,5 +8,15 @@
 </head>
 <body>
 
+	<%
+	
+	// if the user is not logged in, redirect to 403.jsp
+	
+	if (!isLoggedIn) {
+		response.sendRedirect("403.jsp");
+	}
+	
+	%>
+	
 </body>
 </html>

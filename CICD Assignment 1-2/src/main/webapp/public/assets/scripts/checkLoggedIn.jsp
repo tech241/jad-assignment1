@@ -15,12 +15,14 @@
 		
 		boolean isLoggedIn;
 		boolean isAdmin;
+		String name;
 				
 		// script to check if the user if the session storage exists and is valid
 		
 		// currently hardcoded, will be changed
-		isLoggedIn = true;
-		isAdmin = true;
+		isLoggedIn = false;
+		isAdmin = false;
+		name = "Test User";
 	%>
 
 </body>

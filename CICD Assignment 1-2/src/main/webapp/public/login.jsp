@@ -12,6 +12,9 @@
 
 	<!-- load all scripts so that the pages do not need to add the script manually -->
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
+	
+	<!-- for not logged in users only -->
+	<%@ include file="assets/scripts/restrictToNotLoggedIn.jsp" %>
 
     <main>
         

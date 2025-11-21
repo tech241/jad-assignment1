@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +9,14 @@
     <link rel="stylesheet" href="assets/general.css">
 </head>
 <body>
-
+	
 	<!-- load all scripts so that the pages do not need to add the script manually -->
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
-
-	<% 
-		// this page should only be accessible if the user is logged in
-		// the code should be reuseable so put it as a java/jsp file???
-	%>
 	
-	<%@ include file="assets/scripts/restrictToLoggedIn.jsp" %>
+	<!-- for admins only -->
+	<%@ include file="assets/scripts/restrictToAdmin.jsp" %>
 
     <main>
-        
-        
         
     </main>
     
