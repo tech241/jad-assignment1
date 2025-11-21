@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+@import url(general.css);
+
+.center {
+	position: relative;
+
+    width: 100%;
+    height: var(--height-no-scroll);
+}
+
+.container {
+	width: 25%;
+	
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+	text-align: center;
+}

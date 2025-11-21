@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/general.css">
+    <link rel="stylesheet" href="assets/403.css">
 </head>
 <body>
 	
@@ -14,6 +14,15 @@
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
 
     <main>
+    
+    <!-- this page is used if the user is not authorized to visit the page -->
+    <div class="center">
+    	<div class="container">
+    		<h1>Oops!</h1>
+    		<p>You're not allowed to see this page.</p>
+    		<button onclick="location.href = 'index.jsp';">Go back</button>
+    	</div>
+    </div>
         
     </main>
     

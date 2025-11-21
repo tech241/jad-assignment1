@@ -10,6 +10,9 @@
 </head>
 <body>
 
+	<!-- load all scripts so that the pages do not need to add the script manually -->
+	<%@ include file="assets/scripts/loadScripts.jsp" %>
+
     <main>
         
         <div class="position-relative">
@@ -44,10 +47,10 @@
 
     </main>
     
-    <!-- header.html goes here -->
-	<%@ include file="assets/components/header.html" %>
-
-    <!-- footer.html goes here -->
+    <!-- header.jsp goes here -->
+	<%@ include file="assets/components/header.jsp" %>
+    
+    <!-- footer.jsp goes here -->
 	<%@ include file="assets/components/footer.jsp" %>
 
 </body>
