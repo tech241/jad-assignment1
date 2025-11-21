@@ -30,6 +30,11 @@
                     <li><a href="index.jsp"><i class='bxr bx-home'></i>Home</a></li>
                     <li><a href="services.jsp"><i class='bxr bx-handshake'></i>Services</a></li>
                     
+                    <!-- options if the person is an admin -->
+                    <% if (isAdmin) { %>
+                    <li><a href="admin/index.jsp"><i class='bxr bx-cog'></i>Admin</a></li>
+                    <% } %>
+                    
                     <% if (isLoggedIn) { %>
                     
                     <!-- options if the person is logged in -->

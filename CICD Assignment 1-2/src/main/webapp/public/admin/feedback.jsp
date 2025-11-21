@@ -11,20 +11,20 @@
 <body>
 	
 	<!-- load all scripts so that the pages do not need to add the script manually -->
-	<%@ include file="assets/scripts/loadScripts.jsp" %>
+	<%@ include file="../assets/scripts/loadScripts.jsp" %>
 	
 	<!-- for admins only -->
-	<%@ include file="assets/scripts/restrictToAdmin.jsp" %>
+	<%@ include file="../assets/scripts/restrictToAdmin.jsp" %>
 
     <main>
         
     </main>
     
     <!-- header.jsp goes here -->
-	<%@ include file="assets/components/header.jsp" %>
+	<%@ include file="../assets/components/header.jsp" %>
     
     <!-- footer.jsp goes here -->
-	<%@ include file="assets/components/footer.jsp" %>
+	<%@ include file="../assets/components/footer.jsp" %>
 
 </body>
 </html>
