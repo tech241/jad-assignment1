@@ -1,0 +1,310 @@
+@charset "UTF-8";
+
+/* HERO IMAGE */
+/* ⭐ PATCH: Enhanced hero with subtle zoom effect */
+main .hero {
+	position: relative;
+	width: 100%;
+	height: 80vh; 
+	background-image: url('images/hero-section-elderly.png');
+	background-size: cover;
+	background-position: center;
+	animation: heroZoom 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {from { background-size:100%;
+	
+}
+
+to {
+	background-size: 110%;
+}
+
+}
+
+/* ⭐ PATCH: Softer overlay for warmer feeling */
+.hero::after {
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(3px);
+}
+
+/* ⭐ NEW: Staggered fade-up animation */
+.fade-up {
+	opacity: 0;
+	transform: translateY(30px);
+	animation: fadeUp 1s forwards ease-out;
+}
+
+@keyframes fadeUp {
+	to { 
+    opacity:1;
+	transform: translateY(0);
+}
+
+}
+
+/* TEXT LAYOUT */
+.hero-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	text-align: center;
+	z-index: 10;
+}
+
+/* TEXT SHADOW TO MAKE WORDS POP */
+.hero-content h1, .hero-content p {
+	text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.hero-content h1 {
+	font-size: 3rem;
+	margin-bottom: 15px;
+	font-weight: 800;
+}
+
+.hero-content p {
+	font-size: 1.3rem;
+	margin-bottom: 25px;
+}
+
+/* MODERN BUTTONS */
+.hero-content button {
+	padding: 12px 28px;
+	font-size: 1.05rem;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	margin: 8px;
+	font-weight: 600;
+	transition: 0.3s ease;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* PRIMARY BUTTON STYLE */
+.btn-primary {
+	background: linear-gradient(135deg, #5c6bc0, #3949ab);
+	color: white;
+}
+
+/* HOVER EFFECT */
+.btn-primary:hover {
+	transform: translateY(-3px);
+	box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.35);
+	opacity: 0.9;
+}
+
+/* BUTTON ACTIVE (CLICK) EFFECT */
+.btn-primary:active {
+	transform: scale(0.97);
+	box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* .services-preview {
+	display: flex;
+	align-items: space-between;
+	justify-content: center;
+	gap: 40px;
+	padding: 80px 40px;
+}
+
+.services-preview-left img {
+	width: 450px; fixed width
+	height: auto; maintain aspect ratio
+	border-radius: 16px;
+	object-fit: cover; prevents stretching
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.services-preview-right {
+	max-width: 450px;
+}
+
+.services-preview-right h2 {
+	font-size: 2.2rem;
+	margin-bottom: 10px;
+}
+
+.services-preview-right p {
+	font-size: 1.1rem;
+	line-height: 1.6;
+	margin-bottom: 20px;
+} */
+
+/* ⭐ PATCH: Asymmetrical layout + more spacing */
+.services-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    padding: 100px 60px;
+    position: relative;
+}
+
+/* ⭐ PATCH: Add subtle neumorphic background */
+.services-preview {
+    background: #ffffff;
+}
+
+.services-preview-left img {
+    width: 500px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: 0.3s ease;
+}
+
+/* ⭐ NEW: Image Hover Lift */
+.services-preview-left img:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+.services-preview-right h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+
+.expandable {
+	display: none;
+	padding-top: 30px;
+}
+
+.service-cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.service-card {
+	width: 30%;
+	padding: 20px;
+	background: #f5f5f5;
+	border-radius: 12px;
+	text-align: center;
+}
+
+/* .guardians-section {
+	padding: 60px 40px;
+	background: #eef2ff;
+	text-align: left;
+	padding-left: 100px
+} */
+
+/* ⭐ PATCH: More warm, friendly background */
+.guardians-section {
+	padding: 100px 40px;
+	background: #f3f4ff;
+	text-align: center; /* changed from left-align */
+	border-radius: 0 0 40px 40px;
+}
+
+/* ⭐ NEW: Animated guardian cards */
+.guardian-card {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guardian-card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.guardians-section h2 {
+	font-size: 2rem;
+	margin-bottom: 20px;
+}
+
+.guardians-section p {
+	font-size: 1.1rem;
+	margin-bottom: 30px;
+}
+
+.guardian-cards {
+	display: flex;
+	justify-content: center;
+	gap: 25px;
+	flex-wrap: wrap;
+}
+
+.guardian-card {
+	width: 250px;
+	background: #fff;
+	padding: 20px;
+	border-radius: 12px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.guardian-card img {
+	width: 100%;
+	border-radius: 50%;
+}
+
+.section-divider svg {
+	display: block;
+	width: 100%;
+	height: 100px;
+}
+
+/* .why-section {
+	padding: 60px 40px;
+	background: #fafafa;
+}
+
+.why-section h2 {
+	text-align: center;
+	margin-bottom: 30px;
+	font-size: 2rem;
+} */
+/* ⭐ PATCH: More airy spacing */
+.why-section {
+	padding: 100px 60px;
+	background: #ffffff;
+}
+
+/* ⭐ PATCH: Elegant review cards */
+.review-card {
+	width: 320px;
+	padding: 28px;
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+	transition: 0.3s ease;
+}
+
+.review-card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+
+.reviews {
+	display: flex;
+	justify-content: center;
+	gap: 30px;
+	flex-wrap: wrap;
+}
+
+.review-card p {
+	font-style: italic;
+}
+
+/* Scroll Progress Bar Below Navbar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 56px; /* sits immediately below the navbar */
+    left: 0;
+    height: 6px; /* slightly thicker */
+    width: 0%;
+    background: linear-gradient(90deg, #7e57c2, #5e35b1); /* <-- new purple tone */
+    border-radius: 0 3px 3px 0;
+    z-index: 9998;
+    pointer-events: none;
+}
+
+/* Glow while scrolling */
+.scroll-progress-bar.glowing {
+    box-shadow: 0 0 8px rgba(126, 87, 194, 0.5),
+                0 2px 6px rgba(0, 0, 0, 0.15);
+}
