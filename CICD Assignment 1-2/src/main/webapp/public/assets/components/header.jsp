@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,60 +9,144 @@
 </head>
 <body>
 
-	<div>
-        <input type="checkbox" id="toggle-menu-short">
-        
-        <% if (isLoggedIn) { %>
-        <input type="checkbox" id="toggle-account-dropdown">
-        <% } %>
-        
-        <div class="header">
+	<%!boolean isLoggedIn;
+	String name;%>
 
-            <a href="index.jsp"><img src="assets/images/placeholderlogo.png" id="logo"><img src="assets/images/placeholderlogosmall.png" id="logo-small"></a>
+	<%
+	Connection conn = null;
+	Statement stmtCat = null;
+	ResultSet rsCat = null;
 
-            <div class="menu">
-                <label for="toggle-menu-short" id="menu-button">
-                    <i class='bxr bx-menu' id="open-menu"></i>
-                    <i class='bxr bx-x' id="close-menu"></i>
-                </label>
+	isLoggedIn = false;
+	name = "";
 
-                <ul class="menu-options">
-                	<!-- base options, everyone receives it -->
-                    <li><a href="index.jsp"><i class='bxr bx-home'></i>Home</a></li>
-                    <li><a href="services.jsp"><i class='bxr bx-handshake'></i>Services</a></li>
-                    
-                    <% if (isLoggedIn) { %>
-                    
-                    <!-- options if the person is logged in -->
-                    <div id="account-dropdown">
-                    	<label for="toggle-account-dropdown" id="account-dropdown-button">
-                    		<i class='bxr bx-user'></i>
-                    		<span><%= name %></span>
-                    		<i class='bxr bx-caret-big-down' id="open-dropdown"></i>
-                    		<i class='bxr bx-caret-big-up' id="close-dropdown"></i>
-                    	</label>
-                    	
-                    	<ul id="account-dropdown-menu">
-                			<li><a href="account.jsp">View Account</a><li>
-                			<li><a href="#">Log Out</a><li>
-                		</ul>
-                    </div>
-                    
-                    <% } else { %>
-                    
-                    <!-- options if the person is not logged in -->
-                    <div id="login-signup">
-                        <li><a href="login.jsp">Log In</a></li>
-                        <div id="divider-top"></div>
-                        <li><a href="signup.jsp" id="login">Sign Up</a></li>
-                        <div id="divider-bottom"></div>
-                    </div>
-                    
-                    <% } %>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
+	// If user has logged in, retrieve their name from session
+	if (session.getAttribute("sessUserID") != null) {
+		isLoggedIn = true;
+		name = (String) session.getAttribute("sessUserName");
+	}
+
+	try {
+		Class.forName("org.postgresql.Driver");
+		conn = DriverManager.getConnection(
+		"jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require",
+		"neondb_owner", "npg_iCobAxPw5z4X");
+
+		stmtCat = conn.createStatement();
+		rsCat = stmtCat.executeQuery("SELECT * FROM service_category ORDER BY cat_id");
+
+	} catch (Exception e) {
+		out.println("Error in header DB: " + e);
+	}
+	%>
+
+	<!-- HEADER -->
+	<div class="header">
+
+		<!-- LOGO -->
+		<div class="logo">
+			<a href="homepage.jsp"> <img
+				src="assets/images/placeholderlogo.png" id="logo"> <img
+				src="assets/images/placeholderlogosmall.png" id="logo-small">
+			</a>
+		</div>
+
+		<!-- MENU -->
+		<div class="menu">
+
+			<ul class="menu-options">
+
+				<li><a href="homepage.jsp"><i class='bx bx-home'></i> Home</a></li>
+
+				<!-- SERVICES DROPDOWN -->
+				<li class="dropdown mega-dropdown"><a href="#"><i
+						class='bx bx-handshake'></i> Services</a>
+
+					<div class="mega-menu">
+
+						<%
+						while (rsCat != null && rsCat.next()) {
+
+							int catId = rsCat.getInt("cat_id");
+							String catName = rsCat.getString("cat_name");
+							String catLogo = rsCat.getString("cat_logo");
+
+							// Query services for the specific category
+							String sqlSvc = "SELECT service_id, service_name FROM service WHERE cat_id=" + catId;
+							Statement stmtSvc = conn.createStatement();
+							ResultSet rsSvc = stmtSvc.executeQuery(sqlSvc);
+						%>
+
+						<div class="mega-column">
+							<h4>
+								<img src="assets/images/<%=catLogo%>" class="cat-icon">
+								<%=catName%>
+							</h4>
+
+							<%
+							while (rsSvc.next()) {
+							%>
+
+							<a href="services.jsp?service_id=<%=rsSvc.getInt("service_id")%>">
+								<%=rsSvc.getString("service_name")%>
+							</a>
+
+							<%
+							}
+							%>
+						</div>
+
+						<%
+						rsSvc.close();
+						stmtSvc.close();
+						} // end category loop
+						%>
+
+					</div></li>
+
+				<!-- ACCOUNT SECTION -->
+				<%
+				if (isLoggedIn) {
+				%>
+
+				<li id="account-dropdown"><label id="account-dropdown-button">
+						<i class="bx bx-user"></i> <span><%=name%></span> <i
+						class="bx bx-caret-down" id="open-dropdown"></i> <i
+						class="bx bx-caret-up" id="close-dropdown"></i>
+				</label>
+
+					<ul id="account-dropdown-menu">
+						<li><a href="account.jsp">View Account</a></li>
+						<li><a href="logout.jsp">Log Out</a></li>
+					</ul></li>
+
+				<%
+				} else {
+				%>
+
+				<li><a href="login.jsp">Log In</a></li>
+				<li><a href="signup.jsp">Sign Up</a></li>
+
+				<%
+				}
+				%>
+
+			</ul>
+		</div>
+	</div>
+
+	<%
+	try {
+		if (rsCat != null)
+			rsCat.close();
+		if (stmtCat != null)
+			stmtCat.close();
+		if (conn != null)
+			conn.close();
+	} catch (Exception e) {
+		out.println("Error closing DB: " + e);
+	}
+	%>
+
 </body>
 </html>
