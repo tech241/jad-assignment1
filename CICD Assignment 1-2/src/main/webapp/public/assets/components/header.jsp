@@ -147,6 +147,5 @@
 		out.println("Error closing DB: " + e);
 	}
 	%>
-
 </body>
 </html>
