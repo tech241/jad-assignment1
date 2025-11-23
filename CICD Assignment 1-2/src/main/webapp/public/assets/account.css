@@ -1,0 +1,57 @@
+@import url(general.css);
+
+.container {
+	padding: 16px;
+}
+
+.profile {
+	display: flex;
+	flex-direction: space-between;
+	gap: 8px;
+	
+	& .card {
+		padding: 16px;
+		background-color: var(--colour-bg-card);
+		color: var(--colour-text-card);
+		
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		
+		border-radius: 16px;
+		
+		width: 75%;
+		
+		& #account-icon {
+			font-size: 64px;
+		}
+		
+		& .info {
+			& h2 {
+				margin: 0;
+			}
+		}
+	}
+	
+	& .buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		
+		width: 20%;
+		
+		& button {
+			height: 50%;
+			width: 100%;
+		}
+	}
+}
+
+.section-divider {
+	margin: 8px;
+}
+
+#delete-account {
+	background-color: var(--system-colour-red);
+	margin-bottom: 8px;
+}

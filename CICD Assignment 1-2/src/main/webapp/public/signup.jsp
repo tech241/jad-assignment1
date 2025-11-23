@@ -22,13 +22,27 @@
             <div class="position-absolute signup">
 
                 <h1>Sign Up</h1>
+                
+                <%
+                String errMsg = request.getParameter("errMsg");
+				if (errMsg != null) {
+                %>
+                <span id="errMsg"><%= errMsg %></span>
+                <% } %>
+                
+                <%
+                String msg = request.getParameter("msg");
+				if (msg != null) {
+                %>
+                <span><%= msg %></span>
+                <% } %>
 
-                <form>
+                <form action="../signup" method="post">
 
-                    <label for="something">Name</label> <br>
+                    <label for="name">Name</label> <br>
                     <input type="text" placeholder="Enter name" name="name" id="name" required> <br>
 
-                    <label for="something">Email</label> <br>
+                    <label for="email">Email</label> <br>
                     <input type="email" placeholder="name@example.com" name="email" id="email" required> <br>
 
                     <label for="password">Password</label> <br>

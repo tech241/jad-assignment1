@@ -7,11 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-/* Things to do for this part: 
-	1. Connect to the database
-	2. Copy code from a practical for this.
-*/
-%>
+
+	<%
+		
+		session.invalidate();
+		response.sendRedirect("../../homepage.jsp");
+	
+	%>
+
 </body>
 </html>

@@ -13,16 +13,20 @@
 		// In the future, this will detect session storage, where if it exists and is valid, then the user is logged in.
 		// If the user is also an admin, turn on admin features.
 		
-		boolean isLoggedIn;
-		boolean isAdmin;
-		String name;
+		// boolean isLoggedIn;
+		// boolean isAdmin;
+		// String name;
 				
 		// script to check if the user if the session storage exists and is valid
+		boolean isLoggedIn = session.getAttribute("id") != null;
+		boolean isAdmin = session.getAttribute("role") == "admin";
+		String name = (String) session.getAttribute("name");
+		String email = (String) session.getAttribute("email");
 		
 		// currently hardcoded, will be changed
-		isLoggedIn = false;
-		isAdmin = false;
-		name = "Test User";
+		// isLoggedIn = false;
+		// isAdmin = false;
+		// name = "Test User";
 	%>
 
 </body>

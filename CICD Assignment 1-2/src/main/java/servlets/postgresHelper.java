@@ -1,7 +1,7 @@
 package servlets;
 
 import java.sql.*;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class postgresHelper {
 	public static Connection connect() {
@@ -20,7 +20,7 @@ public class postgresHelper {
 		}
 	}
 	
-	public static void query (String sqlStr, Consumer<ResultSet> function) {
+	public static void query (String sqlStr, BiConsumer<ResultSet, Integer> function) {
 		try {
 			// Step 4: Create Statement object
 			Connection conn = connect();
@@ -44,7 +44,7 @@ public class postgresHelper {
 		}
 	}
 	
-	public static void query (String sqlStr, Consumer<ResultSet> function, Object... parameters) {
+	public static void query (String sqlStr, BiConsumer<ResultSet, Integer> function, Object... parameters) {
 		try {
 			// Step 4: Create Statement object
 			Connection conn = connect();
@@ -83,12 +83,20 @@ public class postgresHelper {
 		}
 	}
 	
-	public static void process(ResultSet rs, Consumer<ResultSet> function) {
+	public static void process(ResultSet rs, BiConsumer<ResultSet, Integer> function) {
 		try {
 			// Step 6: Process Result
+			int index = 0;
+			
 			while (rs.next()) {
+				index ++;
+				
 				// function goes here
-				function.accept(rs);
+				function.accept(rs, index);
+			}
+			
+			if (index <= 0) {
+				function.accept(null, index);
 			}
 		} catch (Exception e) {
 			System.out.println("Error :" + e);

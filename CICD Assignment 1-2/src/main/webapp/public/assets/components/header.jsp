@@ -9,22 +9,10 @@
 </head>
 <body>
 
-	<%!boolean isLoggedIn;
-	String name;%>
-
 	<%
 	Connection conn = null;
 	Statement stmtCat = null;
 	ResultSet rsCat = null;
-
-	isLoggedIn = false;
-	name = "";
-
-	// If user has logged in, retrieve their name from session
-	if (session.getAttribute("sessUserID") != null) {
-		isLoggedIn = true;
-		name = (String) session.getAttribute("sessUserName");
-	}
 
 	try {
 		Class.forName("org.postgresql.Driver");
@@ -39,6 +27,10 @@
 		out.println("Error in header DB: " + e);
 	}
 	%>
+	
+	<% if (isLoggedIn) { %>
+	<input type="checkbox" id="toggle-account-dropdown">
+	<% } %>
 
 	<!-- HEADER -->
 	<div class="header">
@@ -109,16 +101,18 @@
 				if (isLoggedIn) {
 				%>
 
-				<li id="account-dropdown"><label id="account-dropdown-button">
-						<i class="bx bx-user"></i> <span><%=name%></span> <i
+				<li id="account-dropdown">
+					<label for="toggle-account-dropdown" id="account-dropdown-button">
+						<i class="bx bx-user"></i> <span><%= name %></span> <i
 						class="bx bx-caret-down" id="open-dropdown"></i> <i
 						class="bx bx-caret-up" id="close-dropdown"></i>
-				</label>
+					</label>
 
 					<ul id="account-dropdown-menu">
 						<li><a href="account.jsp">View Account</a></li>
-						<li><a href="logout.jsp">Log Out</a></li>
-					</ul></li>
+						<li><a href="assets/scripts/logout.jsp">Log Out</a></li>
+					</ul>
+				</li>
 
 				<%
 				} else {

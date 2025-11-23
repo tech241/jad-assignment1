@@ -22,17 +22,24 @@
             <div class="position-absolute login">
 
                 <h1>Log In</h1>
+                
+                <%
+                String errMsg = request.getParameter("errMsg");
+				if (errMsg != null) {
+                %>
+                <span id="errMsg"><%= errMsg %></span>
+                <% } %>
 
-                <form>
+                <form action="../login" method="post">
 
-                    <label for="something">Name or Email</label> <br>
+                    <label for="name-or-email">Name or Email</label> <br>
                     <input type="text" placeholder="Enter name or email" name="name-or-email" id="name-or-email" required> <br>
 
                     <label for="password">Password</label> <br>
                     <input type="password" placeholder="Enter password" name="password" id="password" required> <br>
 
                     <input type="checkbox" placeholder="Enter password" name="remember-me" id="remember-me">
-                    <label for="remember-me">Remember me</label><br>
+                    <label for="remember-me">Remember Me</label><br>
 
                     <div id="button-group">
                         <button type="submit">Log In</button>
