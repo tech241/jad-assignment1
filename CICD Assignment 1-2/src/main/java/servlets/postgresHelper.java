@@ -3,6 +3,9 @@ package servlets;
 import java.sql.*;
 import java.util.function.BiConsumer;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 public class postgresHelper {
 	public static Connection connect() {
 		try {
@@ -100,6 +103,43 @@ public class postgresHelper {
 			}
 		} catch (Exception e) {
 			System.out.println("Error :" + e);
+		}
+	}
+	
+	public static void validateAccount(HttpSession session, HttpServletResponse response, String url, String id, String password, Runnable function) {
+		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
+			if (rs != null) {
+				try {
+					String password2 = rs.getString("password");
+					
+					if (bcryptHelper.check(password, password2)) {
+						function.run();
+					} else {
+						response.sendRedirect("public/" + url + ".jsp?errMsg=Wrong password.");
+					}
+				} catch (Exception e) {
+					try {
+						response.sendRedirect("public/" + url + ".jsp?errMsg=An unknown error occured.");
+						System.out.println("Error :" + e);
+					} catch (Exception e1) {
+						System.out.println("Error :" + e1);
+					}
+				}
+			} else {
+				try {
+					// query does not give response
+					response.sendRedirect("public/" + url + ".jsp?errMsg=Member does not exist.");
+				} catch (Exception e1) {
+					System.out.println("Error :" + e1);
+				}
+			}
+		};
+		
+		// check if nameOrEmail is email
+		// otherwise verify by name
+		
+		if (id != null) {
+			postgresHelper.query("SELECT password FROM member WHERE id = ?", process, id);
 		}
 	}
 }

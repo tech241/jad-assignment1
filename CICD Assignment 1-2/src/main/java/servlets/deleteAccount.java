@@ -33,47 +33,23 @@ public class deleteAccount extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		String url = "deleteAccount";
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
+		HttpSession session = request.getSession();
 		
-		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
-			if (rs != null) {
-				try {
-					String password2 = rs.getString("password");
-					
-					if (bcryptHelper.check(password, password2)) {
-						HttpSession session = request.getSession();
-						session.invalidate();
-						
-						postgresHelper.query("DELETE FROM member WHERE id = ?", null, id);
-						response.sendRedirect("public/homepage.jsp");
-					} else {
-						response.sendRedirect("public/deleteAccount.jsp?errMsg=Wrong password.");
-					}
-				} catch (Exception e) {
-					try {
-						response.sendRedirect("public/deleteAccount.jsp?errMsg=An unknown error occured.");
-						System.out.println("Error :" + e);
-					} catch (Exception e1) {
-						System.out.println("Error :" + e1);
-					}
-				}
-			} else {
-				try {
-					// query does not give response
-					response.sendRedirect("public/deleteAccount.jsp?errMsg=Member does not exist.");
-				} catch (Exception e1) {
-					System.out.println("Error :" + e1);
-				}
+		Runnable deleteAccount = () -> {
+			session.invalidate();
+			
+			postgresHelper.query("DELETE FROM member WHERE id = ?", null, id);
+			try {
+				response.sendRedirect("public/homepage.jsp");
+			} catch (Exception e2) {
+				System.out.println("Error :" + e2);
 			}
 		};
 		
-		// check if nameOrEmail is email
-		// otherwise verify by name
-		
-		if (id != null) {
-			postgresHelper.query("SELECT password FROM member WHERE id = ?", process, id);
-		}
+		postgresHelper.validateAccount(session, response, url, id, password, deleteAccount);
 	}
 
 	/**
