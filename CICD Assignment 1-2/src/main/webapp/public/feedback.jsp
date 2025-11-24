@@ -14,6 +14,10 @@
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
 	
 	<%@ include file="assets/scripts/restrictToLoggedIn.jsp" %>
+	
+	<%
+	// this will probably get a rework idk really
+	%>
 
     <main>
     
@@ -35,7 +39,7 @@
                 	<label for="message">Please explain why. (Optional)</label> <br>
                 	<textarea placeholder="Enter message here" name="message" id="message"></textarea> <br>
                 	
-    				<button type="submit">Submit</button> <br>
+    				<button id="submit" type="submit">Submit</button> <br>
     				<span>Your response is anonymous. Your personal info will not be stored in our feedback form.</span>
     			</form>
     		</div>

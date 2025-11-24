@@ -101,7 +101,7 @@
 				if (isAdmin) {
 				%>
 
-				<li><a href="admin/index.jsp"><i class='bx bx-cog'></i> Admin</a></li>
+				<li><a href="adminIndex.jsp"><i class='bx bx-cog'></i> Admin</a></li>
 
 				<%
 				}

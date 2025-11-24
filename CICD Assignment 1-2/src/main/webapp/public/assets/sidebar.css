@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+.admin-sidebar {
+	position: fixed;
+	top: 64px;
+	left: 0;
+	
+	background-color: var(--colour-bg-card);
+	height: 32px;
+	width: calc(100% - 64px);
+	padding: 16px 32px;
+	
+	display: flex;
+	align-items: center;
+	
+	& ul {
+		display: flex;
+		justify-content: space-between;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		
+		& li {
+			list-style: none;
+			
+			display: flex;
+			align-items: center;
+			
+			& #menu-title {
+				margin: 0;
+				font-size: 16px;
+			}
+		}
+	}
+	
+	& * {
+		text-decoration: none;
+	}
+}

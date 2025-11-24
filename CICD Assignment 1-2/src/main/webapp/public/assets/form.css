@@ -1,16 +1,16 @@
-input, button, textarea {
+input, button, textarea, select, option {
     height: auto;
     padding: 8px;
     border-radius: 8px;
     font-size: 16px;
 }
 
-input, textarea {
+input, textarea, select, option {
     border: 1px solid hsla(from var(--colour-text-plain) h s l / 0.5);
     outline: 0;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus, option:focus {
     border: 1px solid var(--colour-bg-colour);
     box-shadow: 0 0 0 2px hsla(from var(--colour-bg-colour) h s l / 0.5);
 }
@@ -22,6 +22,7 @@ input[type="checkbox"] {
 
 input[type="range"] {
 	accent-color: var(--colour-bg-colour);
+	padding: 8px 0;
 }
 
 button, input[type="submit"], input[type="reset"] {
@@ -46,7 +47,7 @@ button:active, input[type="submit"]:active, input[type="reset"]:active {
     opacity: 75%;
 }
 
-input:user-invalid, textarea:user-invalid {
+input:user-invalid, textarea:user-invalid, select:user-invalid, option:user-invalid {
     border: 1px solid var(--system-colour-red);
     box-shadow: 0 0 0 2px hsla(from var(--system-colour-red) h s l / 0.5);
 }

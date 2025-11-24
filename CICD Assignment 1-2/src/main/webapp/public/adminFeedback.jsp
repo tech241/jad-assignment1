@@ -6,25 +6,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="assets/general.css">
+    <link rel="stylesheet" href="assets/admin.css">
 </head>
 <body>
 	
 	<!-- load all scripts so that the pages do not need to add the script manually -->
-	<%@ include file="../assets/scripts/loadScripts.jsp" %>
+	<%@ include file="assets/scripts/loadScripts.jsp" %>
 	
 	<!-- for admins only -->
-	<%@ include file="../assets/scripts/restrictToAdmin.jsp" %>
+	<%@ include file="assets/scripts/restrictToAdmin.jsp" %>
 
     <main>
+    
+    
         
     </main>
     
+	<!-- adminsidebar.jsp goes here -->
+	<%@ include file="assets/components/adminsidebar.jsp" %>
+    
     <!-- header.jsp goes here -->
-	<%@ include file="../assets/components/header.jsp" %>
+	<%@ include file="assets/components/header.jsp" %>
     
     <!-- footer.jsp goes here -->
-	<%@ include file="../assets/components/footer.jsp" %>
+	<%@ include file="assets/components/footer.jsp" %>
 
 </body>
 </html>

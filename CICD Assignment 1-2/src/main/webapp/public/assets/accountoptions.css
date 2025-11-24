@@ -31,3 +31,7 @@ label, input, textarea {
 & #errMsg {
 	color: var(--system-colour-red);
 }
+
+& #submit {
+	margin-bottom: 16px;
+}

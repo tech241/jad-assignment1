@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+@import url(general.css);
+@import url(sidebar.css);
+
+main {
+    min-height: calc(100vh - 181px);
+    margin-top: 128px;
+}
+
+.container {
+	padding: 16px;
+}
+
+.search-by {
+	display: flex;
+	gap: 8px;
+	justify-content: space-between;
+	align-items: center;
+	
+	& .search-text {
+		width: 128px;
+	}
+	
+	& form {
+		width: 100%;
+		
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		
+		gap: 8px;
+		
+		& input, select {
+			width: 100%;
+			margin-right: 32px;
+		}
+		
+		& button {
+			width: 20%;
+		}
+	}
+}
+
+select, option {
+    height: auto;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 1px solid hsla(from var(--colour-text-plain) h s l / 0.5);
+    outline: 0;
+}
+
+select:focus, option:focus {
+    border: 1px solid var(--colour-bg-colour);
+    box-shadow: 0 0 0 2px hsla(from var(--colour-bg-colour) h s l / 0.5);
+}
+
+.search-results {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 16px;
+}
+
+.section-divider {
+	margin: 32px;
+}
