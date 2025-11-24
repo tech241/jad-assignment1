@@ -106,12 +106,11 @@ public class postgresHelper {
 		}
 	}
 	
-	public static void validateAccount(HttpSession session, HttpServletResponse response, String url, String id, String password, Runnable function) {
+	public static void validateAccount(HttpSession session, HttpServletResponse response, String url, int id, String password, Runnable function) {
 		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
 			if (rs != null) {
 				try {
 					String password2 = rs.getString("password");
-					
 					if (bcryptHelper.check(password, password2)) {
 						function.run();
 					} else {
@@ -138,8 +137,19 @@ public class postgresHelper {
 		// check if nameOrEmail is email
 		// otherwise verify by name
 		
-		if (id != null) {
-			postgresHelper.query("SELECT password FROM member WHERE id = ?", process, id);
-		}
+		postgresHelper.query("SELECT * FROM member WHERE id = ?", process, id);
+	}
+	
+	public static void setSession(HttpSession session, int id, String name, String email) {
+		session.setAttribute("id", id);
+		session.setAttribute("name", name);
+		session.setAttribute("email", email);
+	}
+	
+	public static void setSession(HttpSession session, int id, String name, String email, String role) {
+		session.setAttribute("id", id);
+		session.setAttribute("name", name);
+		session.setAttribute("email", email);
+		session.setAttribute("role", role);
 	}
 }

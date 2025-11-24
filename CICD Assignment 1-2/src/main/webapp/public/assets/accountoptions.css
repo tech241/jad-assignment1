@@ -24,6 +24,10 @@
 	text-align: center;
 }
 
-label, input {
+label, input, textarea {
 	margin: 8px 0;
+}
+
+& #errMsg {
+	color: var(--system-colour-red);
 }

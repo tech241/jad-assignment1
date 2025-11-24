@@ -20,7 +20,7 @@
     	<div class="container">
     		<h1>Oops!</h1>
     		<p>You're not allowed to see this page.</p>
-    		<button onclick="location.href = 'index.jsp';">Go back</button>
+    		<button onclick="location.href = 'homepage.jsp';">Go back</button>
     	</div>
     </div>
         

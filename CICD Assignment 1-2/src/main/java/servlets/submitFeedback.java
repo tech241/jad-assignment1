@@ -5,23 +5,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.util.function.BiConsumer;
 
 /**
- * Servlet implementation class deleteAccount
+ * Servlet implementation class submitFeedback
  */
-@WebServlet("/deleteAccount")
-public class deleteAccount extends HttpServlet {
+@WebServlet("/submitFeedback")
+public class submitFeedback extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deleteAccount() {
+    public submitFeedback() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,24 +28,6 @@ public class deleteAccount extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		HttpSession session = request.getSession();
-		String url = "deleteAccount";
-		int id = (int) session.getAttribute("id");
-		String password = request.getParameter("password");
-		
-		Runnable deleteAccount1 = () -> {
-			session.invalidate();
-			
-			postgresHelper.query("DELETE FROM member WHERE id = ?", null, id);
-			try {
-				response.sendRedirect("public/homepage.jsp");
-			} catch (Exception e2) {
-				System.out.println("Error :" + e2);
-			}
-		};
-		
-		postgresHelper.validateAccount(session, response, url, id, password, deleteAccount1);
 	}
 
 	/**

@@ -19,7 +19,7 @@
     
         <div class="center">
     		<div class="container">
-    			<h1>Change Password</h1>
+    			<h1>Feedback</h1>
     			
     			<%
                 String errMsg = request.getParameter("errMsg");
@@ -28,17 +28,15 @@
                 <span id="errMsg"><%= errMsg %></span>
                 <% } %>
     			
-    			<form action="../changePassword" method="post">
-    				<label for="password">Current password</label> <br>
-                	<input type="password" placeholder="Enter password" name="password" id="password" required> <br>
+    			<form action="../submitFeedback" method="post">
+    				<label for="rating">How do you rate our website?</label> <br>
+                	<input type="range" min="1" max="5" value="1" name="rating" id="rating" required> <br>
                 	
-                	<label for="new-password">New password</label> <br>
-                	<input type="password" placeholder="New password" name="new-password" id="new-password" required> <br>
+                	<label for="message">Please explain why. (Optional)</label> <br>
+                	<textarea placeholder="Enter message here" name="message" id="message"></textarea> <br>
                 	
-                	<label for="confirm-password">Confirm password</label> <br>
-                	<input type="password" placeholder="Enter new password again" name="confirm-password" id="confirm-password" required> <br>
-                	
-    				<button type="submit">Change Password</button>
+    				<button type="submit">Submit</button> <br>
+    				<span>Your response is anonymous. Your personal info will not be stored in our feedback form.</span>
     			</form>
     		</div>
     	</div>

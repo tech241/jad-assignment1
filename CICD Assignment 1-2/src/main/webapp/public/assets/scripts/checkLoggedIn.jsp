@@ -19,7 +19,7 @@
 				
 		// script to check if the user if the session storage exists and is valid
 		boolean isLoggedIn = session.getAttribute("id") != null;
-		boolean isAdmin = session.getAttribute("role") == "admin";
+		boolean isAdmin =  "admin".equals((String) session.getAttribute("role"));
 		String name = (String) session.getAttribute("name");
 		String email = (String) session.getAttribute("email");
 		

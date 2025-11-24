@@ -95,6 +95,17 @@
 						%>
 
 					</div></li>
+					
+				<!-- ADMIN SECTION -->
+				<%
+				if (isAdmin) {
+				%>
+
+				<li><a href="admin/index.jsp"><i class='bx bx-cog'></i> Admin</a></li>
+
+				<%
+				}
+				%>
 
 				<!-- ACCOUNT SECTION -->
 				<%

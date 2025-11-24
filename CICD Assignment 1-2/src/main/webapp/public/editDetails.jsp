@@ -15,9 +15,10 @@
 	
 	<%@ include file="assets/scripts/restrictToLoggedIn.jsp" %>
 
-    <div class="center">
+	<main>
+    	<div class="center">
     		<div class="container">
-    			<h2>Edit Details</h2>
+    			<h1>Edit Details</h1>
     			
     			<%
                 String errMsg = request.getParameter("errMsg");
@@ -28,18 +29,19 @@
     			
     			<form action="../editDetails" method="post">
     				<label for="name">Name</label> <br>
-                    <input type="text" placeholder="Enter name" name="name" id="name" required> <br>
+                    <input type="text" placeholder="Enter name" name="name" id="name" value="<%= name %>" required> <br>
 
                     <label for="email">Email</label> <br>
-                    <input type="email" placeholder="name@example.com" name="email" id="email" required> <br>
+                    <input type="email" placeholder="name@example.com" name="email" id="email" value="<%= email %>" required> <br>
                     
-    				<label for="password">Password</label> <br>
+    				<label for="password">Enter password to change details</label> <br>
                 	<input type="password" placeholder="Enter password" name="password" id="password" required> <br>
                 	
     				<button type="submit">Edit Details</button>
     			</form>
     		</div>
     	</div>
+    </main>
     
     <!-- header.jsp goes here -->
 	<%@ include file="assets/components/header.jsp" %>

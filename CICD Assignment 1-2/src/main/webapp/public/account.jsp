@@ -61,6 +61,12 @@
         	
         	<div class="section-divider"></div>
         	
+        	<h1>Enjoying our website?</h1>
+        	<button id="feedback" onclick="location.href = 'feedback.jsp'">Feedback</button> <br>
+        	<span>Whether you enjoy our website or not, your feedback is 100% appreciated.</span>
+        	
+        	<div class="section-divider"></div>
+        	
         	<h1>Dangerous zone</h1>
         	<button id="delete-account" onclick="location.href = 'deleteAccount.jsp'">Delete Account</button> <br>
         	<span>This action will cause you to lose all of your data. Additionally, all of your appointments will be cancelled and no refund will be issued. This process is irreversible.</span>

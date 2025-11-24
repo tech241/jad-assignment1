@@ -49,10 +49,7 @@ public class login extends HttpServlet {
 					if (bcryptHelper.check(password, password2)) {
 						HttpSession session = request.getSession();
 						
-						session.setAttribute("id", id);
-						session.setAttribute("name", name);
-						session.setAttribute("email", email);
-						session.setAttribute("role", role);
+						postgresHelper.setSession(session, id, name, email, role);
 						
 						response.sendRedirect("public/account.jsp");
 					} else {

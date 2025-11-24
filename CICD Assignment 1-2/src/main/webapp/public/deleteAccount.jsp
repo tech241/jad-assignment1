@@ -19,7 +19,7 @@
     
         <div class="center">
     		<div class="container">
-    			<h2>Delete account?</h2>
+    			<h1>Delete account?</h1>
     			<ul>
     				<li>Your account will be deleted.</li>
     				<li>All upcoming appointments will be deleted with no refund.</li>

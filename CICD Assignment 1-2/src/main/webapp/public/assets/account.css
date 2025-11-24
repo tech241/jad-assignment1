@@ -48,10 +48,13 @@
 }
 
 .section-divider {
-	margin: 8px;
+	margin: 32px;
 }
 
 #delete-account {
 	background-color: var(--system-colour-red);
+}
+
+#feedback, #delete-account {
 	margin-bottom: 8px;
 }
