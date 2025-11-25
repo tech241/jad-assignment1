@@ -30,7 +30,7 @@
 	    }, 500);
 	});
 	</script>
-	<%@ include file="checkLoggedIn.jsp"%>
+	<%-- <%@ include file="checkLoggedIn.jsp"%> --%>
 
 </body>
 </html>
