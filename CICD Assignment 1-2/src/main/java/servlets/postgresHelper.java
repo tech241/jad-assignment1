@@ -54,6 +54,7 @@ public class postgresHelper {
 			PreparedStatement stmt = conn.prepareStatement(sqlStr);
 			
 			int index = 1;
+			
 			for (Object parameter : parameters) {
 				if (parameter instanceof String) {
 					stmt.setString(index, (String) parameter);
@@ -151,5 +152,39 @@ public class postgresHelper {
 		session.setAttribute("name", name);
 		session.setAttribute("email", email);
 		session.setAttribute("role", role);
+	}
+	
+	public static void validateAdmin(HttpSession session, HttpServletResponse response, String url, int id, Runnable function) {
+		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
+			if (rs != null) {
+				try {
+					String role = rs.getString("role");
+					if ("admin".equals(role)) {
+						function.run();
+					} else {
+						response.sendRedirect("public/" + url + ".jsp?errMsg=You are not admin.");
+					}
+				} catch (Exception e) {
+					try {
+						response.sendRedirect("public/" + url + ".jsp?errMsg=An unknown error occured.");
+						System.out.println("Error :" + e);
+					} catch (Exception e1) {
+						System.out.println("Error :" + e1);
+					}
+				}
+			} else {
+				try {
+					// query does not give response
+					response.sendRedirect("public/" + url + ".jsp?errMsg=Member does not exist.");
+				} catch (Exception e1) {
+					System.out.println("Error :" + e1);
+				}
+			}
+		};
+		
+		// check if nameOrEmail is email
+		// otherwise verify by name
+		
+		postgresHelper.query("SELECT * FROM member WHERE id = ?", process, id);
 	}
 }

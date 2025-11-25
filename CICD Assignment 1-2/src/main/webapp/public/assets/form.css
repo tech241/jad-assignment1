@@ -38,6 +38,10 @@ button.secondary-button, input[type="submit"].secondary-button, input[type="rese
     border: 1px solid var(--colour-text-plain)
 }
 
+button.dangerous-button, input[type="submit"].dangerous-button, input[type="reset"].dangerous-button {
+	background-color: var(--system-colour-red);
+}
+
 button:hover {
     cursor: pointer;
     font-weight: bold;

@@ -13,7 +13,7 @@
 	// if the user is not an admin, redirect to 403.jsp
 	
 	if (!isAdmin) {
-		response.sendRedirect("../403.jsp");
+		response.sendRedirect("403.jsp");
 	}
 	
 	%>

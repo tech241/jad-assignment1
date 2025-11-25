@@ -43,12 +43,14 @@
     	<div class="search-by">
     		<span class="search-text">Search by:</span>
     	
-    		<form action="../submitFeedback" method="post">
+    		<form>
     			<label for="name">Name</label>
-        		<input type="text" placeholder="Enter name" name="name" id="name" required>
+        		<input type="text" placeholder="Enter name" name="name" id="name">
         		
         		<label for="category">Category</label>
         		<select name="category" id="category">
+        		
+        			<option value="0">All categories</option>
         		
         			<%
         			while (rsCat2 != null && rsCat2.next()) {
@@ -63,6 +65,8 @@
         		<button type="submit">Search</button>
     		</form>
     	</div>
+    	
+    	<button onclick="location.href = 'adminCreateService.jsp'">Create service</button>
     	
     	<div class="section-divider"></div>
     	
@@ -80,20 +84,62 @@
 				conn3 = DriverManager.getConnection(
 				"jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require",
 				"neondb_owner", "npg_iCobAxPw5z4X");
+				
+				String where = "";
+				String serName = request.getParameter("name");
+				String catId = request.getParameter("category");
+				
+				boolean serNameNull = serName == null || "".equals(serName);
+				boolean catIdNull = catId == null || "0".equals(catId);
+				
+				if (!serNameNull || !catIdNull) {
+					where += " WHERE";
+				}
+				
+				if (!serNameNull) {
+					where += " s.service_name LIKE ?";
+				}
+				
+				if (!serNameNull && !catIdNull) {
+					where += " AND";
+				}
+				
+				if (!catIdNull) {
+					where += " s.cat_id = ?";
+				}
 		
-				stmtCat3 = conn3.prepareStatement("SELECT * FROM service WHERE name LIKE ? AND category = ?;");
-				stmtCat3.setString(1, "%" + request.getParameter("name") + "%");
-				stmtCat3.setInt(2, Integer.parseInt(request.getParameter("category")));
+				stmtCat3 = conn3.prepareStatement("SELECT * FROM service s JOIN service_category c ON s.cat_id = c.cat_id" + where + ";");
+				
+				if (!serNameNull) {
+					stmtCat3.setString(1, "%" + serName + "%");
+				}
+				
+				if (!catIdNull) {
+					stmtCat3.setInt(serNameNull ? 1 : 2, Integer.parseInt(catId));
+				}
+				
+				rsCat3 = stmtCat3.executeQuery();
 		
 			} catch (Exception e) {
 				out.println("Error in header DB: " + e);
 			}
 			
-			while (rsCat3 != null || rsCat3.next()) {
+			while (rsCat3 != null && rsCat3.next()) {
 			%>
 			
 			<div class="service-card">
-			
+				<img src="assets/<%= rsCat3.getString("image_path") %>"><br>
+				<span>
+					<strong><%= rsCat3.getString("service_name") %></strong><br>
+					<small><%= rsCat3.getString("cat_name") %></small><br>
+					<%= rsCat3.getString("service_description") %><br>
+					<a href="services.jsp?service_id=<%= rsCat3.getString("service_id") %>">View page</a><br>
+					
+					<div class="action-buttons">
+						<button onclick="location.href = 'adminEditService.jsp?serviceId=<%= rsCat3.getString("service_id") %>'" class="secondary-button">Edit</button>
+						<button onclick="location.href = 'adminDeleteService.jsp?serviceId=<%= rsCat3.getString("service_id") %>'" class="dangerous-button">Delete</button>
+					</div>
+				</span>
 			</div>
 			
 			<% } %>
