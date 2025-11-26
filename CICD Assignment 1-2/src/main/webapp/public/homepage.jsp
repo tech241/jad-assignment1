@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@ include file="assets/scripts/checkLoggedIn.jsp"%>
+<%@ include file="assets/scripts/dbConnection.jsp"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,13 +13,13 @@
 <link rel="stylesheet" href="assets/homepage.css">
 </head>
 <body>
-<div class="scroll-progress-bar"></div>
-
-	<!-- load all scripts so that the pages do not need to add the script manually -->
-	<%@ include file="assets/scripts/loadScripts.jsp"%>
 
 	<!-- Header -->
 	<%@ include file="assets/components/header.jsp"%>
+	<div class="scroll-progress-bar"></div>
+
+	<!-- load all scripts so that the pages do not need to add the script manually -->
+	<%@ include file="assets/scripts/loadScripts.jsp"%>
 
 	<main>
 		<div class="hero">
@@ -28,8 +32,8 @@
 				<button class="btn-primary" onclick="location.href='login.jsp'">Become
 					Client</button>
 			</div>
-			
-			<%@ include file="assets/components/sectiondivider.jsp" %>
+
+			<%@ include file="assets/components/sectiondivider.jsp"%>
 		</div>
 
 		<div class="services-preview">
@@ -76,7 +80,7 @@
 		</div>
 
 		<div class="colour-section-divider-colour">
-			<%@ include file="assets/components/sectiondivider.jsp" %>
+			<%@ include file="assets/components/sectiondivider.jsp"%>
 		</div>
 
 		<div class="guardians-section">
@@ -101,9 +105,9 @@
 				<!-- Add more cards -->
 			</div>
 		</div>
-		
+
 		<div class="colour-section-divider-colour-invert">
-			<%@ include file="assets/components/sectiondivider.jsp" %>
+			<%@ include file="assets/components/sectiondivider.jsp"%>
 		</div>
 
 		<div class="why-section">
@@ -169,8 +173,8 @@
 			</div>
 		</div>
 		<div class="scroll-indicator">
-        	<span id="scroll-percent">0</span>%
-    	</div>
+			<span id="scroll-percent">0</span>%
+		</div>
 	</main>
 
 	<script>

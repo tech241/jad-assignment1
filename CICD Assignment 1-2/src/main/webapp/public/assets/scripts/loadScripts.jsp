@@ -30,9 +30,6 @@
 	    }, 500);
 	});
 	</script>
-	
-	<%@ include file="checkLoggedIn.jsp"%>
-	<%@ include file="dbConnection.jsp"%>
 
 </body>
 </html>

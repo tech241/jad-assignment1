@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
 .footer {
-    width: var(100% - 32px);
+    width: calc(100% - 32px);
     background-color: var(--colour-bg-colour);
     padding: 16px;
     color: var(--colour-text-colour);
+    margin: 0 auto;
 }
