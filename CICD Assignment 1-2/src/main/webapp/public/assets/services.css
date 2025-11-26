@@ -1,16 +1,18 @@
 @charset "UTF-8";
 
+@import url(general.css);
+
 body {
-    background-color: #f8fafb;
-    font-family: 'Inter', sans-serif;
+    background-color: var(--colour-bg-plain);
+    /* font-family: 'Inter', sans-serif; */
 }
 
 .hero-section {
-    background: #f1f7f7;  
-    color: #144e4e;
+    background: var(--colour-bg-plain);  
+    color: var(--colour-text-plain);
     padding: 70px 20px;
     text-align: center;
-    border-bottom: 1px solid #dbe7e7;
+    border-bottom: 1px solid var(--colour-bg-colour);
     margin-bottom: 40px;
 }
 
@@ -37,38 +39,37 @@ body {
 }
 
 .category-card {
-    background: #ffffff;
+    background: var(--colour-bg-card);
     border-radius: 18px;
     padding: 35px 28px;
     text-align: center;
-    border: 1px solid #e8eded;
+    border: 1px solid var(--colour-bg-colour);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
     transition: 0.28s ease;
 
     
     display: flex;
     flex-direction: column;
-    height: 100%;
     min-height: 360px;     
 }
 
 .category-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
-    border-color: #1a8a8a;
+    border-color: var(--colour-text-card);
 }
 
 .icon-container {
     width: 110px;
     height: 110px;
-    background: #eef8f8;
+    background: var(--colour-bg-colour);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px auto;
     transition: all 0.3s ease;
-    border: 2px solid #d6efef;
+    border: 2px solid var(--colour-bg-colour);
 }
 
 .icon-container img {
@@ -85,7 +86,7 @@ body {
 
 .category-card p {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--colour-text-card);
     line-height: 1.6;
     min-height: 70px;
     margin-bottom: 20px;
@@ -95,8 +96,10 @@ body {
 
 
 .view-btn {
-    background: #2563EB;
-    color: white;
+    /* background: #2563EB; */
+    background: var(--colour-bg-colour);
+    /* color: white; */
+    color: var(--colour-text-colour);
     padding: 12px 26px;
     border-radius: 8px;
     display: inline-block;
@@ -104,16 +107,19 @@ body {
     font-weight: 600;
     text-decoration: none;
     transition: 0.28s ease;
-    border: 2px solid #2563EB;
+    /* border: 2px solid #2563EB; */
+    border: 2px solid transparent;
 }
 
 .view-btn:hover {
-    background: #1E3A8A;
-    border-color: #1E3A8A;
+    /* background: #1E3A8A;
+    border-color: #1E3A8A; */
+    background: transparent;
+    border-color: var(--colour-bg-colour);
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+    /* box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28); */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
 }
-
 
 @media (max-width: 768px) {
     .hero-content h1 {

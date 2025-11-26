@@ -24,7 +24,7 @@
 	text-align: center;
 }
 
-label, input, textarea {
+label, input, textarea, select {
 	margin: 8px 0;
 }
 

@@ -187,4 +187,33 @@ public class postgresHelper {
 		
 		postgresHelper.query("SELECT * FROM member WHERE id = ?", process, id);
 	}
+	
+	public static void validateAccountNoPassword(HttpSession session, HttpServletResponse response, String url, int id, Runnable function) {
+		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
+			if (rs != null) {
+				try {
+					function.run();
+				} catch (Exception e) {
+					try {
+						response.sendRedirect("public/" + url + ".jsp?errMsg=An unknown error occured.");
+						System.out.println("Error :" + e);
+					} catch (Exception e1) {
+						System.out.println("Error :" + e1);
+					}
+				}
+			} else {
+				try {
+					// query does not give response
+					response.sendRedirect("public/" + url + ".jsp?errMsg=Member does not exist.");
+				} catch (Exception e1) {
+					System.out.println("Error :" + e1);
+				}
+			}
+		};
+		
+		// check if nameOrEmail is email
+		// otherwise verify by name
+		
+		postgresHelper.query("SELECT * FROM member WHERE id = ?", process, id);
+	}
 }

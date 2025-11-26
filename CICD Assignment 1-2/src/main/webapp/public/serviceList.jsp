@@ -11,7 +11,6 @@
 <meta charset="UTF-8">
 <title>Services | Silver Cares</title>
 
-<link rel="stylesheet" href="assets/general.css">
 <link rel="stylesheet" href="assets/serviceList.css">
 </head>
 
@@ -22,31 +21,32 @@
 	<main>
 
 		<%
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String catId = request.getParameter("cat_id");
+		Connection connCat3 = null;
+		PreparedStatement pstmtCat3 = null;
+		ResultSet rsCat3 = null;
+		String catId2 = request.getParameter("cat_id");
 
 		String categoryName = "";
 		String categoryDescription = "";
 		boolean hasServices = false;
 
-		if (catId == null || catId.trim().isEmpty()) {
+		if (catId2 == null || catId2.trim().isEmpty()) {
 			out.println("<p style='color:red; text-align:center;'>Invalid category selected.</p>");
 		} else {
 			try {
 				// Category info
 				String catQuery = "SELECT cat_name, cat_description FROM service_category WHERE cat_id = ?";
-				pstmt = conn.prepareStatement(catQuery);
-				pstmt.setInt(1, Integer.parseInt(catId));
-				rs = pstmt.executeQuery();
+				pstmtCat3 = conn.prepareStatement(catQuery);
+				pstmtCat3.setInt(1, Integer.parseInt(catId2));
+				rsCat3 = pstmtCat3.executeQuery();
 
-				if (rs.next()) {
-			categoryName = rs.getString("cat_name");
-			categoryDescription = rs.getString("cat_description");
+				if (rsCat3.next()) {
+			categoryName = rsCat3.getString("cat_name");
+			categoryDescription = rsCat3.getString("cat_description");
 				}
 
-				rs.close();
-				pstmt.close();
+				rsCat3.close();
+				pstmtCat3.close();
 		%>
 
 		<!-- Breadcrumb for path -->
@@ -66,17 +66,39 @@
 		<div class="services-container">
 
 			<%
-			String serviceQuery = "SELECT service_id, service_name, service_description, image_path FROM service WHERE cat_id = ? ORDER BY service_name";
-			pstmt = conn.prepareStatement(serviceQuery);
-			pstmt.setInt(1, Integer.parseInt(catId));
-			rs = pstmt.executeQuery();
+			//STEP 1: Load JDBC Driver
+			try {
+				Class.forName("org.postgresql.Driver");
+			} catch (ClassNotFoundException e) {
+				out.println("PostgreSQL JDBC Driver not found: " + e);
+			}
+			//STEP 2: Define Connection URL
+			String connURLCat3 = "jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require";
 
-			while (rs.next()) {
+			String dbUserCat3 = "neondb_owner";
+			String dbPassCat3 = "npg_iCobAxPw5z4X";
+
+			// STEP 3: Establish Connection to URL 
+			// Connection conn = null;
+
+			try {
+				connCat3 = DriverManager.getConnection(connURLCat3, dbUserCat3, dbPassCat3);
+				// out.println("DB Connected Successfully"); // use for debugging if needed
+			} catch (SQLException e) {
+				out.println("Connection Error: " + e);
+			}
+			
+			String serviceQuery = "SELECT service_id, service_name, service_description, image_path FROM service WHERE cat_id = ? ORDER BY service_name";
+			pstmtCat3 = conn.prepareStatement(serviceQuery);
+			pstmtCat3.setInt(1, Integer.parseInt(catId2));
+			rsCat3 = pstmtCat3.executeQuery();
+
+			while (rsCat3.next()) {
 				hasServices = true;
-				int serviceId = rs.getInt("service_id");
-				String serviceName = rs.getString("service_name");
-				String serviceDescription = rs.getString("service_description");
-				String imagePath = rs.getString("image_path");
+				int serviceId = rsCat3.getInt("service_id");
+				String serviceName = rsCat3.getString("service_name");
+				String serviceDescription = rsCat3.getString("service_description");
+				String imagePath = rsCat3.getString("image_path");
 			%>
 
 			<div class="service-card">
@@ -97,14 +119,14 @@
 				</div>
 
 				<div class="service-content">
-					<h3><%=rs.getString("service_name")%></h3>
-					<p><%=rs.getString("service_description")%></p>
+					<h3><%=rsCat3.getString("service_name")%></h3>
+					<p><%=rsCat3.getString("service_description")%></p>
 
 					<div class="service-actions">
 						<a class="view-details-btn"
-							href="serviceDetails.jsp?service_id=<%=rs.getInt("service_id")%>">View
+							href="serviceDetails.jsp?service_id=<%=rsCat3.getInt("service_id")%>">View
 							Details</a> <a class="book-btn"
-							href="booking.jsp?service_id=<%=rs.getInt("service_id")%>">Book
+							href="booking.jsp?service_id=<%=rsCat3.getInt("service_id")%>">Book
 							Now</a>
 					</div>
 				</div>
@@ -120,12 +142,12 @@
 			} catch (Exception e) {
 			out.println("<p style='color:red;'>Error loading services: " + e.getMessage() + "</p>");
 			} finally {
-			if (rs != null)
-			rs.close();
-			if (pstmt != null)
-			pstmt.close();
-			if (conn != null)
-			conn.close();
+			if (rsCat3 != null)
+			rsCat3.close();
+			if (pstmtCat3 != null)
+			pstmtCat3.close();
+			if (connCat3 != null)
+			connCat3.close();
 			}
 			}
 			%>
