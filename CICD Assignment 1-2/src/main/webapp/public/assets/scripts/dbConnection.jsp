@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*"%>
 
 <%
+Connection conn = null;
 //STEP 1: Load JDBC Driver
 try {
 	Class.forName("org.postgresql.Driver");
@@ -14,7 +15,7 @@ String dbUser = "neondb_owner";
 String dbPass = "npg_iCobAxPw5z4X";
 
 // STEP 3: Establish Connection to URL 
-Connection conn = null;
+// Connection conn = null;
 
 try {
 	conn = DriverManager.getConnection(connURL, dbUser, dbPass);

@@ -1,7 +1,6 @@
 <%@ page import="java.sql.*" %>
 
 <%
-
     Statement stmtCat = null;
     ResultSet rsCat = null;
 
