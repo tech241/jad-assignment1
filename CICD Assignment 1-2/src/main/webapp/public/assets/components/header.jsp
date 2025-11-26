@@ -7,7 +7,6 @@
 %>
 
 <%
-
     Statement stmtCat = null;
     ResultSet rsCat = null;
 
