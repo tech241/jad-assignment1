@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
-
-<%@ include file="assets/scripts/checkLoggedIn.jsp"%>
-<%@ include file="assets/scripts/dbConnection.jsp"%>
-<!-- header.jsp goes here -->
-<%@ include file="assets/components/header.jsp"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +56,9 @@
 
 	</div>
 	<!-- end services-container -->
+	
+	<!-- header.jsp goes here -->
+	<%@ include file="assets/components/header.jsp"%>
 
 	<!-- footer.jsp goes here -->
 	<%@ include file="assets/components/footer.jsp"%>

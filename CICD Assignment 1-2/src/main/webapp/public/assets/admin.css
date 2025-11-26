@@ -90,12 +90,12 @@ select:focus, option:focus {
 	}
 }
 
-.stats {
+.stats, .feedback {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
 	
-	& .stat-card {
+	& .stat-card, .review-card {
 		padding: 16px;
 		text-align: center;
 		background-color: var(--colour-bg-card);
