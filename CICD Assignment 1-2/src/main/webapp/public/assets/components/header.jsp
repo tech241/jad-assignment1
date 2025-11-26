@@ -1,10 +1,6 @@
-<%@ page import="java.sql.*" %>
 
-<%
-    Boolean isLoggedIn = (session.getAttribute("sessUserID") != null);
-    Boolean isAdmin = ("admin".equals(session.getAttribute("sessUserRole")));
-    String name = (String) session.getAttribute("sessUserName");
-%>
+
+<%@ page import="java.sql.*" %>
 
 <%
     Statement stmtCat = null;

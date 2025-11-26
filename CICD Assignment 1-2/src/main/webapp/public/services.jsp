@@ -3,7 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 
-<%@ include file="assets/scripts/dbConnection.jsp"%>
+<%@ include file="assets/scripts/checkLoggedIn.jsp" %>
+<%@ include file="assets/scripts/dbConnection.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">

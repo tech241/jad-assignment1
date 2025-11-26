@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="assets/scripts/checkLoggedIn.jsp" %>
+<%@ include file="assets/scripts/dbConnection.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +11,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="assets/accountoptions.css">
 </head>
-<body>
+<body> 
+   
+    <!-- header.jsp goes here -->
+	<%@ include file="assets/components/header.jsp" %>
 	
 	<!-- load all scripts so that the pages do not need to add the script manually -->
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
@@ -42,9 +48,6 @@
     		</div>
     	</div>
     </main>
-    
-    <!-- header.jsp goes here -->
-	<%@ include file="assets/components/header.jsp" %>
     
     <!-- footer.jsp goes here -->
 	<%@ include file="assets/components/footer.jsp" %>

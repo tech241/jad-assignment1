@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ include file="assets/scripts/checkLoggedIn.jsp" %>
+<%@ include file="assets/scripts/dbConnection.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +13,9 @@
     <link rel="stylesheet" href="assets/admin.css">
 </head>
 <body>
+
+    <!-- header.jsp goes here -->
+	<%@ include file="assets/components/header.jsp" %>
 	
 	<!-- load all scripts so that the pages do not need to add the script manually -->
 	<%@ include file="assets/scripts/loadScripts.jsp" %>
@@ -39,9 +46,6 @@
     
     <!-- adminsidebar.jsp goes here -->
 	<%@ include file="assets/components/adminsidebar.jsp" %>
-    
-    <!-- header.jsp goes here -->
-	<%@ include file="assets/components/header.jsp" %>
     
     <!-- footer.jsp goes here -->
 	<%@ include file="assets/components/footer.jsp" %>
