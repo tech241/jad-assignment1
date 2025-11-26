@@ -1,6 +1,12 @@
 <%@ page import="java.sql.*" %>
 
 <%
+    Boolean isLoggedIn = (session.getAttribute("sessUserID") != null);
+    Boolean isAdmin = ("admin".equals(session.getAttribute("sessUserRole")));
+    String name = (String) session.getAttribute("sessUserName");
+%>
+
+<%
 
     Statement stmtCat = null;
     ResultSet rsCat = null;
@@ -37,7 +43,7 @@
 
             <!-- SERVICES DROPDOWN -->
             <li class="dropdown mega-dropdown">
-                <a href="#"><i class='bx bx-handshake'></i> Services</a>
+                <a href="services.jsp"><i class='bx bx-handshake'></i> Services</a>
 
                 <div class="mega-menu">
                     <%
@@ -64,7 +70,8 @@
                             <%
                                 while (rsSvc.next()) {
                             %>
-                                <a href="services.jsp?service_id=<%= rsSvc.getInt("service_id") %>">
+                                <a href="serviceDetails.jsp?service_id=<%= rsSvc.getInt("service_id") %>">
+
                                     <%= rsSvc.getString("service_name") %>
                                 </a>
                             <%
