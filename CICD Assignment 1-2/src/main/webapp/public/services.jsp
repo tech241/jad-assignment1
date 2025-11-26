@@ -63,7 +63,7 @@
 
 
 			<%
-			} // end while
+			} 
 			} catch (Exception e) {
 			out.println("<p style='color:red; text-align:center;'>Error loading categories: " + e + "</p>");
 			} finally {
