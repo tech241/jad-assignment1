@@ -89,3 +89,20 @@ select:focus, option:focus {
 		width: 100%;
 	}
 }
+
+.stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	
+	& .stat-card {
+		padding: 16px;
+		text-align: center;
+		background-color: var(--colour-bg-card);
+		border-radius: 16px;
+		
+		& .number {
+			font-size: 64px;
+		}
+	}
+}

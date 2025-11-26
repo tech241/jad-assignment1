@@ -15,13 +15,26 @@
 	
 	<!-- for admins only -->
 	<%@ include file="assets/scripts/restrictToAdmin.jsp" %>
+	
+	<!-- load statistics -->
+	<%@ include file="assets/scripts/loadStatistics.jsp" %>
 
     <main>
-    
-    <h1>Hello, admin <%= name %>!</h1>
-    
-    <p>This is the admin dashboard that i intend to show statistics in a nutshell. This is for creativity marks because i need it.</p>
-        
+    	<div>
+    		<h1>Hello, admin <%= name %>!</h1>
+    		
+    		<div class="stats">
+    		
+    			<%
+    			for (String key : stats.keySet()) {
+    			%>
+    			
+    			<div class="stat-card"><span class="number"><%= stats.get(key) %></span><br><span><%= key %></span></div>
+    			
+    			<% } %>
+    			
+    		</div>
+        </div>
     </main>
     
     <!-- adminsidebar.jsp goes here -->
