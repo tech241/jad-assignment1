@@ -1,123 +1,159 @@
 @charset "UTF-8";
 
+@import url("general.css");
+
+/* ================================
+   GLOBAL
+=================================== */
+
 body {
-    background-color: #f8fafb;
-    font-family: 'Inter', sans-serif;
+    background-color: var(--colour-bg-plain);
 }
 
+/* ================================
+   HERO SECTION
+   (Light Teal Banner)
+=================================== */
+
 .hero-section {
-    background: #f1f7f7;  
-    color: #144e4e;
-    padding: 70px 20px;
+    background: #e6f4f1; /* soft teal tone */
+    color: var(--colour-text-plain);
+    padding: 80px 20px;
     text-align: center;
-    border-bottom: 1px solid #dbe7e7;
-    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 50px;
 }
 
 .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.7rem;
     font-weight: 800;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .hero-content p {
-    max-width: 680px;
+    max-width: 720px;
     margin: auto;
-    font-size: 1.05rem;
+    font-size: 1.07rem;
     opacity: 0.95;
 }
 
+/* ================================
+   CATEGORY CARDS GRID
+=================================== */
+
 .category-container {
     max-width: 1200px;
-    margin: 0 auto 80px auto;
+    margin: 0 auto 90px auto;
     padding: 0 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 32px;
+    gap: 35px;
 }
 
+/* ================================
+   CARD STYLE
+=================================== */
+
 .category-card {
-    background: #ffffff;
+    background: #ffffff;  /* white card */
     border-radius: 18px;
-    padding: 35px 28px;
+    padding: 40px 28px;
     text-align: center;
-    border: 1px solid #e8eded;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     transition: 0.28s ease;
 
-    
     display: flex;
     flex-direction: column;
-    height: 100%;
-    min-height: 360px;     
+    min-height: 360px;
 }
 
 .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
-    border-color: #1a8a8a;
+    transform: translateY(-6px);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
+    border-color: var(--colour-bg-colour);
 }
+
+/* ================================
+   ICON CONTAINER
+=================================== */
 
 .icon-container {
     width: 110px;
     height: 110px;
-    background: #eef8f8;
-    border-radius: 14px;
+
+    background: #d3ebe7; /* soft pastel green */
+    border-radius: 16px;
+    margin: 0 auto 22px auto;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px auto;
-    transition: all 0.3s ease;
-    border: 2px solid #d6efef;
+
+    border: 2px solid #b6dcd5;
+    transition: 0.25s ease;
 }
 
 .icon-container img {
-    width: 70px;
-    height: 70px;
-    transition: 0.3s ease;
+    width: 68px;
+    height: 68px;
 }
+
+.category-card:hover .icon-container {
+    background: #c9e5e0;
+    border-color: var(--colour-bg-colour);
+}
+
+/* ================================
+   TEXT
+=================================== */
 
 .category-card h3 {
     font-size: 1.4rem;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-weight: 700;
+    color: var(--colour-text-plain);
 }
 
 .category-card p {
     font-size: 0.95rem;
-    color: #555;
+    color: #444;
     line-height: 1.6;
-    min-height: 70px;
-    margin-bottom: 20px;
-
-    flex-grow: 1;   
+    flex-grow: 1;
+    margin-bottom: 25px;
 }
 
+/* ================================
+   BUTTON
+=================================== */
 
 .view-btn {
-    background: #2563EB;
-    color: white;
+    background: var(--colour-bg-colour);
+    color: var(--colour-text-colour);
     padding: 12px 26px;
     border-radius: 8px;
     display: inline-block;
     font-size: 0.93rem;
     font-weight: 600;
     text-decoration: none;
-    transition: 0.28s ease;
-    border: 2px solid #2563EB;
+    transition: 0.25s ease;
+    border: 2px solid transparent;
 }
 
 .view-btn:hover {
-    background: #1E3A8A;
-    border-color: #1E3A8A;
+    background: var(--colour-bg-colour);
+    filter: brightness(1.15);
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+    box-shadow: 0 6px 14px rgba(0, 90, 75, 0.25);
 }
 
+/* ================================
+   MOBILE
+=================================== */
 
 @media (max-width: 768px) {
     .hero-content h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .category-card {

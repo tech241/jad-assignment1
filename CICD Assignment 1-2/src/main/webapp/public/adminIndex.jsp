@@ -24,7 +24,7 @@
 	<%@ include file="assets/scripts/loadStatistics.jsp" %>
 
     <main>
-    	<div>
+    	<div class="container">
     		<h1>Hello, admin <%= name %>!</h1>
     		
     		<div class="stats">

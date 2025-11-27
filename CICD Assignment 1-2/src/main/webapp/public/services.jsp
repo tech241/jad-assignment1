@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="assets/general.css">
 <link rel="stylesheet" href="assets/services.css">
+
 </head>
 
 <body>
@@ -31,6 +32,7 @@
 			</div>
 		</section>
 
+		<!-- Category Cards -->
 		<div class="category-container">
 
 			<%
@@ -38,8 +40,9 @@
 			ResultSet rs = null;
 
 			try {
-				String sqlCommand = "SELECT cat_id, cat_name, cat_description, cat_logo FROM service_category ORDER BY cat_id";
-				pstmt = conn.prepareStatement(sqlCommand);
+				String sql = "SELECT cat_id, cat_name, cat_description, cat_logo " + "FROM service_category ORDER BY cat_id";
+
+				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 
 				while (rs.next()) {
@@ -48,34 +51,41 @@
 			<div class="category-card">
 				<div class="icon-container">
 					<img src="assets/images/<%=rs.getString("cat_logo")%>"
-						alt="<%=rs.getString("cat_name")%> Logo">
+						alt="<%=rs.getString("cat_name")%> Logo"
+						onerror="this.src='assets/images/default-service.png'">
 				</div>
 
 				<h3><%=rs.getString("cat_name")%></h3>
 				<p><%=rs.getString("cat_description")%></p>
 
 				<a class="view-btn"
-					href="serviceList.jsp?cat_id=<%=rs.getInt("cat_id")%>">View
-					Services</a>
+					href="serviceList.jsp?cat_id=<%=rs.getInt("cat_id")%>"> View
+					Services </a>
 			</div>
 
-
 			<%
-			} 
+			}
 			} catch (Exception e) {
-			out.println("<p style='color:red; text-align:center;'>Error loading categories: " + e + "</p>");
+			out.println("<p style='color:red; text-align:center;'>Error loading categories: " + e.getMessage() + "</p>");
 			} finally {
 			if (rs != null)
-			rs.close();
+			try {
+				rs.close();
+			} catch (Exception ignore) {
+			}
 			if (pstmt != null)
-			pstmt.close();
-			if (conn != null)
-			conn.close();
+			try {
+				pstmt.close();
+			} catch (Exception ignore) {
+			}
 			}
 			%>
 
 		</div>
+
 	</main>
+
+
 
 	<%@ include file="assets/components/footer.jsp"%>
 

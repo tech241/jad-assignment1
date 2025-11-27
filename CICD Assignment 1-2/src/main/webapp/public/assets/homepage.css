@@ -92,9 +92,16 @@ main .hero {
 
 /* PRIMARY BUTTON STYLE */
 .btn-primary {
-	background: linear-gradient(135deg, #5c6bc0, #3949ab);
-	color: white;
+	/* background: linear-gradient(135deg, #5c6bc0, #3949ab); */
+	background: var(--colour-bg-colour);
+	/* color: white; */
+	color: var(--colour-text-colour);
 	transition: 0.3s ease;
+}
+
+.hero-content .btn-primary {
+	background: var(--colour-bg-plain);
+	color: var(--colour-text-plain);
 }
 
 /* HOVER EFFECT */

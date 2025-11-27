@@ -111,9 +111,9 @@
 			<h2>Why Choose Silver Care?</h2>
 
 			<div class="reviews">
-
+			
 				<!-- Sample Reviews — replace with dynamic JSP later -->
-				<div class="review-card">
+				<!-- <div class="review-card">
 					<p>"The caregivers are patient and attentive. My mother loves
 						them!"</p>
 					<strong>- Sarah L.</strong>
@@ -129,7 +129,44 @@
 					<p>"Professional, trustworthy and always kind. Silver Care is a
 						blessing."</p>
 					<strong>- Mei Yun</strong>
+				</div> -->
+			
+				<%
+				ResultSet rsReview = null;
+
+				try {
+					Class.forName("org.postgresql.Driver");
+					Connection connReview = DriverManager.getConnection(
+					"jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require",
+					"neondb_owner", "npg_iCobAxPw5z4X");
+
+					Statement stmtReview = connReview.createStatement();
+					rsReview = stmtReview.executeQuery("SELECT name, rating, comments FROM feedback JOIN member ON member_id = id WHERE rating = 5 ORDER BY RANDOM() LIMIT 3;");
+
+				} catch (Exception e) {
+					out.println("Error in header DB: " + e);
+				}
+				
+				while (rsReview != null && rsReview.next()) {
+				%>
+				
+				<div class="review-card">
+					<h1>
+					<%
+					for (int i = 0; i < rsReview.getInt("rating"); i ++) {
+						out.print("★");
+					}
+					for (int i = rsReview.getInt("rating"); i < 5; i ++) {
+						out.print("☆");
+					}
+					%>
+					</h1>
+					<p><%= rsReview.getString("comments") %></p>
+					<strong>- <%= rsReview.getString("name") %></strong>
 				</div>
+				
+				<% } %>
+				
 			</div>
 		</div>
 		<div class="scroll-indicator">

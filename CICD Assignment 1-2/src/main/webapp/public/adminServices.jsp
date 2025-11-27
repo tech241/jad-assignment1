@@ -51,7 +51,7 @@
     	
     		<form>
     			<label for="name">Name</label>
-        		<input type="text" placeholder="Enter name" name="name" id="name">
+        		<input type="text" placeholder="Enter name" name="name" id="name" value="<%= request.getParameter("name") == null ? "" : request.getParameter("name") %>">
         		
         		<label for="category">Category</label>
         		<select name="category" id="category">
@@ -62,7 +62,7 @@
         			while (rsCat2 != null && rsCat2.next()) {
         			%>
         			
-        			<option value="<%= rsCat2.getString("cat_id") %>"><%= rsCat2.getString("cat_name") %></option>
+        			<option value="<%= rsCat2.getString("cat_id") %>" <%= rsCat2.getString("cat_id").equals(request.getParameter("category")) ? "selected" : "" %>><%= rsCat2.getString("cat_name") %></option>
         			
         			<% } %>
         		
