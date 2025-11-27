@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ include file="assets/scripts/checkLoggedIn.jsp" %>
-<%@ include file="assets/scripts/dbConnection.jsp" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +33,7 @@
                 <span id="errMsg"><%= errMsg %></span>
                 <% } %>
 
-                <form action="../login" method="post">
+                <form action="homepage.jsp" method="post">
 
                     <label for="name-or-email">Name or Email</label> <br>
                     <input type="text" placeholder="Enter name or email" name="name-or-email" id="name-or-email" required> <br>
