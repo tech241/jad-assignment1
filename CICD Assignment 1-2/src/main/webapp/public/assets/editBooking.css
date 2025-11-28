@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+
+main {
+	max-width: 600px;
+	margin: 40px auto;
+	padding: 0 20px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 2rem;
+	font-weight: 700;
+	color: #0f4a49;
+	margin-bottom: 40px;
+	letter-spacing: -0.5px;
+}
+
+
+.edit-form {
+	display: flex;
+	flex-direction: column;
+	background: white;
+	padding: 36px;
+	border-radius: 14px;
+	border: 1px solid #e0f2f1;
+	box-shadow: 0 2px 12px rgba(22, 160, 158, 0.08);
+}
+
+
+.edit-form label {
+	display: block;
+	font-weight: 500;
+	margin-top: 16px;
+	margin-bottom: 6px;
+	color: #0f4a49;
+	font-size: 0.9rem;
+	letter-spacing: 0.3px;
+}
+
+.edit-form label:first-of-type {
+	margin-top: 0;
+}
+
+
+.edit-form input,
+.edit-form textarea {
+	width: 100%;
+	padding: 10px 12px;
+	border-radius: 8px;
+	border: 1.5px solid #d1e7e6;
+	font-size: 0.9rem;
+	background: #f9fcfc;
+	color: #1f2937;
+	font-family: 'Inter', sans-serif;
+	transition: all 0.2s ease;
+	box-sizing: border-box;
+}
+
+.edit-form input::placeholder,
+.edit-form textarea::placeholder {
+	color: #9ca3af;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus {
+	outline: none;
+	border-color: #16a09e;
+	background: white;
+	box-shadow: 0 0 0 3px rgba(22, 160, 158, 0.1);
+}
+
+.edit-form input:hover,
+.edit-form textarea:hover {
+	border-color: #16a09e;
+}
+
+.edit-form textarea {
+	height: 110px;
+	resize: vertical;
+	line-height: 1.5;
+}
+
+
+.edit-form button {
+	width: 100%;
+	margin-top: 22px;
+	padding: 11px 14px;
+	background: linear-gradient(135deg, #16a09e 0%, #0f7a77 100%);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 12px rgba(22, 160, 158, 0.25);
+}
+
+.edit-form button:hover {
+	background: linear-gradient(135deg, #0f7a77 0%, #0a5551 100%);
+	box-shadow: 0 6px 20px rgba(22, 160, 158, 0.35);
+	transform: translateY(-2px);
+}
+
+.edit-form button:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 8px rgba(22, 160, 158, 0.25);
+}
+
+@media (max-width: 640px) {
+	main {
+		margin: 20px auto;
+		padding: 0 16px;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+		margin-bottom: 30px;
+	}
+
+	.edit-form {
+		padding: 24px;
+	}
+
+	.edit-form label {
+		margin-top: 18px;
+	}
+}
