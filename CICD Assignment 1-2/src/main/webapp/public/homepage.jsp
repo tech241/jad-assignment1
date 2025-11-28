@@ -1,201 +1,271 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ page import="java.sql.*"%>
+<%@ page import="java.time.*"%>
+<%@ page import="java.time.format.*"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome!</title>
+<link rel="stylesheet" href="assets/general.css">
 <link rel="stylesheet" href="assets/homepage.css">
 </head>
 <body>
 
 	<!-- Header -->
 	<%@ include file="assets/components/header.jsp"%>
-	<div class="scroll-progress-bar"></div>
 
 	<!-- load all scripts so that the pages do not need to add the script manually -->
 	<%@ include file="assets/scripts/loadScripts.jsp"%>
 
+	<%@ include file="assets/scripts/loadStatistics.jsp"%>
+
+	<div class="scroll-progress-bar"></div>
+
+
 	<main>
-		<div class="hero">
+
+		<section class="hero">
 			<div class="hero-content">
-				<h1>Welcome to Silver Care!</h1>
-				<p>Compassionate support for your loved ones. Anytime, anywhere.</p>
+				<p class="hero-eyebrow">Caring for those who cared for us</p>
 
-				<button class="btn-primary" onclick="location.href='services.jsp'">View
-					Our Services</button>
-				<button class="btn-primary" onclick="location.href='login.jsp'">Become
-					Client</button>
-			</div>
+				<h1>Compassionate care, whenever you need it.</h1>
 
-			<%@ include file="assets/components/sectiondivider.jsp"%>
-		</div>
+				<p class="hero-subtitle">Friendly caregivers providing support,
+					companionship, and peace of mind for your loved ones.</p>
 
-		<div class="services-preview">
-			<div class="services-preview-left">
-				<img src="assets/images/elderly-img.jpg" alt="Elderly Care">
-			</div>
+				<div class="hero-actions">
+					<button class="btn-primary" onclick="location.href='services.jsp'">
+						Explore Services</button>
 
-			<div class="services-preview-right">
-				<h2>Our Care Services</h2>
-				<p>From in-home care to specialised support, we provide a wide
-					range of services to ensure your loved ones receive the comfort,
-					safety, and assistance they deserve.</p>
-
-				<button class="btn-primary" onclick="toggleServices()">View
-					Services</button>
-			</div>
-		</div>
-
-		<!-- EXPANDABLE SECTION -->
-		<div id="expand-services" class="expandable">
-			<h2 style="text-align: center;">Our Services</h2>
-			<div class="service-cards">
-
-				<!-- SAMPLE SERVICE CARD – duplicate & replace -->
-				<div class="service-card">
-					<h3>In-Home Care</h3>
-					<p>Daily assistance with tasks like bathing, meals, and
-						mobility.</p>
-				</div>
-
-				<div class="service-card">
-					<h3>Dementia Care</h3>
-					<p>Specialised support for seniors with memory-related
-						conditions.</p>
-				</div>
-
-				<div class="service-card">
-					<h3>Transportation</h3>
-					<p>Safe travel for appointments, errands, and social visits.</p>
-				</div>
-
-				<!-- Add more cards here -->
-			</div>
-		</div>
-
-		<div class="colour-section-divider-colour">
-			<%@ include file="assets/components/sectiondivider.jsp"%>
-		</div>
-
-		<div class="guardians-section">
-			<h2>Meet Our Silver Guardians</h2>
-			<p>Experienced, compassionate, and dedicated to providing the
-				best care.</p>
-
-			<div class="guardian-cards">
-				<!-- Sample Card -->
-				<div class="guardian-card">
-					<img src="assets/images/caregiver1.jpg" alt="">
-					<h3>Mary Tan</h3>
-					<p>Senior Care Specialist</p>
-				</div>
-
-				<div class="guardian-card">
-					<img src="assets/images/caregiver2.jpg" alt="">
-					<h3>Lucas Ong</h3>
-					<p>Home Support Caregiver</p>
-				</div>
-
-				<!-- Add more cards -->
-			</div>
-		</div>
-
-		<div class="colour-section-divider-colour-invert">
-			<%@ include file="assets/components/sectiondivider.jsp"%>
-		</div>
-
-		<div class="why-section">
-			<h2>Why Choose Silver Care?</h2>
-
-			<div class="reviews">
-			
-				<!-- Sample Reviews — replace with dynamic JSP later -->
-				<!-- <div class="review-card">
-					<p>"The caregivers are patient and attentive. My mother loves
-						them!"</p>
-					<strong>- Sarah L.</strong>
-				</div>
-
-				<div class="review-card">
-					<p>"Their dementia support truly helped our family. Highly
-						recommended."</p>
-					<strong>- Kelvin W.</strong>
-				</div>
-
-				<div class="review-card">
-					<p>"Professional, trustworthy and always kind. Silver Care is a
-						blessing."</p>
-					<strong>- Mei Yun</strong>
-				</div> -->
-			
-				<%
-				ResultSet rsReview = null;
-
-				try {
-					Class.forName("org.postgresql.Driver");
-					Connection connReview = DriverManager.getConnection(
-					"jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require",
-					"neondb_owner", "npg_iCobAxPw5z4X");
-
-					Statement stmtReview = connReview.createStatement();
-					rsReview = stmtReview.executeQuery("SELECT name, rating, comments FROM feedback JOIN member ON member_id = id WHERE rating = 5 ORDER BY RANDOM() LIMIT 3;");
-
-				} catch (Exception e) {
-					out.println("Error in header DB: " + e);
-				}
-				
-				while (rsReview != null && rsReview.next()) {
-				%>
-				
-				<div class="review-card">
-					<h1>
 					<%
-					for (int i = 0; i < rsReview.getInt("rating"); i ++) {
-						out.print("★");
-					}
-					for (int i = rsReview.getInt("rating"); i < 5; i ++) {
-						out.print("☆");
+					if (!isLoggedIn) {
+					%>
+					<button class="btn-secondary" onclick="location.href='login.jsp'">
+						Become a Client</button>
+					<%
+					} else {
+					%>
+					<button class="btn-secondary"
+						onclick="location.href='services.jsp'">Book a Service</button>
+					<%
 					}
 					%>
-					</h1>
-					<p><%= rsReview.getString("comments") %></p>
-					<strong>- <%= rsReview.getString("name") %></strong>
 				</div>
-				
-				<% } %>
-				
 			</div>
-		</div>
-		<div class="scroll-indicator">
-			<span id="scroll-percent">0</span>%
-		</div>
+		</section>
+
+
+		<%
+		if (isLoggedIn) {
+			PreparedStatement pstmtNext = null;
+			ResultSet rsNext = null;
+
+			try {
+				int memberId = (Integer) session.getAttribute("id");
+
+				String sqlNext = "SELECT b.scheduled_date, b.scheduled_time, s.service_name, p.package_name "
+				+ "FROM booking b " + "JOIN service s ON b.service_id = s.service_id "
+				+ "JOIN service_package p ON b.package_id = p.package_id "
+				+ "WHERE b.member_id = ? AND b.scheduled_date >= CURRENT_DATE "
+				+ "ORDER BY b.scheduled_date ASC, b.scheduled_time ASC " + "LIMIT 1";
+
+				pstmtNext = conn.prepareStatement(sqlNext);
+				pstmtNext.setInt(1, memberId);
+				rsNext = pstmtNext.executeQuery();
+
+				if (rsNext.next()) {
+			LocalDate d = rsNext.getDate("scheduled_date").toLocalDate();
+			LocalTime t = rsNext.getTime("scheduled_time").toLocalTime();
+			DateTimeFormatter df = DateTimeFormatter.ofPattern("dd MMM yyyy");
+			DateTimeFormatter tf = DateTimeFormatter.ofPattern("h:mm a");
+		%>
+
+		<section class="next-booking-bar">
+			<div class="nb-info">
+				<span class="nb-label">Your next booking</span> <span
+					class="nb-main"> <%=rsNext.getString("service_name")%> • <%=rsNext.getString("package_name")%>
+				</span> <span class="nb-meta"><%=d.format(df)%> • <%=t.format(tf)%></span>
+			</div>
+
+			<div class="nb-actions">
+				<a href="upcomingBookings.jsp" class="nb-btn-primary">View
+					Upcoming</a> <a href="services.jsp" class="nb-btn-link">Book
+					Another</a>
+			</div>
+		</section>
+
+		<%
+		}
+		} catch (Exception e) {
+		out.println("Error loading next booking: " + e.getMessage());
+		} finally {
+		if (rsNext != null)
+		try {
+			rsNext.close();
+		} catch (Exception ignore) {
+		}
+		if (pstmtNext != null)
+		try {
+			pstmtNext.close();
+		} catch (Exception ignore) {
+		}
+		}
+		}
+		%>
+
+		<section class="popular-services">
+
+			<h2 class="section-title">Popular Services</h2>
+			<p class="section-subtitle">Families often choose these services
+				for their comfort and reliability.</p>
+
+			<div class="popular-services-grid">
+
+				<div class="popular-card">
+					<h3><%=stats.get("Most booked service")%></h3>
+					<p class="tag">Most booked service</p>
+				</div>
+
+				<div class="popular-card">
+					<h3><%=stats.get("Highest rated service")%></h3>
+					<p class="tag">Best rated by families</p>
+				</div>
+
+				<div class="popular-card">
+					<h3><%=stats.get("Least booked service")%></h3>
+					<p class="tag">A hidden gem</p>
+				</div>
+
+			</div>
+
+		</section>
+
+		<section class="featured-services">
+
+			<h2 class="fs-title">Explore Our Services</h2>
+			<p class="fs-subtitle">A quick look at what families choose most
+				in each care category.</p>
+
+			<div class="featured-list">
+
+				<%
+				PreparedStatement pc = conn
+						.prepareStatement("SELECT cat_id, cat_name, cat_description FROM service_category ORDER BY cat_name ASC");
+				ResultSet rc = pc.executeQuery();
+
+				while (rc.next()) {
+					int categoryId = rc.getInt("cat_id");
+					String catName = rc.getString("cat_name");
+					String catDesc = rc.getString("cat_description");
+
+					PreparedStatement ps = conn.prepareStatement("SELECT s.service_id, s.service_name, s.service_description "
+					+ "FROM booking b " + "JOIN service s ON b.service_id = s.service_id " + "WHERE s.cat_id = ? "
+					+ "GROUP BY s.service_id " + "ORDER BY COUNT(*) DESC " + "LIMIT 1");
+
+					ps.setInt(1, categoryId);
+					ResultSet rs = ps.executeQuery();
+				%>
+
+				<div class="fs-item">
+
+					<h3 class="fs-cat-name"><%=catName%></h3>
+					<p class="fs-cat-desc"><%=catDesc%></p>
+
+					<%
+					if (rs.next()) {
+					%>
+
+					<div class="fs-service-box">
+						<h4 class="fs-service-name"><%=rs.getString("service_name")%></h4>
+						<p class="fs-service-desc"><%=rs.getString("service_description")%></p>
+
+						<a
+							href="serviceDetails.jsp?service_id=<%=rs.getInt("service_id")%>"
+							class="fs-btn"> View Service → </a>
+					</div>
+
+					<%
+					} else {
+					%>
+
+					<div class="fs-service-box empty">
+						<p>No bookings yet in this category.</p>
+					</div>
+
+					<%
+					}
+					%>
+
+				</div>
+
+				<%
+				rs.close();
+				ps.close();
+				}
+
+				rc.close();
+				pc.close();
+				%>
+
+			</div>
+
+		</section>
+
+
+		<section class="why-section">
+
+			<h2 class="why-title">Why Families Choose Silver Care</h2>
+
+			<div class="why-grid">
+
+				<div class="why-item">
+					<h3>❤️ Compassionate Care</h3>
+					<p>Our caregivers provide support with warmth and genuine
+						kindness.</p>
+				</div>
+
+				<div class="why-item">
+					<h3>🛡️ Safe & Reliable</h3>
+					<p>Professionals you can trust to support your loved ones
+						daily.</p>
+				</div>
+
+				<div class="why-item">
+					<h3>⭐ Trusted by Families</h3>
+					<p>Highly rated by our clients for quality, comfort, and care.</p>
+				</div>
+
+				<div class="why-item">
+					<h3>📞 We're Here for You</h3>
+					<p>Friendly support whenever you need help or guidance.</p>
+				</div>
+
+			</div>
+
+		</section>
+
 	</main>
 
 	<script>
-		function toggleServices() {
-			const section = document.getElementById("expand-services");
-			const button = document
-					.querySelector(".services-preview-right button");
+document.addEventListener("DOMContentLoaded", function() {
+    const progressBar = document.querySelector('.scroll-progress-bar');
 
-			const isOpen = section.style.display === "block";
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-			section.style.display = isOpen ? "none" : "block";
-			button.textContent = isOpen ? "View Services" : "Hide Services";
-
-			if (!isOpen) {
-				section.scrollIntoView({
-					behavior : "smooth"
-				});
-			}
-		}
-	</script>
+        if (docHeight > 0) {
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        }
+    });
+});
+</script>
 
 	<!-- Footer -->
 	<%@ include file="assets/components/footer.jsp"%>
-
-
 </body>
 </html>
