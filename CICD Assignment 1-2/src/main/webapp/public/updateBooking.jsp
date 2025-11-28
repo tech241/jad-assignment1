@@ -37,6 +37,10 @@
 
 	// Redirect
 	response.sendRedirect("bookingSummary.jsp");
+	
 	%>
+	<%@ include file="assets/components/footer.jsp"%>
 </body>
+
+
 </html>

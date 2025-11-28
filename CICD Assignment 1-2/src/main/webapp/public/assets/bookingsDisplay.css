@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+
+.bookings-wrapper {
+    max-width: 900px;
+    margin: 120px auto 60px auto; 
+    padding: 0 20px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.bookings-wrapper h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--colour-text-colour);
+    font-size: 2rem;
+}
+
+
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.booking-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+    border-left: 6px solid var(--colour-bg-colour); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.booking-card h2 {
+    margin-bottom: 12px;
+    color: black;
+    font-size: 1.4rem;
+}
+
+
+.booking-card.past {
+    border-left-color: #888; 
+    background: #f7f7f7;
+}
+
+
+.booking-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.booking-card strong {
+    color: #000;
+}
+
+
+.empty-msg {
+    margin-top: 40px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+
+.btn-cancel {
+    display: inline-block;
+    margin-top: 16px;
+    background: #b91c1c;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-cancel:hover {
+    background: #991b1b;
+    transform: scale(1.03);
+}
+
+
+.feedback-btn {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--colour-bg-colour);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.feedback-btn:hover {
+    background: #0d6f6a; 
+    transform: scale(1.03);
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+@media (max-width: 600px) {
+    .booking-card {
+        padding: 20px;
+    }
+    
+    .bookings-wrapper h1 {
+        font-size: 1.6rem;
+    }
+
+    .btn-cancel, .feedback-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

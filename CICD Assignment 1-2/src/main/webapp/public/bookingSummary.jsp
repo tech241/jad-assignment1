@@ -59,7 +59,8 @@
 				<a href="editBooking.jsp?index=<%=cart.indexOf(item)%>"
 					class="btn-edit">Edit</a> <a
 					href="deleteBooking.jsp?index=<%=cart.indexOf(item)%>"
-					class="btn-delete">Delete</a>
+					class="btn-delete">Delete</a> <a href="finalizeBooking.jsp"
+					class="btn-finalize">Finalize & Save Booking</a>
 			</div>
 		</div>
 
@@ -67,5 +68,6 @@
 		}
 		%>
 	</div>
+	<%@ include file="assets/components/footer.jsp"%>
 </body>
 </html>

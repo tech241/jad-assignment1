@@ -1,11 +1,9 @@
-
 body {
 	background: var(--colour-bg-plain);
 	color: var(--colour-text-plain);
 	font-family: 'Inter', sans-serif;
 	padding-bottom: 60px;
 }
-
 
 main {
 	padding-top: 40px;
@@ -20,7 +18,6 @@ h1 {
 	color: #0f4a49;
 	letter-spacing: -0.5px;
 }
-
 
 .booking-summary-header {
 	max-width: 800px;
@@ -59,7 +56,6 @@ h1 {
 	font-weight: 700;
 }
 
-
 .booking-summary-container {
 	max-width: 800px;
 	margin: 0 auto;
@@ -68,7 +64,6 @@ h1 {
 	flex-direction: column;
 	gap: 24px;
 }
-
 
 .booking-card {
 	background: #ffffff;
@@ -87,7 +82,6 @@ h1 {
 	transform: translateY(-2px);
 }
 
-
 .booking-card h2 {
 	margin: 0 0 20px 0;
 	padding-bottom: 16px;
@@ -96,7 +90,6 @@ h1 {
 	font-weight: 700;
 	color: #0f4a49;
 }
-
 
 .booking-details {
 	display: flex;
@@ -137,7 +130,6 @@ h1 {
 	font-weight: 600;
 }
 
-
 .booking-price {
 	border-top: 2px solid #e0f2f1;
 	padding-top: 16px;
@@ -157,7 +149,6 @@ h1 {
 	text-transform: none;
 	letter-spacing: normal;
 }
-
 
 .actions {
 	display: flex;
@@ -201,13 +192,11 @@ h1 {
 	transform: translateY(-1px);
 }
 
-
 h2[style*="text-align: center"] {
 	margin-top: 80px !important;
 	color: #0f4a49;
 	font-size: 1.3rem;
 }
-
 
 @media ( max-width : 768px) {
 	h1 {
@@ -242,4 +231,28 @@ h2[style*="text-align: center"] {
 		align-items: flex-start;
 		gap: 8px;
 	}
+}
+
+.actions .btn-finalize {
+	padding: 12px 24px;
+	background: #2563eb;
+	color: #fff;
+	border-radius: 10px;
+	text-decoration: none;
+	transition: 0.2s;
+}
+
+.actions .btn-finalize:hover {
+	background: #1d4ed8;
+}
+
+/* small animation */
+@keyframes fadeIn {from { opacity:0;
+	transform: translateY(10px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
 }

@@ -39,6 +39,6 @@
 
 		<button type="submit">Save Changes</button>
 	</form>
-
+<%@ include file="assets/components/footer.jsp"%>
 </body>
 </html>

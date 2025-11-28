@@ -1,207 +1,200 @@
 @charset "UTF-8";
 
-
 #toggle-menu-short, #toggle-account-dropdown {
-    display: none;
+	display: none;
 }
 
 #toggle-menu-short:checked ~ .header .menu #open-menu {
-    display: none;
+	display: none;
 }
 
 #toggle-menu-short:checked ~ .header .menu #close-menu {
-    display: block;
+	display: block;
 }
 
-#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-button #open-dropdown {
-    display: none;
+#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-button #open-dropdown
+	{
+	display: none;
 }
 
-#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-button #close-dropdown {
-    display: block;
+#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-button #close-dropdown
+	{
+	display: block;
 }
 
-#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-menu {
-    display: flex;
+#toggle-account-dropdown:checked ~ .header .menu #account-dropdown-menu
+	{
+	display: flex;
 }
 
 .header {
-    width: 100%;
-    height: 64px;
-    padding: 0 20px;
-    background-color: var(--colour-bg-colour);
-    color: var(--colour-text-colour);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
+	width: 100%;
+	height: 64px;
+	padding: 0 20px;
+	background-color: var(--colour-bg-colour);
+	color: var(--colour-text-colour);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
 }
 
 .header img {
-    max-height: 32px;
-    width: auto;
+	max-height: 32px;
+	width: auto;
 }
 
-.header img:active,
-.header li:active {
-    opacity: 0.75;
+.header img:active, .header li:active {
+	opacity: 0.75;
 }
 
 .menu {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    gap: 32px;
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	gap: 32px;
 }
 
 #close-menu {
-    display: none;
+	display: none;
 }
 
 .menu-options {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 24px;
-    margin: 0;
-    padding: 0 64px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	gap: 24px;
+	margin: 0;
+	padding: 0 64px;
 }
 
 .header li {
-    list-style: none;
+	list-style: none;
 }
 
 .header li a {
-    color: var(--colour-text-colour);
-    text-decoration: none;
-    transition: 0.2s ease;
+	color: var(--colour-text-colour);
+	text-decoration: none;
+	transition: 0.2s ease;
 }
 
 .header li a:hover {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 /* Icons inside links */
 .header li i {
-    margin-right: 4px;
-    transform: translateY(13%);
+	margin-right: 4px;
+	transform: translateY(13%);
 }
 
 .header li #login {
-    background-color: var(--colour-bg-plain);
-    color: var(--colour-text-plain);
-    padding: 8px 16px;
-    border-radius: 8px;
+	background-color: var(--colour-bg-plain);
+	color: var(--colour-text-plain);
+	padding: 8px 16px;
+	border-radius: 8px;
 }
 
 #account-dropdown-button {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    
-    & #close-dropdown {
-    	display: none;
-    }
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
+	&
+	#
+	close-dropdown
+	{
+	display
+	:
+	none;
 }
 
+}
 #account-dropdown-button:hover {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 #account-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 56px;
-    right: 96px;
-    background-color: var(--colour-bg-colour);
-    padding: 12px;
-    border-radius: 8px;
-    flex-direction: column;
-    gap: 8px;
+	display: none;
+	position: absolute;
+	top: 56px;
+	right: 96px;
+	background-color: var(--colour-bg-colour);
+	padding: 12px;
+	border-radius: 8px;
+	flex-direction: column;
+	gap: 8px;
 }
 
-@media (min-width: 576px) {
-    #menu-button {
-        display: none;
-    }
-    #logo-small {
-        display: block;
-    }
-    #logo {
-        display: none;
-    }
+@media ( min-width : 576px) {
+	#menu-button {
+		display: none;
+	}
+	#logo-small {
+		display: block;
+	}
+	#logo {
+		display: none;
+	}
 }
 
-@media (max-width: 575px) {
-
-    #menu-button {
-        display: block;
-        font-size: 32px;
-    }
-    
-    #logo-small {
-        display: none;
-    }
-
-    .menu-options {
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 56px;
-        left: 0;
-        width: 100%;
-        background-color: var(--colour-bg-colour);
-        padding: 20px;
-        gap: 16px;
-        font-size: 24px;
-    }
-
-    #toggle-menu-short:checked ~ .header .menu .menu-options {
-        display: flex;
-    }
+@media ( max-width : 575px) {
+	#menu-button {
+		display: block;
+		font-size: 32px;
+	}
+	#logo-small {
+		display: none;
+	}
+	.menu-options {
+		display: none;
+		flex-direction: column;
+		position: fixed;
+		top: 56px;
+		left: 0;
+		width: 100%;
+		background-color: var(--colour-bg-colour);
+		padding: 20px;
+		gap: 16px;
+		font-size: 24px;
+	}
+	#toggle-menu-short:checked ~ .header .menu .menu-options {
+		display: flex;
+	}
 }
 
 .mega-dropdown {
-    position: relative;
-    z-index: 3000;
+	position: relative;
+	z-index: 3000;
 }
 
 .mega-menu {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%); 
-
-    width: 60vw;               
-    max-width: 60vw;        
-
-    /* background: linear-gradient(
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 60vw;
+	max-width: 60vw;
+	/* background: linear-gradient(
     180deg,
     rgba(255,255,255,0.98) 0%,
     rgba(255,255,255,0.90) 100%
 	); */
-	background: linear-gradient(
-    180deg,
-    hsla(from var(--colour-bg-colour) h s l / 0.98) 0%,
-    hsla(from var(--colour-bg-colour) h s l / 0.90) 100%
-	);
-    /* backdrop-filter: blur(5px); */
-
-    padding: 20px 30px;
-    /* border-radius: 0 0 10px 10px; */
-    border-radius: 16px;
-
-    display: none;
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 30px;                              
-
-    box-shadow: 0 6px 30px rgba(0,0,0,0.25);
-    z-index: 9000;
+	background: linear-gradient(180deg, hsla(from var(--colour-bg-colour) h
+		s l/0.98) 0%, hsla(from var(--colour-bg-colour) h s l/0.90) 100%);
+	/* backdrop-filter: blur(5px); */
+	padding: 20px 30px;
+	/* border-radius: 0 0 10px 10px; */
+	border-radius: 16px;
+	display: none;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 30px;
+	box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+	z-index: 9000;
 }
 
 /* .mega-menu a {
@@ -211,56 +204,127 @@
 .mega-menu h4 {
     color: #003030 !important;
 } */
-
-.mega-dropdown:hover .mega-menu,
-.mega-menu:hover {
-    display: grid !important;
+.mega-dropdown:hover .mega-menu, .mega-menu:hover {
+	display: grid !important;
 }
 
 /* COLUMNS */
 .mega-column {
-    display: flex;
-    flex-direction: column;
-    padding-right: 20px;
-    border-right: 1px solid rgba(0,0,0,0.05);
+	display: flex;
+	flex-direction: column;
+	padding-right: 20px;
+	border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .mega-column:last-child {
-    border-right: none;
+	border-right: none;
 }
 
-
 .mega-column h4 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    /* color: #004040; */   /* dark & readable */
-    color: var(--colour-text-colour);
+	font-size: 1.1rem;
+	font-weight: 700;
+	margin-bottom: 10px;
+	/* color: #004040; */ /* dark & readable */
+	color: var(--colour-text-colour);
 }
 
 .mega-column a {
-    font-size: 0.95rem;
-    padding: 4px 0;
-    /* color: #000333; */   /* dark; readable */
-    color: var(--colour-text-colour);
-    text-decoration: none;
-    transition: all 0.2s ease;
+	font-size: 0.95rem;
+	padding: 4px 0;
+	/* color: #000333; */ /* dark; readable */
+	color: var(--colour-text-colour);
+	text-decoration: none;
+	transition: all 0.2s ease;
 }
 
 .mega-column a:hover {
-    /* color: #008c8c; */
-    padding-left: 5px;
-    font-weight: 600;
-    /* color: #007777; */
-    text-shadow: 0px 1px 6px rgba(0, 140, 140, 0.25);
-    transition: 0.25s;
+	/* color: #008c8c; */
+	padding-left: 5px;
+	font-weight: 600;
+	/* color: #007777; */
+	text-shadow: 0px 1px 6px rgba(0, 140, 140, 0.25);
+	transition: 0.25s;
 }
 
 .cat-icon {
-    width: 27px;
-    height: 27px;
-    object-fit: contain;
-    margin-right: 6px;
-    transform: translateY(4px);
+	width: 27px;
+	height: 27px;
+	object-fit: contain;
+	margin-right: 6px;
+	transform: translateY(4px);
 }
 
+/* ================================ */
+/*        MY BOOKINGS DROPDOWN       */
+/* ================================ */
+
+.bookings-dropdown {
+    position: relative;
+    display: inline-block; /* prevents flexbox from stretching it */
+}
+
+/* The clickable link */
+.bookings-dropdown .dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--colour-text-colour);
+    text-decoration: none;
+}
+
+/* Dropdown menu container */
+.bookings-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    /* Visual style (matches your site palette) */
+    background: var(--colour-bg-colour);
+    border-radius: 12px;
+    padding: 10px 0;
+    min-width: 200px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.23);
+
+    /* Make sure dropdown always appears above everything */
+    z-index: 999999;
+}
+
+/* Show dropdown when hovering parent li */
+.bookings-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Individual menu items */
+.bookings-dropdown .dropdown-menu li {
+    list-style: none;
+}
+
+/* Links inside dropdown */
+.bookings-dropdown .dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px 20px;
+    font-size: 15px;
+    text-decoration: none;
+
+    color: var(--colour-text-colour);
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+/* Hover effect */
+.bookings-dropdown .dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    font-weight: 600;
+}
+
+/* Ensure list item behaves properly inside flex menu-options */
+.menu-options > .bookings-dropdown {
+    display: inline-block;
+    position: relative;
+}

@@ -87,6 +87,25 @@ if (isLoggedIn) {
 					}
 					%>
 				</div></li>
+			<%
+			if (isLoggedIn) {
+			%>
+			<li class="dropdown bookings-dropdown"><a href="#"
+				class="dropdown-trigger"> <i class='bx bx-calendar'></i> My
+					Bookings <i class='bx bx-caret-down'></i>
+			</a>
+
+				<ul class="dropdown-menu">
+					<li><a href="bookingSummary.jsp"><i class='bx bx-list-ul'></i>
+							Booking Cart</a></li>
+					<li><a href="upcomingBookings.jsp"><i class='bx bx-time'></i>
+							Upcoming</a></li>
+					<li><a href="pastBookings.jsp"><i class='bx bx-history'></i>
+							Past</a></li>
+				</ul></li>
+			<%
+			}
+			%>
 
 			<!-- ADMIN SECTION -->
 			<%
