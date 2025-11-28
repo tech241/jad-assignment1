@@ -13,10 +13,12 @@ public class postgresHelper {
 			Class.forName("org.postgresql.Driver");
 				
 			// Step 2: Define Connection URL
-			String connURL = System.getenv().get("JADAssignmentDB");
+			String url = "jdbc:postgresql://ep-frosty-sky-a1prx4gp-pooler.ap-southeast-1.aws.neon.tech:5432/neondb?sslmode=require";
+	        String user = "neondb_owner";
+	        String pass = "npg_iCobAxPw5z4X";
 		
 			// Step 3: Establish connection to URL
-			return DriverManager.getConnection(connURL);
+			return DriverManager.getConnection(url, user, pass);
 		} catch (Exception e) {
 			System.out.println("Error :" + e);
 			return null;

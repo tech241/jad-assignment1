@@ -102,7 +102,7 @@
 						<a class="view-details-btn"
 							href="serviceDetails.jsp?service_id=<%=rs.getInt("service_id")%>">View
 							Details</a> <a class="book-btn"
-							href="booking.jsp?service_id=<%=rs.getInt("service_id")%>">Book
+							href="bookings.jsp?service_id=<%=rs.getInt("service_id")%>">Book
 							Now</a>
 					</div>
 				</div>

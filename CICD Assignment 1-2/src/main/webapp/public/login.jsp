@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,44 +19,41 @@
 	<%@ include file="assets/scripts/restrictToNotLoggedIn.jsp" %>
 
     <main>
-        
         <div class="position-relative">
             <div class="position-absolute login">
 
                 <h1>Log In</h1>
-                
-                <%
-                String errMsg = request.getParameter("errMsg");
-				if (errMsg != null) {
-                %>
-                <span id="errMsg"><%= errMsg %></span>
+
+                <% String errMsg = request.getParameter("errMsg"); 
+                   if (errMsg != null) { %>
+                    <span id="errMsg"><%= errMsg %></span>
                 <% } %>
 
-                <form action="homepage.jsp" method="post">
+                <form action="<%= request.getContextPath() %>/login" method="post">
 
-                    <label for="name-or-email">Name or Email</label> <br>
-                    <input type="text" placeholder="Enter name or email" name="name-or-email" id="name-or-email" required> <br>
+                    <input type="hidden" name="redirect" value="<%= request.getParameter("redirect") %>">
+                    <input type="hidden" name="package_id" value="<%= request.getParameter("package_id") %>">
+                    <input type="hidden" name="service_id" value="<%= request.getParameter("service_id") %>">
 
-                    <label for="password">Password</label> <br>
-                    <input type="password" placeholder="Enter password" name="password" id="password" required> <br>
 
-                    <input type="checkbox" placeholder="Enter password" name="remember-me" id="remember-me">
-                    <label for="remember-me">Remember Me</label><br>
+                    <label for="name-or-email">Name or Email</label><br>
+                    <input type="text" name="name-or-email" required><br>
 
-                    <div id="button-group">
-                        <button type="submit">Log In</button>
-                        <button type="reset" class="secondary-button">Reset</button>
-                    </div>
+                    <label for="password">Password</label><br>
+                    <input type="password" name="password" required><br>
 
+                    <label>
+                        <input type="checkbox" name="remember-me"> Remember Me
+                    </label><br>
+
+                    <button type="submit">Log In</button>
                 </form>
 
-                <span>Don't have an account? <a href="signup.jsp">Sign Up</a></span>
-
+                <span>Don't have an account? 
+                    <a href="signup.jsp">Sign Up</a>
+                </span>
             </div>
-
-            <span id="credit">Photo by <a href="https://unsplash.com/@knurpselknie?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Georg Arthur Pflueger</a> on <a href="https://unsplash.com/photos/woman-in-brown-button-up-shirt-holding-white-smartphone-TeWwYARfcM4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a></span>
         </div>
-
     </main>
     
     <!-- footer.jsp goes here -->

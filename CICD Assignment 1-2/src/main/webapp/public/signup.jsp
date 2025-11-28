@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ include file="assets/scripts/checkLoggedIn.jsp"%>
-<%@ include file="assets/scripts/dbConnection.jsp"%>
-
 
 <!DOCTYPE html>
 <html lang="en">

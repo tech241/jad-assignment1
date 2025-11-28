@@ -31,7 +31,6 @@ public class login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		String nameOrEmail = request.getParameter("name-or-email");
 		String password = request.getParameter("password");
@@ -51,7 +50,18 @@ public class login extends HttpServlet {
 						
 						postgresHelper.setSession(session, id, name, email, role);
 						
-						response.sendRedirect("public/account.jsp");
+						// Handle booking redirect ===
+					    String redirect = request.getParameter("redirect");
+					    String pkg = request.getParameter("package_id");
+					    String svc = request.getParameter("service_id");
+
+					    if ("book".equals(redirect) && pkg != null && svc != null) {
+					    	response.sendRedirect(request.getContextPath() + "/public/bookings.jsp?package_id=" + pkg + "&service_id=" + svc);
+					        return;
+					    }
+
+					    // Default redirect if not from booking
+					    response.sendRedirect(request.getContextPath() + "/public/account.jsp");
 					} else {
 						response.sendRedirect("public/login.jsp?errMsg=Wrong password.");
 					}
