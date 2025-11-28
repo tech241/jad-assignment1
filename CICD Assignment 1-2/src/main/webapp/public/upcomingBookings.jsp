@@ -24,13 +24,7 @@
 
 	int memberId = (Integer) session.getAttribute("id");
 
-	String sql = "SELECT b.booking_id, b.scheduled_date, b.scheduled_time, b.notes, "
-			+ "s.service_name, p.package_name, p.price " + "FROM booking b "
-			+ "INNER JOIN service s ON b.service_id = s.service_id "
-			+ "INNER JOIN service_package p ON b.package_id = p.package_id "
-			+ "WHERE b.member_id = ? AND b.scheduled_date >= CURRENT_DATE ORDER BY b.booking_id DESC";
-
-	PreparedStatement pstmt = conn.prepareStatement(sql);
+	PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM get_upcoming_bookings(?)");
 	pstmt.setInt(1, memberId);
 	ResultSet rs = pstmt.executeQuery();
 	%>
@@ -83,7 +77,7 @@
 		</div>
 
 	</main>
-	
+
 	<%@ include file="assets/components/footer.jsp"%>
 </body>
 </html>
