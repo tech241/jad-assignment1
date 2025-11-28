@@ -24,8 +24,7 @@
 		
 		while (rsStats.next()) {
 			ResultSetMetaData rsmdStats = rsStats.getMetaData();
-			int index = 1;
-			while (rsmdStats.getColumnName(index) != null) {
+			for (int index = 1; index <= rsmdStats.getColumnCount(); index ++) {
     			String columnName = rsmdStats.getColumnName(index);
     			String valueRaw = rsStats.getString(columnName);
     			
@@ -35,7 +34,6 @@
     			} catch (Exception e) {
     				stats.put(columnName, valueRaw);
     			}
-    			index ++;
 			}
 		}
 	} catch (Exception e) {
