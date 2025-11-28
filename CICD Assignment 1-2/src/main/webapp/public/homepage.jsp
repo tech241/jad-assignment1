@@ -66,11 +66,11 @@
 			try {
 				int memberId = (Integer) session.getAttribute("id");
 
-				String sqlNext = "SELECT b.scheduled_date, b.scheduled_time, s.service_name, p.package_name "
+				String sqlNext = "SELECT b.booking_id, b.scheduled_date, b.scheduled_time, " + "s.service_name, p.package_name "
 				+ "FROM booking b " + "JOIN service s ON b.service_id = s.service_id "
 				+ "JOIN service_package p ON b.package_id = p.package_id "
 				+ "WHERE b.member_id = ? AND b.scheduled_date >= CURRENT_DATE "
-				+ "ORDER BY b.scheduled_date ASC, b.scheduled_time ASC " + "LIMIT 1";
+				+ "ORDER BY b.scheduled_date ASC, b.scheduled_time ASC LIMIT 1";
 
 				pstmtNext = conn.prepareStatement(sqlNext);
 				pstmtNext.setInt(1, memberId);
@@ -99,6 +99,7 @@
 
 		<%
 		}
+
 		} catch (Exception e) {
 		out.println("Error loading next booking: " + e.getMessage());
 		} finally {
@@ -161,10 +162,7 @@
 					String catName = rc.getString("cat_name");
 					String catDesc = rc.getString("cat_description");
 
-					PreparedStatement ps = conn.prepareStatement("SELECT s.service_id, s.service_name, s.service_description "
-					+ "FROM booking b " + "JOIN service s ON b.service_id = s.service_id " + "WHERE s.cat_id = ? "
-					+ "GROUP BY s.service_id " + "ORDER BY COUNT(*) DESC " + "LIMIT 1");
-
+					PreparedStatement ps = conn.prepareStatement("SELECT * FROM get_top_service_by_category(?)");
 					ps.setInt(1, categoryId);
 					ResultSet rs = ps.executeQuery();
 				%>
@@ -181,10 +179,9 @@
 					<div class="fs-service-box">
 						<h4 class="fs-service-name"><%=rs.getString("service_name")%></h4>
 						<p class="fs-service-desc"><%=rs.getString("service_description")%></p>
-
 						<a
 							href="serviceDetails.jsp?service_id=<%=rs.getInt("service_id")%>"
-							class="fs-btn"> View Service → </a>
+							class="fs-btn">View Service →</a>
 					</div>
 
 					<%
@@ -200,19 +197,20 @@
 					%>
 
 				</div>
+				<!-- END OF fs-item -->
 
 				<%
 				rs.close();
 				ps.close();
-				}
+				} // END WHILE LOOP
 
 				rc.close();
 				pc.close();
 				%>
 
 			</div>
-
 		</section>
+
 
 
 		<section class="why-section">

@@ -14,6 +14,7 @@
     		<li><h6 id="menu-title">Admin Menu</h6></li>
     		<li><a href="adminIndex.jsp">Dashboard</a></li>
     		<li><a href="adminServices.jsp">Manage Services</a></li>
+    		<li><a href="adminCaretakers.jsp">Manage Caretakers</a></li>
     		<li><a href="adminFeedback.jsp">View Feedback</a></li>
     	</ul>
     	
