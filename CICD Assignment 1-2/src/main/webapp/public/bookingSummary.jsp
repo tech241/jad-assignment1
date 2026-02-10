@@ -20,6 +20,8 @@
 		return;
 	}
 
+	// ArrayList is used to temporarily store the user's selected bookings in their session before finalizing and saving into db
+	// ArrayList is used since it is dynamic, easy to iterate and allows editing or removing items by index
 	ArrayList<BookingItem> cart = (ArrayList<BookingItem>) session.getAttribute("cart");
 
 	if (cart == null || cart.size() == 0) {
@@ -35,7 +37,7 @@
 
 	<div class="booking-summary-container">
 		<%
-		for (BookingItem item : cart) {
+		for (BookingItem item : cart) { // loop through the arraylist called cart
 		%>
 		<div class="booking-card">
 			<h2><%=item.serviceName%></h2>
@@ -55,12 +57,12 @@
 			<p>
 				<strong>Price:</strong> $<%=item.price%></p>
 
-			<div class="actions">
+			<div class="actions"> <!-- index of each item represents its position in the cart -->
 				<a href="editBooking.jsp?index=<%=cart.indexOf(item)%>"
 					class="btn-edit">Edit</a> <a
 					href="deleteBooking.jsp?index=<%=cart.indexOf(item)%>"
 					class="btn-delete">Delete</a> <a href="finalizeBooking.jsp"
-					class="btn-finalize">Finalize & Save Booking</a>
+					class="btn-finalize">Finalize & Save Booking</a> <!-- this btn means user can review their temporary items, confirm or edit and then items are inserted into the db -->
 			</div>
 		</div>
 

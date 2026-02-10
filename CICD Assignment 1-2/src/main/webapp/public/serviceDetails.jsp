@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Service Details | Silver Care</title>
 <link rel="stylesheet" href="assets/general.css">
 <link rel="stylesheet" href="assets/serviceDetails.css">
 </head>
@@ -56,7 +56,7 @@
 		<nav class="breadcrumb">
 			<a href="services.jsp">Services</a> <span>/</span> <span><%=serviceName%></span>
 		</nav>
-		<!-- Hero Title -->
+		<!-- Hero Title contains data about the service fetched from db-->
 		<h1 class="service-title"><%=serviceName%></h1>
 		<p class="service-desc"><%=serviceDescription%></p>
 
@@ -69,7 +69,6 @@
 					alt="<%=serviceName%>">
 			</div>
 
-			<!-- RIGHT: Packages Table -->
 			<div class="packages-box">
 				<h2>Available Packages</h2>
 
@@ -97,7 +96,7 @@
 					<tr>
 						<td><%=rs.getString("package_name")%></td>
 						<td><%=rs.getString("package_description")%></td>
-						<td>$<%=rs.getBigDecimal("price")%></td>
+						<td>$<%=rs.getBigDecimal("price")%></td> <!--  gives precise numerical decimal -->
 						<td><a class="book-btn"
 							href="verifyBookingAccess.jsp?package_id=<%=rs.getInt("package_id")%>&service_id=<%=serviceId%>">
 								Book </a></td>
@@ -157,7 +156,6 @@
 			%>
 		</section>
 
-		<!-- NEW SECTION: Suitable For -->
 		<section class="info-section">
 			<h2>This Service Is Suitable For</h2>
 			<ul>
@@ -168,7 +166,6 @@
 			</ul>
 		</section>
 
-		<!-- NEW SECTION: How It Works -->
 		<section class="steps-section">
 			<h2>How It Works</h2>
 

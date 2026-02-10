@@ -95,19 +95,18 @@
 			<section class="booking-form-section">
 				<h2>Confirm Your Booking</h2>
 
-				<form action="addBooking.jsp" method="POST" class="booking-form">
+				<form action="addBooking.jsp" method="POST" class="booking-form"> <!-- form collects all required booking fields and submits them to addBooking.jsp, which will insert the record using JDBC. -->
 
-					<input type="hidden" name="package_id" value="<%=packageId%>">
-					<input type="hidden" name="service_id"
-						value="<%=request.getParameter("service_id")%>"> <label>Date</label>
-					<input type="date" name="date" id="bookingDate" required
-						min="<%=java.time.LocalDate.now()%>"> <label>Preferred
-						Time</label> <input type="time" name="time" min="09:00" max="18:00"
-						required> <small
-						style="color: #6b7280; margin-top: 4px; display: block;">Operating
-						hours: 9:00 AM - 6:00 PM</small> <label>Preferred Caretaker
-						(Optional)</label> <select name="caretaker_id" class="booking-select">
-						<option value="">Select a caretaker...</option>
+					<input type="hidden" name="package_id" value="<%=packageId%>"> <!-- these hidden fields ensure that the selected package and service IDs are sent to the backend even though the user does not edit them -->
+					<input type="hidden" name="service_id" value="<%=request.getParameter("service_id")%>"> 
+					<label>Date</label>
+					<input type="date" name="date" id="bookingDate" required min="<%=java.time.LocalDate.now()%>"> <!-- prevent past dates by setting minimum value to today. type="date" shows the in-built HTML calendar. -->
+					<label>Preferred Time</label> 
+					<input type="time" name="time" min="09:00" max="18:00" required> <!-- HTML automatically prevents out-of-range times -->
+					<small style="color: #6b7280; margin-top: 4px; display: block;">Operating hours: 9:00 AM - 6:00 PM</small> 
+					<label>Preferred Caretaker (Optional)</label> 
+					<select name="caretaker_id" class="booking-select">
+					<option value="">Select a caretaker...</option> <!-- load all available caretakers -->
 						<%
 						try {
 							String serviceId = request.getParameter("service_id");
@@ -121,7 +120,7 @@
 								pstmtCare.setInt(1, Integer.parseInt(serviceId));
 								ResultSet rsCare = pstmtCare.executeQuery();
 
-								if (!rsCare.isBeforeFirst()) {
+								if (!rsCare.isBeforeFirst()) { // isBeforeFirst checks if the ResultSet has any rows inside it. 
 							out.println("<option value=''>No caretakers available for this service</option>");
 								}
 

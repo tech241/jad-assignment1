@@ -104,16 +104,11 @@
 	align-items: center;
 	gap: 6px;
 	cursor: pointer;
-	&
-	#
-	close-dropdown
-	{
-	display
-	:
-	none;
+	& #close-dropdown {
+	display: none;
+	}
 }
 
-}
 #account-dropdown-button:hover {
 	font-weight: bold;
 }

@@ -22,17 +22,17 @@
 		<%
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String catId = request.getParameter("cat_id");
+		String catId = request.getParameter("cat_id"); // reads the category ID from url
 
 		String categoryName = "";
 		String categoryDescription = "";
 		boolean hasServices = false;
 
-		if (catId == null || catId.trim().isEmpty()) {
+		if (catId == null || catId.trim().isEmpty()) { // if the user enters a page without valid category ID, error message shown.
 			out.println("<p style='color:red; text-align:center;'>Invalid category selected.</p>");
 		} else {
 			try {
-				// Category info
+				// Category info load
 				String catQuery = "SELECT cat_name, cat_description FROM service_category WHERE cat_id = ?";
 				pstmt = conn.prepareStatement(catQuery);
 				pstmt.setInt(1, Integer.parseInt(catId));
@@ -48,7 +48,7 @@
 		%>
 
 		<!-- Breadcrumb for path -->
-		<nav class="breadcrumb">
+		<nav class="breadcrumb"> <!-- helps guide the user and shows which category they are viewing -->
 			<a href="services.jsp">Services</a> <span>/</span> <span><%=categoryName%></span>
 		</nav>
 
@@ -60,16 +60,18 @@
 			</div>
 		</div>
 
-		<!-- Services list -->
+		<!-- Services list: get the services under each category -->
 		<div class="services-container">
 
 			<%
-			String serviceQuery = "SELECT service_id, service_name, service_description, image_path FROM service WHERE cat_id = ? ORDER BY service_name";
+			String serviceQuery = "SELECT service_id, service_name, service_description, image_path FROM service WHERE cat_id = ? ORDER BY service_name"; 
+			// the query retrieves all services in the selected category
+			// it is looped through the ResultSet and dynamically generates a card for each service.
 			pstmt = conn.prepareStatement(serviceQuery);
 			pstmt.setInt(1, Integer.parseInt(catId));
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
+			while (rs.next()) { // processing ResultSet with the while(rs.next()) since >1 results
 				hasServices = true;
 				int serviceId = rs.getInt("service_id");
 				String serviceName = rs.getString("service_name");
@@ -80,6 +82,7 @@
 			<div class="service-card">
 				<div class="service-image">
 					<%
+					// display default img if not avail in db
 					if (imagePath != null && !imagePath.trim().isEmpty()) {
 					%>
 					<img src="assets/images/<%=imagePath%>"

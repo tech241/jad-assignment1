@@ -1,12 +1,20 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-	background: var(--colour-bg-plain);
-	color: var(--colour-text-plain);
-	font-family: 'Inter', sans-serif;
-	padding-bottom: 60px;
+    display: flex;
+    flex-direction: column; /* header → content → footer */
+    min-height: 100vh;      /* full page height */
+    background: var(--colour-bg-plain);
+    color: var(--colour-text-plain);
+    font-family: 'Inter', sans-serif;
 }
 
 main {
-	padding-top: 40px;
+	flex: 1;
 }
 
 h1 {
