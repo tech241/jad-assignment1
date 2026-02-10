@@ -76,7 +76,6 @@ public class serviceDAO {
     	            if (rs.next()) {
     	                service s = new service();
     	                s.setServiceId(rs.getInt("service_id"));
-    	                // if you have this field in your model:
     	                // s.setCatId(rs.getInt("cat_id"));
     	                s.setServiceName(rs.getString("service_name"));
     	                s.setServiceDescription(rs.getString("service_description"));
