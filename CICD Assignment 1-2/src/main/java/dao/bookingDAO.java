@@ -1,11 +1,15 @@
 package dao;
 
 import models.BookingItem;
+import models.BookingDisplayItem;
 import servlets.postgresHelper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 public class bookingDAO {
 
@@ -32,5 +36,44 @@ public class bookingDAO {
 
             return ps.executeUpdate();
         }
+    }
+    public List<BookingDisplayItem> getUpcomingBookings(int memberId) throws Exception {
+        String sql =
+            "SELECT b.booking_id, s.service_name, p.package_name, " +
+            "b.scheduled_date, b.scheduled_time, p.price, b.notes " +
+            "FROM booking b " +
+            "JOIN service_package p ON b.package_id = p.package_id " +
+            "JOIN service s ON b.service_id = s.service_id " +
+            "WHERE b.member_id = ? " +
+            "AND b.scheduled_date >= CURRENT_DATE " +
+            "AND b.status != 'CANCELLED' " +
+            "ORDER BY b.scheduled_date ASC, b.scheduled_time ASC";
+
+        List<BookingDisplayItem> list = new ArrayList<>();
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, memberId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    BookingDisplayItem item = new BookingDisplayItem();
+
+                    item.setBookingId(rs.getInt("booking_id"));
+                    item.setServiceName(rs.getString("service_name"));
+                    item.setPackageName(rs.getString("package_name"));
+                    item.setScheduledDate(rs.getDate("scheduled_date").toLocalDate());
+                    item.setScheduledTime(rs.getTime("scheduled_time").toLocalTime());
+                    item.setPrice(rs.getBigDecimal("price"));
+                    item.setNotes(rs.getString("notes"));
+
+                    list.add(item);
+                }
+            }
+        }
+
+        return list;
     }
 }

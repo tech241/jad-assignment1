@@ -37,4 +37,31 @@ public class servicePackageDAO {
         }
         return packages;
     }
+    public servicePackage getPackageSummary(int packageId) throws Exception {
+        String sql =
+            "SELECT p.package_id, p.service_id, p.package_name, p.package_description, p.price, s.service_name " +
+            "FROM service_package p " +
+            "INNER JOIN service s ON p.service_id = s.service_id " +
+            "WHERE p.package_id = ?";
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, packageId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    servicePackage p = new servicePackage();
+                    p.setPackageId(rs.getInt("package_id"));
+                    p.setServiceId(rs.getInt("service_id"));
+                    p.setPackageName(rs.getString("package_name"));
+                    p.setPackageDescription(rs.getString("package_description"));
+                    p.setPrice(rs.getDouble("price"));
+                    p.setServiceName(rs.getString("service_name"));
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
 }
