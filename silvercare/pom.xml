@@ -52,22 +52,14 @@
   			<version>31.3.0</version>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.7.8</version>
-		</dependency>
-=======
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
->>>>>>> branch 'main' of https://github.com/tech241/jad-assignment1
 	</dependencies>
 
 	<build>
