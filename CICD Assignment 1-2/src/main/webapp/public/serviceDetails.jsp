@@ -85,7 +85,7 @@
               <td>$<%= String.format("%.2f", p.getPrice()) %></td>
               <td>
                 <a class="book-btn"
-                   href="verifyBookingAccess.jsp?package_id=<%= p.getPackageId() %>&service_id=<%= serviceId %>">
+                   href="<%= request.getContextPath() %>/cart/add?package_id=<%= p.getPackageId() %>&service_id=<%= serviceId %>">
                   Book
                 </a>
               </td>
