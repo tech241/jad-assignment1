@@ -21,6 +21,8 @@
 		return;
 	}
 
+	// ArrayList is used to temporarily store the user's selected bookings in their session before finalizing and saving into db
+	// ArrayList is used since it is dynamic, easy to iterate and allows editing or removing items by index
 	ArrayList<BookingItem> cart = (ArrayList<BookingItem>) session.getAttribute("cart");
 	
 	double totalPrice = 0;

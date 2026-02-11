@@ -66,13 +66,7 @@
 			try {
 				int memberId = (Integer) session.getAttribute("id");
 
-				String sqlNext = "SELECT b.booking_id, b.scheduled_date, b.scheduled_time, " + "s.service_name, p.package_name "
-				+ "FROM booking b " + "JOIN service s ON b.service_id = s.service_id "
-				+ "JOIN service_package p ON b.package_id = p.package_id "
-				+ "WHERE b.member_id = ? AND b.scheduled_date >= CURRENT_DATE "
-				+ "ORDER BY b.scheduled_date ASC, b.scheduled_time ASC LIMIT 1";
-
-				pstmtNext = conn.prepareStatement(sqlNext);
+				pstmtNext = conn.prepareStatement("SELECT * FROM get_upcoming_bookings(?)");
 				pstmtNext.setInt(1, memberId);
 				rsNext = pstmtNext.executeQuery();
 

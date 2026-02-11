@@ -30,8 +30,8 @@ if (isLoggedIn) {
 	<!-- LOGO -->
 	<div class="logo">
 		<a href="homepage.jsp"> <img
-			src="assets/images/placeholderlogo.png" id="logo"> <img
-			src="assets/images/placeholderlogosmall.png" id="logo-small">
+			src="assets/images/placeholderlogo.png" id="logo"> 
+			<img src="assets/images/placeholderlogosmall.png" id="logo-small">
 		</a>
 	</div>
 
@@ -62,7 +62,7 @@ if (isLoggedIn) {
 					<div class="mega-column">
 						<h4>
 							<img src="assets/images/<%=catLogo%>" class="cat-icon">
-							<%=catName%>
+							<%=catName%> <!-- dynamic HTML rendering of category name and its respective services inside JSP  -->
 						</h4>
 
 						<%
@@ -88,7 +88,7 @@ if (isLoggedIn) {
 					%>
 				</div></li>
 			<%
-			if (isLoggedIn) {
+			if (isLoggedIn) { // if the user is logged in, the following are shown on navbar
 			%>
 			<li class="dropdown bookings-dropdown"><a href="#"
 				class="dropdown-trigger"> <i class='bx bx-calendar'></i> My

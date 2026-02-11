@@ -1,7 +1,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*"%>
+<%@ page import="java.util.List" %>
+<%@ page import="models.serviceCategory" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +10,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Services | Silver Cares</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/public/assets/general.css">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/public/assets/services.css">
 
-<link rel="stylesheet" href="assets/general.css">
-<link rel="stylesheet" href="assets/services.css">
+
 
 </head>
 
@@ -19,71 +21,50 @@
 
 	<%@ include file="assets/components/header.jsp"%>
 	<%@ include file="assets/scripts/loadScripts.jsp"%>
+	
 
-	<main>
+	<%
+    List<serviceCategory> categories =
+        (List<serviceCategory>) request.getAttribute("categories");
+%>
 
-		<!-- Hero Section -->
-		<section class="hero-section">
-			<div class="hero-content">
-				<h1>Our Services</h1>
-				<p>Discover our comprehensive range of care services designed to
-					enhance the well-being and independence of our seniors. Choose a
-					category to explore what we offer.</p>
-			</div>
-		</section>
 
-		<!-- Category Cards -->
-		<div class="category-container">
+<div class="container py-4">
+  <h1 class="mb-4">Services</h1>
 
-			<%
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+  <div class="row">
+    <%
+      if (categories != null && !categories.isEmpty()) {
+        for (serviceCategory c : categories) {
+    %>
+      <div class="col-md-4 mb-3">
+        <div class="card h-100">
+          <%-- Adjust this depending on how you store cat_logo --%>
+          <img class="card-img-top"
+               src="assets/images/<%= c.getLogo() %>"
+               alt="<%= c.getName() %>"/>
 
-			try {
-				String sql = "SELECT cat_id, cat_name, cat_description, cat_logo " + "FROM service_category ORDER BY cat_id";
+          <div class="card-body">
+            <h5 class="card-title"><%= c.getName() %></h5>
+            <p class="card-text"><%= c.getDescription() %></p>
 
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-
-				while (rs.next()) {
-			%>
-
-			<div class="category-card">
-				<div class="icon-container">
-					<img src="assets/images/<%=rs.getString("cat_logo")%>"
-						alt="<%=rs.getString("cat_name")%> Logo"
-						onerror="this.src='assets/images/default-service.png'">
-				</div>
-
-				<h3><%=rs.getString("cat_name")%></h3>
-				<p><%=rs.getString("cat_description")%></p>
-
-				<a class="view-btn"
-					href="serviceList.jsp?cat_id=<%=rs.getInt("cat_id")%>"> View
-					Services </a>
-			</div>
-
-			<%
-			}
-			} catch (Exception e) {
-			out.println("<p style='color:red; text-align:center;'>Error loading categories: " + e.getMessage() + "</p>");
-			} finally {
-			if (rs != null)
-			try {
-				rs.close();
-			} catch (Exception ignore) {
-			}
-			if (pstmt != null)
-			try {
-				pstmt.close();
-			} catch (Exception ignore) {
-			}
-			}
-			%>
-
-		</div>
-
-	</main>
+            <a class="btn btn-primary"
+               href="<%= request.getContextPath() %>/services/category?cat_id=<%= c.getId() %>">
+              View services
+            </a>
+          </div>
+        </div>
+      </div>
+    <%
+        }
+      } else {
+    %>
+      <p>No service categories found.</p>
+    <%
+      }
+    %>
+  </div>
+</div>
 
 
 
