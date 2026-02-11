@@ -6,6 +6,8 @@ public class servicePackage {
     private String packageName;
     private String packageDescription;
     private double price;
+    private String serviceName;
+
 
     public servicePackage() {}
 
@@ -23,4 +25,7 @@ public class servicePackage {
 
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
+    
+    public String getServiceName() { return serviceName; }
+    public void setServiceName(String serviceName) { this.serviceName = serviceName; }
 }
