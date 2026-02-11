@@ -1,18 +1,15 @@
-<%@ page import="java.sql.*"%>
+<%@ page import="java.util.*" %>
+<%@ page import="models.serviceCategory" %>
+<%@ page import="models.serviceNavItem" %>
 <%@ include file="../scripts/checkLoggedIn.jsp"%>
-<%@ include file="../scripts/dbConnection.jsp"%>
-
 
 <%
-Statement stmtCat = null;
-ResultSet rsCat = null;
+    // this data is prepared by the servlets, so db queries are not required anymore
+    List<serviceCategory> navCategories =
+        (List<serviceCategory>) request.getAttribute("navCategories");
 
-try {
-	stmtCat = conn.createStatement();
-	rsCat = stmtCat.executeQuery("SELECT * FROM service_category ORDER BY cat_id");
-} catch (Exception e) {
-	out.println("Header Category Load Error: " + e);
-}
+    Map<Integer, List<serviceNavItem>> navServicesByCat =
+        (Map<Integer, List<serviceNavItem>>) request.getAttribute("navServicesByCat");
 %>
 
 <!-- ACCOUNT DROPDOWN TOGGLE -->
@@ -27,130 +24,141 @@ if (isLoggedIn) {
 <!-- HEADER -->
 <div class="header">
 
-	<!-- LOGO -->
-	<div class="logo">
-		<a href="homepage.jsp"> <img
-			src="assets/images/placeholderlogo.png" id="logo"> 
-			<img src="assets/images/placeholderlogosmall.png" id="logo-small">
-		</a>
-	</div>
+    <!-- LOGO -->
+    <div class="logo">
+        <a href="<%= request.getContextPath() %>/home">
+            <img src="<%= request.getContextPath() %>/public/assets/images/placeholderlogo.png" id="logo">
+<img src="<%= request.getContextPath() %>/public/assets/images/placeholderlogosmall.png" id="logo-small">
 
-	<!-- MENU -->
-	<div class="menu">
-		<ul class="menu-options">
+        </a>
+    </div>
+    
 
-			<li><a href="homepage.jsp"><i class='bx bx-home'></i> Home</a></li>
+    <!-- MENU -->
+    <div class="menu">
+        <ul class="menu-options">
 
-			<!-- SERVICES DROPDOWN -->
-			<li class="dropdown mega-dropdown"><a href="services.jsp"><i
-					class='bx bx-handshake'></i> Services</a>
+            <li>
+                <a href="<%= request.getContextPath() %>/home">
+                    <i class='bx bx-home'></i> Home
+                </a>
+            </li>
 
-				<div class="mega-menu">
-					<%
-					try {
-						while (rsCat != null && rsCat.next()) {
+            <!-- SERVICES DROPDOWN -->
+            <li class="dropdown mega-dropdown">
+                <a href="<%= request.getContextPath() %>/services">
+                    <i class='bx bx-handshake'></i> Services
+                </a>
 
-							int catId = rsCat.getInt("cat_id");
-							String catName = rsCat.getString("cat_name");
-							String catLogo = rsCat.getString("cat_logo");
+                <div class="mega-menu">
+                    <%
+                    if (navCategories != null && !navCategories.isEmpty()) {
+                        for (serviceCategory c : navCategories) {
 
-							// Query services inside each category
-							Statement stmtSvc = conn.createStatement();
-							ResultSet rsSvc = stmtSvc.executeQuery("SELECT service_id, service_name FROM service WHERE cat_id = " + catId);
-					%>
+                            int catId = c.getId();
+                            String catName = c.getName();
+                            String catLogo = c.getLogo();
 
-					<div class="mega-column">
-						<h4>
-							<img src="assets/images/<%=catLogo%>" class="cat-icon">
-							<%=catName%> <!-- dynamic HTML rendering of category name and its respective services inside JSP  -->
-						</h4>
+                            List<serviceNavItem> servicesInCat = null;
+                            if (navServicesByCat != null) {
+                                servicesInCat = navServicesByCat.get(catId);
+                            }
+                    %>
 
-						<%
-						while (rsSvc.next()) {
-						%>
-						<a
-							href="serviceDetails.jsp?service_id=<%=rsSvc.getInt("service_id")%>">
+                    <div class="mega-column">
+                        <h4>
+                            <img src="<%= request.getContextPath() %>/public/assets/images/<%= catLogo %>" class="cat-icon">
+                            <%= catName %>
+                        </h4>
 
-							<%=rsSvc.getString("service_name")%>
-						</a>
-						<%
-						} // end services loop
-						%>
-					</div>
+                        <%
+                        if (servicesInCat != null && !servicesInCat.isEmpty()) {
+                            for (serviceNavItem s : servicesInCat) {
+                        %>
+                            <a href="<%= request.getContextPath() %>/services/details?service_id=<%= s.getServiceId() %>">
+                                <%= s.getServiceName() %>
+                            </a>
+                        <%
+                            }
+                        } else {
+                        %>
+                            <span class="text-muted" style="font-size: 0.9rem;">No services</span>
+                        <%
+                        }
+                        %>
+                    </div>
 
-					<%
-					rsSvc.close();
-					stmtSvc.close();
-					} // end category loop
-					} catch (Exception e) {
-					out.println("Header Service Load Error: " + e);
-					}
-					%>
-				</div></li>
-			<%
-			if (isLoggedIn) { // if the user is logged in, the following are shown on navbar
-			%>
-			<li class="dropdown bookings-dropdown"><a href="#"
-				class="dropdown-trigger"> <i class='bx bx-calendar'></i> My
-					Bookings <i class='bx bx-caret-down'></i>
-			</a>
+                    <%
+                        }
+                    } else {
+                    %>
+                        <div class="mega-column">
+                            <h4>Services</h4>
+                            <span class="text-muted" style="font-size: 0.9rem;">No categories</span>
+                        </div>
+                    <%
+                    }
+                    %>
+                </div>
+            </li>
 
-				<ul class="dropdown-menu">
-					<li><a href="bookingSummary.jsp"><i class='bx bx-list-ul'></i>
-							Booking Cart</a></li>
-					<li><a href="upcomingBookings.jsp"><i class='bx bx-time'></i>
-							Upcoming</a></li>
-					<li><a href="pastBookings.jsp"><i class='bx bx-history'></i>
-							Past</a></li>
-				</ul></li>
-			<%
-			}
-			%>
+            <%
+            if (isLoggedIn) { // if the user is logged in, the following are shown on navbar
+            %>
+            <li class="dropdown bookings-dropdown">
+                <a href="#" class="dropdown-trigger">
+                    <i class='bx bx-calendar'></i> My Bookings <i class='bx bx-caret-down'></i>
+                </a>
 
-			<!-- ADMIN SECTION -->
-			<%
-			if (isAdmin) {
-			%>
-			<li><a href="adminIndex.jsp"><i class='bx bx-cog'></i> Admin</a></li>
-			<%
-			}
-			%>
+                <ul class="dropdown-menu">
+                <li><a href="<%= request.getContextPath() %>/cart"><i class='bx bx-list-ul'></i> Booking Cart</a></li>
+<li><a href="<%= request.getContextPath() %>/bookings/upcoming"><i class='bx bx-time'></i> Upcoming</a></li>
+<li><a href="<%= request.getContextPath() %>/bookings/past"><i class='bx bx-history'></i> Past</a></li>
+                
 
-			<!-- ACCOUNT SECTION -->
-			<%
-			if (isLoggedIn) {
-			%>
-			<li id="account-dropdown"><label for="toggle-account-dropdown"
-				id="account-dropdown-button"> <i class="bx bx-user"></i> <span><%=name%></span>
-					<i class="bx bx-caret-down" id="open-dropdown"></i> <i
-					class="bx bx-caret-up" id="close-dropdown"></i>
-			</label>
+                </ul>
+            </li>
+            <%
+            }
+            %>
 
-				<ul id="account-dropdown-menu">
-					<li><a href="account.jsp">View Account</a></li>
-					<li><a href="assets/scripts/logout.jsp">Log Out</a></li>
-				</ul></li>
-			<%
-			} else {
-			%>
-			<li><a href="login.jsp">Log In</a></li>
-			<li><a href="signup.jsp">Sign Up</a></li>
-			<%
-			}
-			%>
+            <!-- ADMIN SECTION -->
+            <%
+            if (isAdmin) {
+            %>
+            <li>
+                <a href="adminIndex.jsp"><i class='bx bx-cog'></i> Admin</a>
+            </li>
+            <%
+            }
+            %>
 
-		</ul>
-	</div>
+            <!-- ACCOUNT SECTION -->
+            <%
+            if (isLoggedIn) {
+            %>
+            <li id="account-dropdown">
+                <label for="toggle-account-dropdown" id="account-dropdown-button">
+                    <i class="bx bx-user"></i>
+                    <span><%= name %></span>
+                    <i class="bx bx-caret-down" id="open-dropdown"></i>
+                    <i class="bx bx-caret-up" id="close-dropdown"></i>
+                </label>
+
+                <ul id="account-dropdown-menu">
+                    <li><a href="account.jsp">View Account</a></li>
+                    <li><a href="assets/scripts/logout.jsp">Log Out</a></li>
+                </ul>
+            </li>
+            <%
+            } else {
+            %>
+            <li><a href="login.jsp">Log In</a></li>
+            <li><a href="signup.jsp">Sign Up</a></li>
+            <%
+            }
+            %>
+
+        </ul>
+    </div>
 </div>
-
-<%
-// Close only header-specific ResultSets/Statements (NOT conn)
-try {
-	if (rsCat != null)
-		rsCat.close();
-	if (stmtCat != null)
-		stmtCat.close();
-} catch (Exception e) {
-	out.println("Header Close Error: " + e);
-}
-%>
