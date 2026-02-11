@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="assets/general.css">
-<link rel="stylesheet" href="assets/bookingSuccess.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/general.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/bookingSuccess.css">
 </head>
 <body>
 
