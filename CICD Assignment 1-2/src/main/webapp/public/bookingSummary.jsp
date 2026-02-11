@@ -7,8 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="assets/general.css">
-<link rel="stylesheet" href="assets/bookingSummary.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/general.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/bookingSummary.css">
 </head>
 <body>
 
@@ -16,13 +18,13 @@
 	<%@ include file="assets/scripts/loadScripts.jsp"%>
 	<%
 	if (!isLoggedIn) {
-		response.sendRedirect("login.jsp?errMsg=Please log in first.");
+		response.sendRedirect(request.getContextPath() + "/public/login.jsp?errMsg=Please log in first.");
 		return;
 	}
 
 	// ArrayList is used to temporarily store the user's selected bookings in their session before finalizing and saving into db
 	// ArrayList is used since it is dynamic, easy to iterate and allows editing or removing items by index
-	ArrayList<BookingItem> cart = (ArrayList<BookingItem>) session.getAttribute("cart");
+	ArrayList<BookingItem> cart = (ArrayList<BookingItem>) request.getAttribute("cart");
 
 	if (cart == null || cart.size() == 0) {
 	%>
@@ -32,12 +34,28 @@
 	return;
 	}
 	%>
+	<%
+	String msg = request.getParameter("msg");
+	String errMsg = request.getParameter("errMsg");
+
+	if (msg != null) {
+	%>
+	<p style="color: green; text-align: center;"><%=msg%></p>
+	<%
+	}
+	if (errMsg != null) {
+	%>
+	<p style="color: red; text-align: center;"><%=errMsg%></p>
+	<%
+	}
+	%>
 
 	<h1>Your Bookings</h1>
 
 	<div class="booking-summary-container">
 		<%
-		for (BookingItem item : cart) { // loop through the arraylist called cart
+		for (int i = 0; i < cart.size(); i++) {
+			BookingItem item = cart.get(i);
 		%>
 		<div class="booking-card">
 			<h2><%=item.serviceName%></h2>
@@ -53,23 +71,29 @@
 				<%=item.time%></p>
 			<p>
 				<strong>Notes:</strong>
-				<%=(item.notes == null || item.notes.isEmpty() ? "None" : item.notes)%></p>
+				<%=(item.notes == null || item.notes.isEmpty() ? "None" : item.notes)%>
+			</p>
 			<p>
 				<strong>Price:</strong> $<%=item.price%></p>
 
-			<div class="actions"> <!-- index of each item represents its position in the cart -->
-				<a href="editBooking.jsp?index=<%=cart.indexOf(item)%>"
+			<div class="actions">
+				<a href="<%=request.getContextPath()%>/cart/edit?index=<%=i%>"
 					class="btn-edit">Edit</a> <a
-					href="deleteBooking.jsp?index=<%=cart.indexOf(item)%>"
-					class="btn-delete">Delete</a> <a href="finalizeBooking.jsp"
-					class="btn-finalize">Finalize & Save Booking</a> <!-- this btn means user can review their temporary items, confirm or edit and then items are inserted into the db -->
+					href="<%=request.getContextPath()%>/cart/remove?index=<%=i%>"
+					class="btn-delete">Delete</a>
 			</div>
 		</div>
-
 		<%
 		}
 		%>
+
+		<!-- ONE checkout button for whole cart -->
+		<div style="text-align: center; margin: 30px 0;">
+			<a href="<%=request.getContextPath()%>/checkout"
+				class="btn-finalize"> Proceed to Payment </a>
+		</div>
 	</div>
+
 	<%@ include file="assets/components/footer.jsp"%>
 </body>
 </html>
