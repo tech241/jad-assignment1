@@ -13,30 +13,27 @@ import java.util.List;
 
 public class bookingDAO {
 
-    public int createBooking(int memberId, BookingItem item) throws Exception {
-        String sql = "INSERT INTO booking " +
-                "(member_id, service_id, package_id, scheduled_date, scheduled_time, notes, caretaker_id, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING')";
-
-        try (Connection conn = postgresHelper.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, memberId);
-            ps.setInt(2, Integer.parseInt(item.serviceId));
-            ps.setInt(3, Integer.parseInt(item.packageId));
-            ps.setDate(4, java.sql.Date.valueOf(item.date));
-            ps.setTime(5, java.sql.Time.valueOf(item.time + ":00"));
-            ps.setString(6, item.notes == null ? "" : item.notes);
-
-            if (item.caretaker == null || item.caretaker.trim().isEmpty()) {
-                ps.setNull(7, Types.INTEGER);
-            } else {
-                ps.setInt(7, Integer.parseInt(item.caretaker));
-            }
-
-            return ps.executeUpdate();
-        }
-    }
+	/*
+	 * public int createBooking(int memberId, BookingItem item) throws Exception {
+	 * String sql = "INSERT INTO booking " +
+	 * "(member_id, service_id, package_id, scheduled_date, scheduled_time, notes, caretaker_id, status) "
+	 * + "VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING')";
+	 * 
+	 * try (Connection conn = postgresHelper.connect(); PreparedStatement ps =
+	 * conn.prepareStatement(sql)) {
+	 * 
+	 * ps.setInt(1, memberId); ps.setInt(2, Integer.parseInt(item.serviceId));
+	 * ps.setInt(3, Integer.parseInt(item.packageId)); ps.setDate(4,
+	 * java.sql.Date.valueOf(item.date)); ps.setTime(5,
+	 * java.sql.Time.valueOf(item.time + ":00")); ps.setString(6, item.notes == null
+	 * ? "" : item.notes);
+	 * 
+	 * if (item.caretaker == null || item.caretaker.trim().isEmpty()) {
+	 * ps.setNull(7, Types.INTEGER); } else { ps.setInt(7,
+	 * Integer.parseInt(item.caretaker)); }
+	 * 
+	 * return ps.executeUpdate(); } }
+	 */
     public List<BookingDisplayItem> getUpcomingBookings(int memberId) throws Exception {
         String sql =
             "SELECT b.booking_id, s.service_name, p.package_name, " +
@@ -76,4 +73,47 @@ public class bookingDAO {
 
         return list;
     }
+    public int createBookingReturnId(int memberId, BookingItem item) throws Exception {
+        String sql =
+          "INSERT INTO booking (member_id, service_id, package_id, scheduled_date, scheduled_time, notes, caretaker_id, status) " +
+          "VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDING') RETURNING booking_id";
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, memberId);
+            ps.setInt(2, Integer.parseInt(item.serviceId));
+            ps.setInt(3, Integer.parseInt(item.packageId));
+            ps.setDate(4, java.sql.Date.valueOf(item.date));
+            ps.setTime(5, java.sql.Time.valueOf(item.time + ":00"));
+            ps.setString(6, item.notes == null ? "" : item.notes);
+
+            if (item.caretaker == null || item.caretaker.trim().isEmpty()) ps.setNull(7, Types.INTEGER);
+            else ps.setInt(7, Integer.parseInt(item.caretaker));
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("booking_id");
+            }
+            throw new Exception("Failed to create booking");
+        }
+    }
+    public void setPaymentRef(int bookingId, String sessionId) throws Exception {
+        String sql = "UPDATE booking SET payment_ref = ? WHERE booking_id = ?";
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, sessionId);
+            ps.setInt(2, bookingId);
+            ps.executeUpdate();
+        }
+    }
+
+    public void markPaidByPaymentRef(String sessionId) throws Exception {
+        String sql = "UPDATE booking SET status='PAID', paid_at=NOW() WHERE payment_ref = ?";
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, sessionId);
+            ps.executeUpdate();
+        }
+    }
+
 }
