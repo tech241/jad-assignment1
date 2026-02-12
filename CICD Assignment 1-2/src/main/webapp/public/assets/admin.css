@@ -56,7 +56,7 @@ select:focus, option:focus {
     box-shadow: 0 0 0 2px hsla(from var(--colour-bg-colour) h s l / 0.5);
 }
 
-.search-results {
+.search-results, .caretakers {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	gap: 32px;
@@ -67,7 +67,6 @@ select:focus, option:focus {
 }
 
 .service-card {
-	width: 100%;
 	padding: 8px;
 	border-radius: 16px;
 	background-color: var(--colour-bg-card);
@@ -76,6 +75,24 @@ select:focus, option:focus {
 		width: 100%;
 		object-fit: cover;
 		border-radius: 8px;
+		margin-bottom: 8px;
+	}
+}
+
+.caretakers {
+	margin-top: 32px;
+}
+
+.caretaker {
+	width: calc(100% - 16px);
+	padding: 16px;
+	border-radius: 16px;
+	background-color: var(--colour-bg-card);
+	
+	& img {
+		width: 64px;
+		object-fit: cover;
+		border-radius: 32px;
 		margin-bottom: 8px;
 	}
 }

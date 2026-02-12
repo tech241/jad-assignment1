@@ -9,6 +9,13 @@
     height: calc(100vh - 181px);
 }
 
+.center-long {
+	position: relative;
+
+    width: 100%;
+    height: calc(100vh);
+}
+
 .container {
 	width: 25%;
 	position: absolute;

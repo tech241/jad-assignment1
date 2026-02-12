@@ -11,6 +11,7 @@ public class Caretaker {
 	private int experienceYears;
 	private double rating;
 	private Timestamp createdAt;
+	private String imageUrl;
 	public int getCaretakerId() {
 		return caretakerId;
 	}
@@ -59,6 +60,10 @@ public class Caretaker {
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 }

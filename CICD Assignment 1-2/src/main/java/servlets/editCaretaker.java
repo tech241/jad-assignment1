@@ -1,41 +1,29 @@
 package servlets;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
-import models.BookingItem;
+import jakarta.servlet.http.HttpSession;
 import models.Caretaker;
-import models.CaretakerOption;
-import models.serviceCategory;
-import models.serviceNavItem;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import dao.caretakerDAO;
 
 /**
- * Servlet implementation class getAllCaretakers
+ * Servlet implementation class editService
  */
-@WebServlet("/public/getAllCaretakers")
-public class getAllCaretakers extends HttpServlet {
+@WebServlet("/public/editCaretaker")
+public class editCaretaker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAllCaretakers() {
+    public editCaretaker() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,7 +33,8 @@ public class getAllCaretakers extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 		String role = (String) request.getSession().getAttribute("role");
 		if (role == null || !role.equals("admin")) {
             response.sendRedirect(request.getContextPath() + "/public/403.jsp");
@@ -54,8 +43,18 @@ public class getAllCaretakers extends HttpServlet {
 
         try {
             // header nav data
-            ArrayList<Caretaker> caretakers = new caretakerDAO().getCaretakers();
-            request.setAttribute("caretakers", caretakers);
+        	Caretaker caretaker = new Caretaker();
+        	caretaker.setCaretakerId(Integer.parseInt(request.getParameter("caretakerId")));
+        	caretaker.setName(request.getParameter("name"));
+        	caretaker.setEmail(request.getParameter("email"));
+        	caretaker.setPhone(request.getParameter("phone"));
+        	caretaker.setBio(request.getParameter("bio"));
+        	caretaker.setExperienceYears(Integer.parseInt(request.getParameter("experienceYears")));
+        	if (request.getParameter("imageUrl") != null) {
+        		caretaker.setImageUrl(request.getParameter("imageUrl"));
+        	}
+            int nrow = new caretakerDAO().updateCaretakerById(caretaker);
+            request.setAttribute("nrow", nrow);
             request.getRequestDispatcher("/public/adminCaretakers.jsp").forward(request, response);
 
         } catch (Exception e) {
