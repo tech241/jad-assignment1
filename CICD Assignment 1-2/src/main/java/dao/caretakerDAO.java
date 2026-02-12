@@ -1,5 +1,6 @@
 package dao;
 
+import models.Caretaker;
 import models.CaretakerOption;
 import servlets.postgresHelper;
 
@@ -37,6 +38,7 @@ public class caretakerDAO {
         }
         return list;
     }
+
     public CaretakerOption getCaretakerById(int caretakerId) throws Exception {
         String sql = "SELECT caretaker_id, name, experience_years, rating FROM caretaker WHERE caretaker_id = ?";
 
@@ -57,5 +59,30 @@ public class caretakerDAO {
             }
         }
         return null;
+    }
+    public List<CaretakerOption> getCaretakers() throws Exception {
+        String sql =
+            "SELECT c.caretaker_id, c.name, c.experience_years, c.rating " +
+            "FROM caretaker c " +
+            "INNER JOIN caretaker_service cs ON c.caretaker_id = cs.caretaker_id";
+
+        List<CaretakerOption> list = new ArrayList<>();
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                	CaretakerOption c = new CaretakerOption();
+                    c.setCaretakerId(rs.getInt("caretaker_id"));
+                    c.setName(rs.getString("name"));
+                    c.setExperienceYears(rs.getInt("experience_years"));
+                    c.setRating(rs.getDouble("rating"));
+                    list.add(c);
+                }
+            }
+        }
+        return list;
+
     }
 }
