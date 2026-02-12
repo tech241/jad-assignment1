@@ -85,7 +85,7 @@
 			</div>
 
 			<div class="nb-actions">
-				<a href="upcomingBookings.jsp" class="nb-btn-primary">View
+				<a href="<%=request.getContextPath()%>/bookings/upcoming" class="nb-btn-primary">View
 					Upcoming</a> <a href="services.jsp" class="nb-btn-link">Book
 					Another</a>
 			</div>
