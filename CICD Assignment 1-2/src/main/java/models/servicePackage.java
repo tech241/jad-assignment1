@@ -7,9 +7,10 @@ public class servicePackage {
     private String packageDescription;
     private double price;
     private String serviceName;
+    private String tier;
+    private int durationMinutes;
 
-
-    public servicePackage() {}
+	public servicePackage() {}
 
     public int getPackageId() { return packageId; }
     public void setPackageId(int packageId) { this.packageId = packageId; }
@@ -28,4 +29,20 @@ public class servicePackage {
     
     public String getServiceName() { return serviceName; }
     public void setServiceName(String serviceName) { this.serviceName = serviceName; }
+    
+    public String getTier() {
+		return tier;
+	}
+
+	public void setTier(String tier) {
+		this.tier = tier;
+	}
+
+	public int getDurationMinutes() {
+		return durationMinutes;
+	}
+
+	public void setDurationMinutes(int durationMinutes) {
+		this.durationMinutes = durationMinutes;
+	}
 }

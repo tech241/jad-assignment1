@@ -1,6 +1,11 @@
 package servlets;
 
 import dao.caretakerDAO;
+import dao.bookingDAO;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
+
 import dao.serviceCategoryDAO;
 import dao.serviceDAO;
 import dao.servicePackageDAO;
@@ -29,6 +34,8 @@ public class CartAddServlet extends HttpServlet {
 
     private final servicePackageDAO packageDAO = new servicePackageDAO();
     private final caretakerDAO caretakerDAO = new caretakerDAO();
+    private final bookingDAO bookingDAO = new bookingDAO();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -106,9 +113,10 @@ public class CartAddServlet extends HttpServlet {
             return;
         }
 
-        // validate date
+        // 1) validate date
+        LocalDate selectedDate;
         try {
-            LocalDate selectedDate = LocalDate.parse(date);
+            selectedDate = LocalDate.parse(date);
             if (selectedDate.isBefore(LocalDate.now())) {
                 resp.sendRedirect(req.getContextPath() + "/cart/add?package_id=" + packageId + "&service_id=" + serviceId
                         + "&errMsg=You cannot book a date in the past.");
@@ -120,6 +128,69 @@ public class CartAddServlet extends HttpServlet {
             return;
         }
 
+        // 2) validate time + availability (duration-based)
+        try {
+            if (time == null || time.isBlank()) {
+                resp.sendRedirect(req.getContextPath() + "/cart/add?package_id=" + packageId + "&service_id=" + serviceId
+                        + "&errMsg=Please select an available time slot.");
+                return;
+            }
+
+            int durationMin = bookingDAO.getPackageDurationMinutes(packageId);
+
+            LocalTime start = LocalTime.parse(time); // "HH:mm"
+            LocalTime end = start.plusMinutes(durationMin);
+            
+            if (selectedDate.equals(LocalDate.now())) {
+                LocalTime cutoff = LocalTime.now().plusMinutes(15);
+                if (!start.isAfter(cutoff)) {
+                    resp.sendRedirect(req.getContextPath()
+                            + "/cart/add?package_id=" + packageId
+                            + "&service_id=" + serviceId
+                            + "&errMsg=Please choose a time later today.");
+                    return;
+                }
+            }
+
+            if (start.isBefore(LocalTime.of(9, 0)) || end.isAfter(LocalTime.of(18, 0))) {
+                resp.sendRedirect(req.getContextPath() + "/cart/add?package_id=" + packageId + "&service_id=" + serviceId
+                        + "&errMsg=Selected time is outside operating hours.");
+                return;
+            }
+
+            Integer preferredCaretakerId = null;
+            if (caretaker != null && !caretaker.isBlank()) {
+                preferredCaretakerId = Integer.parseInt(caretaker);
+            }
+
+            Integer assignedCaretaker = bookingDAO.findAnyAvailableCaretaker(
+                    serviceId,
+                    Date.valueOf(selectedDate),
+                    Time.valueOf(start),
+                    Time.valueOf(end),
+                    preferredCaretakerId
+            );
+
+            if (assignedCaretaker == null) {
+                resp.sendRedirect(req.getContextPath() + "/cart/add?package_id=" + packageId + "&service_id=" + serviceId
+                        + "&errMsg=Selected slot is no longer available. Please check availability again.");
+                return;
+            }
+
+            // auto-assign a caretaker or confirm the one chosen from the dropdown
+            caretaker = String.valueOf(assignedCaretaker);
+            
+            
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resp.sendRedirect(req.getContextPath() + "/cart/add?package_id=" + packageId + "&service_id=" + serviceId
+                    + "&errMsg=Invalid time selected.");
+            return;
+        }
+
+        // 3) fetch package + add to cart
         try {
             servicePackage pkg = packageDAO.getPackageSummary(packageId);
             if (pkg == null) {
@@ -138,6 +209,13 @@ public class CartAddServlet extends HttpServlet {
             item.serviceName = pkg.getServiceName();
             item.packageName = pkg.getPackageName();
             item.price = String.format("%.2f", pkg.getPrice());
+            item.durationMinutes = pkg.getDurationMinutes();
+            
+            int caretakerId = Integer.parseInt(caretaker);
+            models.CaretakerOption caretakerInfo = caretakerDAO.getCaretakerById(caretakerId);
+            if (caretakerInfo != null) {
+                item.caretakerName = caretakerInfo.getName();
+            }
 
             @SuppressWarnings("unchecked")
             ArrayList<BookingItem> cart = (ArrayList<BookingItem>) req.getSession().getAttribute("cart");
@@ -152,4 +230,5 @@ public class CartAddServlet extends HttpServlet {
             resp.sendError(500, "Failed to add item to cart.");
         }
     }
+
 }

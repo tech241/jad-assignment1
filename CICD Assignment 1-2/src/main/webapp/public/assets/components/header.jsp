@@ -127,7 +127,7 @@ if (isLoggedIn) {
             if (isAdmin) {
             %>
             <li>
-                <a href="adminIndex.jsp"><i class='bx bx-cog'></i> Admin</a>
+                <a href="<%= request.getContextPath() %>/public/adminIndex.jsp"><i class='bx bx-cog'></i> Admin</a>
             </li>
             <%
             }
@@ -146,15 +146,15 @@ if (isLoggedIn) {
                 </label>
 
                 <ul id="account-dropdown-menu">
-                    <li><a href="account.jsp">View Account</a></li>
-                    <li><a href="assets/scripts/logout.jsp">Log Out</a></li>
+                    <li><a href="<%= request.getContextPath() %>/public/account.jsp">View Account</a></li>
+                    <li><a href="<%= request.getContextPath() %>/public/assets/scripts/logout.jsp">Log Out</a></li>
                 </ul>
             </li>
             <%
             } else {
             %>
-            <li><a href="login.jsp">Log In</a></li>
-            <li><a href="signup.jsp">Sign Up</a></li>
+            <li><a href="<%= request.getContextPath() %>/public/login.jsp">Log In</a></li>
+            <li><a href="<%= request.getContextPath() %>/public/signup.jsp">Sign Up</a></li>
             <%
             }
             %>
