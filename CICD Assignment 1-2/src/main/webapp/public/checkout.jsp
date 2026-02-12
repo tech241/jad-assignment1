@@ -1,64 +1,139 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.math.BigDecimal"%>
 <%@ page import="models.BookingItem"%>
+<%@ page import="java.time.LocalTime"%>
+<%@ page import="java.time.format.DateTimeFormatter"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Checkout | Silver Care</title>
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/general.css">
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/bookingSummary.css">
+<meta charset="UTF-8">
+<title>Checkout | Silver Care</title>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/general.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/checkout.css">
 </head>
 <body>
 
-<%@ include file="assets/components/header.jsp"%>
-<%@ include file="assets/scripts/loadScripts.jsp"%>
+	<%@ include file="assets/components/header.jsp"%>
+	<%@ include file="assets/scripts/loadScripts.jsp"%>
 
-<%
-  ArrayList<BookingItem> cart = (ArrayList<BookingItem>) request.getAttribute("cart");
-  BigDecimal total = (BigDecimal) request.getAttribute("total");
+	<%
+	ArrayList<BookingItem> cart = (ArrayList<BookingItem>) request.getAttribute("cart");
+	BigDecimal total = (BigDecimal) request.getAttribute("total");
 
-  if (cart == null || cart.isEmpty() || total == null) {
-      response.sendRedirect(request.getContextPath() + "/cart?errMsg=Your cart is empty.");
-      return;
-  }
-%>
+	if (cart == null || cart.isEmpty() || total == null) {
+		response.sendRedirect(request.getContextPath() + "/cart?errMsg=Your cart is empty.");
+		return;
+	}
+	%>
 
-<main class="booking-summary-container">
-  <h1>Checkout</h1>
+	<main class="checkout-wrapper">
+		<div class="checkout-container">
+			<h1>Order Review</h1>
+			<p class="checkout-subtitle">Please review your booking details
+				before payment</p>
 
-  <div style="max-width: 900px; margin: 0 auto;">
-    <h2>Order Summary</h2>
+			<div class="order-summary-section">
+				<h2 class="section-title">Your Bookings</h2>
 
-    <% for (BookingItem item : cart) { %>
-      <div class="booking-card">
-        <h3><%= item.serviceName %></h3>
-        <p><strong>Package:</strong> <%= item.packageName %></p>
-        <p><strong>Date:</strong> <%= item.date %></p>
-        <p><strong>Time:</strong> <%= item.time %></p>
-        <p><strong>Price:</strong> $<%= item.price %></p>
-      </div>
-    <% } %>
+				<%
+				int itemNumber = 1;
+				for (BookingItem item : cart) {
+					// Calculate end time from duration
+					LocalTime startTime = LocalTime.parse(item.time);
+					LocalTime endTime = startTime.plusMinutes(item.durationMinutes);
+				%>
+				<div class="booking-detail-card">
+					<!-- Service Badge & Name -->
+					<div class="booking-header">
+						<span class="item-number">Service <%=itemNumber%></span> <span
+							class="service-name"><%=item.serviceName%></span>
+					</div>
 
-    <div style="text-align:right; margin-top: 16px; font-size: 1.2rem;">
-      <strong>Total: $<%= total.toString() %></strong>
-    </div>
+					<!-- Details Grid (2 columns) -->
+					<div class="booking-details-grid">
+						<div class="detail-row">
+							<span class="detail-label">Package:</span> <span
+								class="detail-value"><%=item.packageName%></span>
+						</div>
 
-    <!-- the stripe endpoint will be placed here later on -->
-    <div style="display:flex; gap: 12px; justify-content:flex-end; margin-top: 20px;">
-      <a class="btn-edit" href="<%=request.getContextPath()%>/cart">Back to Cart</a>
+						<div class="detail-row">
+							<span class="detail-label">Date:</span> <span
+								class="detail-value"><%=item.date%></span>
+						</div>
 
-      <!-- Placeholder: point this to Spring Boot Stripe create-checkout-session endpoint -->
-      <form action="<%=request.getContextPath()%>/stripe/create-checkout-session" method="post">
-  <input type="hidden" name="amount" value="<%= total.toString() %>">
-  <button type="submit" class="btn-finalize">Pay with Stripe</button>
-</form>
-    </div>
-  </div>
-</main>
+						<div class="detail-row">
+							<span class="detail-label">Time:</span> <span
+								class="detail-value"> <%=startTime.format(DateTimeFormatter.ofPattern("hh:mm a"))%>
+								- <%=endTime.format(DateTimeFormatter.ofPattern("hh:mm a"))%>
+							</span>
+						</div>
 
-<%@ include file="assets/components/footer.jsp"%>
+
+						<div class="detail-row">
+							<span class="detail-label">Duration:</span> <span
+								class="detail-value"><%=item.durationMinutes%> minutes</span>
+						</div>
+
+						<div class="detail-row">
+							<span class="detail-label">Caretaker:</span> <span
+								class="detail-value"><%=(item.caretakerName != null && !item.caretakerName.isEmpty() ? item.caretakerName : "Assigned")%></span>
+						</div>
+
+						<!-- Special Notes (if present) -->
+						<%
+						if (item.notes != null && !item.notes.isEmpty()) {
+						%>
+						<div class="detail-row full-width">
+							<span class="detail-label">Special Notes:</span> <span
+								class="detail-value notes"><%=item.notes%></span>
+						</div>
+						<%
+						}
+						%>
+					</div>
+
+					<!-- Price -->
+					<div class="booking-price-row">
+						<span class="price-label">Price:</span> <span class="price-value">$<%=item.price%></span>
+					</div>
+				</div>
+				<%
+				itemNumber++;
+				}
+				%>
+			</div>
+
+			<!-- Order Total Section -->
+			<div class="order-total-section">
+				<div class="total-row">
+					<span class="total-label">Subtotal:</span> <span
+						class="total-value">$<%=total.toString()%></span>
+				</div>
+				<div class="total-row highlight">
+					<span class="total-label-main">Total Amount:</span> <span
+						class="total-value-main">$<%=total.toString()%></span>
+				</div>
+			</div>
+
+			<!-- Action Buttons -->
+			<div class="checkout-actions">
+				<a class="btn-back" href="<%=request.getContextPath()%>/cart">←
+					Back to Cart</a>
+				<form
+					action="<%=request.getContextPath()%>/stripe/create-checkout-session"
+					method="post" class="payment-form">
+					<input type="hidden" name="amount" value="<%=total.toString()%>">
+					<button type="submit" class="btn-pay">Proceed to Payment</button>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<%@ include file="assets/components/footer.jsp"%>
 </body>
 </html>
