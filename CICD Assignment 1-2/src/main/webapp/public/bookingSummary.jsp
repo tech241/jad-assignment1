@@ -81,6 +81,10 @@
 						<%=(item.notes == null || item.notes.isEmpty() ? "None" : item.notes)%>
 					</p>
 					<p>
+      <strong>Assigned Caretaker:</strong>
+      <%=(item.caretakerName != null && !item.caretakerName.isEmpty() ? item.caretakerName : "Not assigned")%>
+  </p>
+					<p>
 						<strong>Price:</strong> $<%=item.price%></p>
 
 
@@ -101,6 +105,9 @@
 				<div style="text-align: center; margin: 30px 0;">
 					<a href="<%=request.getContextPath()%>/checkout"
 						class="btn-finalize"> Proceed to Payment </a>
+						<a href="<%=request.getContextPath()%>/services" class="btn-secondary">
+      + Add More Services
+  </a>
 
 				</div>
 				<!-- booking-summary-container -->
