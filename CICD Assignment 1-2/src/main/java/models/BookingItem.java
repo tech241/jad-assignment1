@@ -9,7 +9,9 @@ public class BookingItem {
     public String time;
     public String notes;
     public String caretaker;
+    public String caretakerName;
     public String price;
+    public int durationMinutes;
 
     public BookingItem() {} // default constructor
 }

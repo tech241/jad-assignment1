@@ -50,12 +50,12 @@ public class StripeConfirmPaymentServlet extends HttpServlet {
             if (status >= 200 && status < 300 && paid && updated) {
                 
                 request.getSession().removeAttribute("cart");
-                response.sendRedirect(request.getContextPath() + "/public/paymentSuccess.jsp?okMsg=Payment confirmed!");
+                response.sendRedirect(request.getContextPath() + "/payment-success?okMsg=Payment confirmed!");
             } else if (status >= 200 && status < 300 && paid) {
                 
-                response.sendRedirect(request.getContextPath() + "/public/paymentSuccess.jsp?okMsg=Payment verified, but booking update not found. Please contact support.");
+                response.sendRedirect(request.getContextPath() + "/payment-success?okMsg=Payment verified, but booking update not found. Please contact support.");
             } else {
-                response.sendRedirect(request.getContextPath() + "/public/paymentSuccess.jsp?errMsg=Payment not confirmed yet. Please refresh in a moment.");
+                response.sendRedirect(request.getContextPath() + "/payment-success?errMsg=Payment not confirmed yet. Please refresh in a moment.");
             }
 
         } catch (Exception e) {

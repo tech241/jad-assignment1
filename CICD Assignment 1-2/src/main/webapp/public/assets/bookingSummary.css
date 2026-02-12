@@ -221,6 +221,24 @@ h1 {
 	transform: translateY(-1px);
 }
 
+.btn-secondary {
+	padding: 12px 24px;
+	background: #6b7280;
+	color: #fff;
+	border-radius: 10px;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.95rem;
+	transition: all 0.2s ease;
+	display: inline-block;
+}
+
+.btn-secondary:hover {
+	background: #4b5563;
+	box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+	transform: translateY(-1px);
+}
+
 h2[style*="text-align: center"] {
 	margin-top: 80px !important;
 	color: #0f4a49;

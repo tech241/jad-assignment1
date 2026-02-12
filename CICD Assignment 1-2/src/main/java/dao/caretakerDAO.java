@@ -66,6 +66,7 @@ public class caretakerDAO {
             }
         }
         return list;
+
     }
     
     public Caretaker getCaretakerById(int caretakerId) throws Exception {

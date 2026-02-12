@@ -13,6 +13,8 @@ public class BookingDisplayItem {
     private LocalTime scheduledTime;
     private BigDecimal price;
     private String notes;
+    private String caretakerName;
+    private String status;
 
     public BookingDisplayItem() {}
 
@@ -36,4 +38,10 @@ public class BookingDisplayItem {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+    
+    public String getCaretakerName() { return caretakerName; }
+    public void setCaretakerName(String caretakerName) {this.caretakerName = caretakerName; }
+    
+    public String getStatus() { return status; }  
+    public void setStatus(String status) { this.status = status; }
 }

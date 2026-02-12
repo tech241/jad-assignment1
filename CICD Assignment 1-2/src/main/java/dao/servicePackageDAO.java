@@ -12,8 +12,8 @@ import java.util.List;
 public class servicePackageDAO {
 
     private static final String SQL_BY_SERVICE =
-        "SELECT package_id, service_id, package_name, package_description, price " +
-        "FROM service_package WHERE service_id = ? ORDER BY price ASC";
+    		"SELECT package_id, service_id, package_name, package_description, price, tier, duration_minutes " +
+    	    "FROM service_package WHERE service_id = ? ORDER BY price ASC";
 
     public List<servicePackage> getPackagesByServiceId(int serviceId) throws Exception {
         List<servicePackage> packages = new ArrayList<>();
@@ -31,6 +31,8 @@ public class servicePackageDAO {
                     p.setPackageName(rs.getString("package_name"));
                     p.setPackageDescription(rs.getString("package_description"));
                     p.setPrice(rs.getDouble("price"));
+                    p.setTier(rs.getString("tier"));
+                    p.setDurationMinutes(rs.getInt("duration_minutes"));
                     packages.add(p);
                 }
             }
@@ -39,10 +41,10 @@ public class servicePackageDAO {
     }
     public servicePackage getPackageSummary(int packageId) throws Exception {
         String sql =
-            "SELECT p.package_id, p.service_id, p.package_name, p.package_description, p.price, s.service_name " +
-            "FROM service_package p " +
-            "INNER JOIN service s ON p.service_id = s.service_id " +
-            "WHERE p.package_id = ?";
+        		"SELECT p.package_id, p.service_id, p.package_name, p.package_description, p.price, p.tier, p.duration_minutes, s.service_name " +
+        			    "FROM service_package p " +
+        			    "INNER JOIN service s ON p.service_id = s.service_id " +
+        			    "WHERE p.package_id = ?";
 
         try (Connection conn = postgresHelper.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -58,6 +60,8 @@ public class servicePackageDAO {
                     p.setPackageDescription(rs.getString("package_description"));
                     p.setPrice(rs.getDouble("price"));
                     p.setServiceName(rs.getString("service_name"));
+                    p.setTier(rs.getString("tier"));
+                    p.setDurationMinutes(rs.getInt("duration_minutes"));
                     return p;
                 }
             }
