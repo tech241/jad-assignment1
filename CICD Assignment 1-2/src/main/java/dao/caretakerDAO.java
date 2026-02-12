@@ -37,4 +37,25 @@ public class caretakerDAO {
         }
         return list;
     }
+    public CaretakerOption getCaretakerById(int caretakerId) throws Exception {
+        String sql = "SELECT caretaker_id, name, experience_years, rating FROM caretaker WHERE caretaker_id = ?";
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, caretakerId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    CaretakerOption c = new CaretakerOption();
+                    c.setCaretakerId(rs.getInt("caretaker_id"));
+                    c.setName(rs.getString("name"));
+                    c.setExperienceYears(rs.getInt("experience_years"));
+                    c.setRating(rs.getDouble("rating"));
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
 }
