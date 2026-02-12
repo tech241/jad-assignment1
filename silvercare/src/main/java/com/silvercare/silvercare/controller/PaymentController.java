@@ -21,7 +21,7 @@ public class PaymentController {
 	
 //	@PostMapping
 	@CrossOrigin
-	@RequestMapping(method=RequestMethod.POST, path="/payment", consumes="application/json")
+	@RequestMapping(method=RequestMethod.POST, path="/api/payment", consumes="application/json")
 	public Map<String, Object> createPayment(@RequestBody Map<String, Object> request) throws StripeException {
 		Stripe.apiKey = System.getenv("SecretKey");
 		System.out.print(System.getenv("SecretKey"));

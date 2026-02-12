@@ -24,7 +24,7 @@ public class CaretakerController {
 	
 //	@PostMapping
 	@CrossOrigin
-	@RequestMapping(method=RequestMethod.GET, path="/caretaker", consumes="application/json")
+	@RequestMapping(method=RequestMethod.GET, path="/api/caretaker", consumes="application/json")
 	public ArrayList<Map<String, Object>> getAllCaretakers() throws StripeException {
 		try {
 			return new CaretakerModel().getCaretaker();
