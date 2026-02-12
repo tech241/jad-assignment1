@@ -21,12 +21,12 @@ import com.stripe.param.PaymentIntentCreateParams;
 import com.silvercare.silvercare.model.*;
 
 @RestController
-@RequestMapping("service")
+
 public class ServiceController {
 	
 //	@PostMapping
 	@CrossOrigin
-	@RequestMapping(method=RequestMethod.GET, path="", consumes="application/json")
+	@RequestMapping(method=RequestMethod.GET, path="/service", consumes="application/json")
 	public ArrayList<Map<String, Object>> getAll(@RequestParam Map<String, String> params) throws StripeException {
 		try {
 			return new ServiceModel().getService(params);
