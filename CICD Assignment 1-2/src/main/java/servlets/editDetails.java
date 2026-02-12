@@ -32,6 +32,12 @@ public class editDetails extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
 		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect(request.getContextPath() + "/public/login.jsp?errMsg=Please log in first.");
+            return;
+		}
+		
 		String url = "editDetails";
 		int id = (int) session.getAttribute("id");
 		String name = request.getParameter("name");

@@ -34,6 +34,12 @@ public class deleteAccount extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect(request.getContextPath() + "/public/login.jsp?errMsg=Please log in first.");
+            return;
+		}
+		
 		String url = "deleteAccount";
 		int id = (int) session.getAttribute("id");
 		String password = request.getParameter("password");
