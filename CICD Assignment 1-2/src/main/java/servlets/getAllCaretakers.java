@@ -1,34 +1,20 @@
 package servlets;
 
-import jakarta.servlet.RequestDispatcher;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import dao.caretakerDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Invocation;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Response;
-import models.BookingItem;
 import models.Caretaker;
-import models.CaretakerOption;
-import models.serviceCategory;
-import models.serviceNavItem;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import dao.caretakerDAO;
 
 /**
  * Servlet implementation class getAllCaretakers
  */
-@WebServlet("/public/getAllCaretakers")
+@WebServlet("/public/adminCaretakers")
 public class getAllCaretakers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

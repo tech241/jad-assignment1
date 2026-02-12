@@ -25,10 +25,6 @@
     <main>
     	<div class="container">
     		<h1>Caretakers</h1>
-    		
-    		<form action="<%= request.getContextPath() %>/public/getAllCaretakers">
-				<button type="submit">List All Caretakers</button>
-			</form>
 			
 			<%
 			Integer nrow = (Integer) request.getAttribute("nrow");

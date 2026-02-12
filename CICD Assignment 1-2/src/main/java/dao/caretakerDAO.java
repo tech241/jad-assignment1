@@ -69,7 +69,7 @@ public class caretakerDAO {
 
     }
     
-    public Caretaker getCaretakerById(int caretakerId) throws Exception {
+    public Caretaker getCaretakerByIdFull(int caretakerId) throws Exception {
         String sql =
             "SELECT * " +
             "FROM caretaker c " +
@@ -94,6 +94,32 @@ public class caretakerDAO {
                     caretaker.setRating(rs.getDouble("rating"));
                     caretaker.setCreatedAt(rs.getTimestamp("created_at"));
                     caretaker.setImageUrl(rs.getString("image_url"));
+                }
+            }
+        }
+        return caretaker;
+    }
+    
+    public CaretakerOption getCaretakerById(int caretakerId) throws Exception {
+        String sql =
+            "SELECT * " +
+            "FROM caretaker c " +
+            "WHERE c.caretaker_id = ?;";
+        
+
+        CaretakerOption caretaker = new CaretakerOption();
+
+        try (Connection conn = postgresHelper.connect();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+        	
+        	ps.setInt(1, caretakerId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    caretaker.setCaretakerId(rs.getInt("caretaker_id"));
+                    caretaker.setName(rs.getString("name"));
+                    caretaker.setExperienceYears(rs.getInt("experience_years"));
+                    caretaker.setRating(rs.getDouble("rating"));
                 }
             }
         }
