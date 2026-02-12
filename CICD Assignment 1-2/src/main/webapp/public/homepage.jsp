@@ -3,14 +3,18 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
 <%@ page import="java.time.format.*"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="servlets.postgresHelper"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Welcome!</title>
-<link rel="stylesheet" href="assets/general.css">
-<link rel="stylesheet" href="assets/homepage.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/general.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/homepage.css">
 </head>
 <body>
 
@@ -21,6 +25,13 @@
 	<%@ include file="assets/scripts/loadScripts.jsp"%>
 
 	<%@ include file="assets/scripts/loadStatistics.jsp"%>
+
+	<%
+	Connection conn = null;
+
+	try {
+		conn = postgresHelper.connect();
+	%>
 
 	<div class="scroll-progress-bar"></div>
 
@@ -37,19 +48,22 @@
 					companionship, and peace of mind for your loved ones.</p>
 
 				<div class="hero-actions">
-					<button class="btn-primary" onclick="location.href='services.jsp'">
+					<button class="btn-primary"
+						onclick="location.href='<%=request.getContextPath()%>/services'">
 						Explore Services</button>
 
 					<%
 					if (!isLoggedIn) {
 					%>
-					<button class="btn-secondary" onclick="location.href='login.jsp'">
+					<button class="btn-secondary"
+						onclick="location.href='<%=request.getContextPath()%>/public/login.jsp'">
 						Become a Client</button>
 					<%
 					} else {
 					%>
 					<button class="btn-secondary"
-						onclick="location.href='services.jsp'">Book a Service</button>
+						onclick="location.href='<%=request.getContextPath()%>/services'">Book
+						a Service</button>
 					<%
 					}
 					%>
@@ -85,9 +99,9 @@
 			</div>
 
 			<div class="nb-actions">
-				<a href="<%=request.getContextPath()%>/bookings/upcoming" class="nb-btn-primary">View
-					Upcoming</a> <a href="services.jsp" class="nb-btn-link">Book
-					Another</a>
+				<a href="<%=request.getContextPath()%>/bookings/upcoming"
+					class="nb-btn-primary">View Upcoming</a> <a href="services.jsp"
+					class="nb-btn-link">Book Another</a>
 			</div>
 		</section>
 
@@ -259,5 +273,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	<!-- Footer -->
 	<%@ include file="assets/components/footer.jsp"%>
+
+	<%
+	} catch (Exception e) {
+	out.println("<p style='color:red;'>Database error: " + e.getMessage() + "</p>");
+	} finally {
+	try {
+		if (conn != null)
+			conn.close();
+	} catch (Exception ignore) {
+	}
+	}
+	%>
+
 </body>
 </html>
