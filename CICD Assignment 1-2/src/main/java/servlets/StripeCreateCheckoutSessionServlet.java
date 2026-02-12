@@ -15,7 +15,9 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.Types;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 @WebServlet("/stripe/create-checkout-session")
@@ -30,7 +32,7 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            
+
             Object idObj = session.getAttribute("id");
             if (idObj == null) {
                 response.sendRedirect(request.getContextPath() + "/public/login.jsp?errMsg=Please log in first.");
@@ -38,7 +40,6 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
             }
             int memberId = Integer.parseInt(idObj.toString());
 
-            
             @SuppressWarnings("unchecked")
             ArrayList<BookingItem> cart =
                     (ArrayList<BookingItem>) session.getAttribute("cart");
@@ -51,9 +52,44 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
             ArrayList<Integer> bookingIds = new ArrayList<>();
             long totalCents = 0;
 
-            
+            // checking again before inserting bookings into database to ensure booked at correct time
             for (BookingItem item : cart) {
 
+                int serviceId = Integer.parseInt(item.serviceId);
+                int packageId = Integer.parseInt(item.packageId);
+
+                int durationMin = bookingDAO.getPackageDurationMinutes(packageId);
+
+                LocalTime start = LocalTime.parse(item.time); // "HH:mm"
+                LocalTime end = start.plusMinutes(durationMin);
+
+                Integer preferredCaretakerId = null;
+                if (item.caretaker != null && !item.caretaker.isBlank()) {
+                    try {
+                        preferredCaretakerId = Integer.parseInt(item.caretaker);
+                    } catch (Exception ignore) {
+                        preferredCaretakerId = null;
+                    }
+                }
+
+                Integer assignedCaretaker = bookingDAO.findAnyAvailableCaretaker(
+                        serviceId,
+                        Date.valueOf(item.date),
+                        Time.valueOf(start),
+                        Time.valueOf(end),
+                        preferredCaretakerId
+                );
+
+                if (assignedCaretaker == null) {
+                    response.sendRedirect(request.getContextPath()
+                            + "/cart?errMsg=One of your selected slots is no longer available. Please re-check availability.");
+                    return;
+                }
+
+                // ✅ update item caretaker to the final assigned caretaker (supports multiple caretakers per slot)
+                item.caretaker = String.valueOf(assignedCaretaker);
+
+                // Now insert booking
                 int bookingId = bookingDAO.createBookingReturnId(memberId, item);
                 bookingIds.add(bookingId);
 
@@ -62,16 +98,14 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
                 totalCents += price.multiply(new BigDecimal("100")).longValue();
             }
 
-            
             String payloadJson = "{"
                     + "\"amountCents\":" + totalCents + ","
                     + "\"currency\":\"sgd\","
                     + "\"bookingIds\":\"" + bookingIds.toString() + "\""
                     + "}";
 
-            
             @SuppressWarnings("deprecation")
-			URL url = new URL("http://localhost:8081/api/stripe/checkout-session");
+            URL url = new URL("http://localhost:8081/api/stripe/checkout-session");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
@@ -80,18 +114,13 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
 
             String resJson = new String(con.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 
-            
             String sessionId = extractJsonValue(resJson, "sessionId");
             String checkoutUrl = extractJsonValue(resJson, "url");
-            
-            
 
-            
             for (int bid : bookingIds) {
                 bookingDAO.setPaymentRef(bid, sessionId);
             }
 
-            
             response.sendRedirect(checkoutUrl);
 
         } catch (Exception e) {
@@ -100,7 +129,6 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
         }
     }
 
-    // Simple JSON extractor (quick method)
     private String extractJsonValue(String json, String key) {
         String pattern = "\"" + key + "\":\"";
         int i = json.indexOf(pattern);
@@ -109,13 +137,10 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
         int end = json.indexOf("\"", start);
         return end > start ? json.substring(start, end) : null;
     }
-    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);
     }
-
 }
-

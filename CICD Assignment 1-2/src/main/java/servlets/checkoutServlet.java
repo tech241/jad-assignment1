@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.serviceCategoryDAO;
+import dao.caretakerDAO;
 import dao.serviceDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,6 +24,7 @@ public class checkoutServlet extends HttpServlet {
 
     private final serviceCategoryDAO categoryDAO = new serviceCategoryDAO();
     private final serviceDAO serviceDAO = new serviceDAO();
+    private final caretakerDAO caretakerDAO = new caretakerDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -49,14 +51,28 @@ public class checkoutServlet extends HttpServlet {
             req.setAttribute("navCategories", navCategories);
             req.setAttribute("navServicesByCat", navServicesByCat);
 
-            // Compute total
+            // Compute total and display cart items with caretaker info
             BigDecimal total = BigDecimal.ZERO;
+            
             for (BookingItem item : cart) {
                 if (item.price != null && !item.price.isBlank()) {
                     try {
                         total = total.add(new BigDecimal(item.price.trim()));
                     } catch (Exception ignore) {
                         // skip invalid price values
+                    }
+                }
+                
+                // If caretaker name is missing, fetch it
+                if (item.caretakerName == null || item.caretakerName.isEmpty()) {
+                    try {
+                        int caretakerId = Integer.parseInt(item.caretaker);
+                        models.CaretakerOption caretakerInfo = caretakerDAO.getCaretakerById(caretakerId);
+                        if (caretakerInfo != null) {
+                            item.caretakerName = caretakerInfo.getName();
+                        }
+                    } catch (Exception e) {
+                        item.caretakerName = "Assigned";
                     }
                 }
             }
