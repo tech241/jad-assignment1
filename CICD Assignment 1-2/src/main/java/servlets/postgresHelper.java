@@ -58,18 +58,30 @@ public class postgresHelper {
 			int index = 1;
 			
 			for (Object parameter : parameters) {
-				if (parameter instanceof String) {
-					stmt.setString(index, (String) parameter);
-				} else if (parameter instanceof Integer) {
-					stmt.setInt(index, (int) parameter);
-				} else if (parameter instanceof Boolean) {
-					stmt.setBoolean(index, (boolean) parameter);
-				} else if (parameter instanceof Date) {
-					stmt.setDate(index, (Date) parameter);
-				}
-				
-				index ++;
+			    if (parameter == null) {
+			        stmt.setObject(index, null);
+			    } else if (parameter instanceof String) {
+			        stmt.setString(index, (String) parameter);
+			    } else if (parameter instanceof Integer) {
+			        stmt.setInt(index, (int) parameter);
+			    } else if (parameter instanceof Boolean) {
+			        stmt.setBoolean(index, (boolean) parameter);
+			    } else if (parameter instanceof Date) {
+			        stmt.setDate(index, (Date) parameter);
+			    } else if (parameter instanceof java.sql.Array) {
+			        stmt.setArray(index, (java.sql.Array) parameter);
+			    } else if (parameter instanceof Double) {
+			        stmt.setDouble(index, (double) parameter);
+			    } else if (parameter instanceof java.sql.Timestamp) {
+			        stmt.setTimestamp(index, (java.sql.Timestamp) parameter);
+			    } else {
+			        // fallback for any other types
+			        stmt.setObject(index, parameter);
+			    }
+
+			    index++;
 			}
+
 				
 			// Step 5: Execute SQL Command
 			if (sqlStr.toUpperCase().contains("INSERT")) {
@@ -147,6 +159,7 @@ public class postgresHelper {
 		session.setAttribute("id", id);
 		session.setAttribute("name", name);
 		session.setAttribute("email", email);
+		
 	}
 	
 	public static void setSession(HttpSession session, int id, String name, String email, String role) {
@@ -217,5 +230,27 @@ public class postgresHelper {
 		// otherwise verify by name
 		
 		postgresHelper.query("SELECT * FROM member WHERE id = ?", process, id);
+	}
+	public static void loadMemberProfileToSession(HttpSession session, int memberId) {
+	    BiConsumer<ResultSet, Integer> process = (rs, idx) -> {
+	        if (rs == null) return;
+
+	        try {
+	            session.setAttribute("phone", rs.getString("phone"));
+	            session.setAttribute("address", rs.getString("address"));
+	            session.setAttribute("emergency_contact_name", rs.getString("emergency_contact_name"));
+	            session.setAttribute("emergency_contact_phone", rs.getString("emergency_contact_phone"));
+	            session.setAttribute("residential_area_code", rs.getString("residential_area_code"));
+
+	            java.sql.Array arr = rs.getArray("care_needs");
+	            String[] needs = (arr == null) ? new String[]{} : (String[]) arr.getArray();
+	            session.setAttribute("care_needs", needs);
+
+	        } catch (Exception e) {
+	            System.out.println("Error loading member profile: " + e);
+	        }
+	    };
+
+	    postgresHelper.query("SELECT phone, address, emergency_contact_name, emergency_contact_phone, residential_area_code, care_needs FROM member WHERE id = ?", process, memberId);
 	}
 }
