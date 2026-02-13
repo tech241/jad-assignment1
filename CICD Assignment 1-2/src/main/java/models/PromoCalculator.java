@@ -15,6 +15,19 @@ public class PromoCalculator {
         }
 
         r.appliedCode = promo.getCode();
+        
+     // must be discount promo (not info-only promo for banner)
+        if (promo.getDiscountType() == null || promo.getDiscountValue() <= 0) {
+            r.ok = false;
+            r.message = "This promotion is informational only and cannot be applied as a discount.";
+            return r;
+        }
+        
+        if (!promo.isActive() || !promo.isShowCheckout()) {
+            r.ok = false;
+            r.message = "Promo code is not available.";
+            return r;
+        }
 
         // min spend check against totalWithGst 
         BigDecimal minSpend = BigDecimal.valueOf(promo.getMinSpend()).setScale(2, RoundingMode.HALF_UP);

@@ -46,7 +46,7 @@ public class ApplyPromoServlet extends HttpServlet {
 
             // store promo in session
             req.getSession().setAttribute("appliedPromo", promo);
-            resp.sendRedirect(req.getContextPath() + "/checkout?msg=Promo applied: " + code);
+            resp.sendRedirect(req.getContextPath() + "/checkout?msg=Promo applied: " + code.toUpperCase());
 
         } catch (Exception e) {
             e.printStackTrace();

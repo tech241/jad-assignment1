@@ -58,25 +58,31 @@ public class PromotionDAO {
 
     // For applying code (must be code-based + active + in date range)
     public Promotion getValidPromoByCode(String code) throws Exception {
-        String sql = """
-            SELECT *
-            FROM promotion
-            WHERE LOWER(code) = LOWER(?)
-              AND is_active = TRUE
-              AND (start_date IS NULL OR start_date <= CURRENT_DATE)
-              AND (end_date IS NULL OR end_date >= CURRENT_DATE)
-        """;
+        if (code == null) return null;
+        code = code.trim();
+        if (code.isEmpty()) return null;
+
+        String sql =
+            "SELECT * FROM promotion " +
+            "WHERE UPPER(code) = UPPER(?) " +
+            "  AND is_active = TRUE " +
+            "  AND show_checkout = TRUE " +
+            "  AND (start_date IS NULL OR start_date <= CURRENT_DATE) " +
+            "  AND (end_date IS NULL OR end_date >= CURRENT_DATE) " +
+            "LIMIT 1";
 
         try (Connection conn = postgresHelper.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, code == null ? null : code.trim());
+            ps.setString(1, code);
+
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return map(rs);
+                if (rs.next()) return map(rs); // your existing mapper
             }
         }
         return null;
     }
+
 
     // --- Admin side stuff ---
     public List<Promotion> getAllPromotions() throws Exception {
@@ -99,4 +105,26 @@ public class PromotionDAO {
             ps.executeUpdate();
         }
     }
+ // Show ONE promo on homepage (dynamic banner from assignment brief) 
+    public Promotion getActiveHomePromotion() throws Exception {
+        String sql = """
+            SELECT *
+            FROM promotion
+            WHERE show_home = TRUE
+              AND is_active = TRUE
+              AND (start_date IS NULL OR start_date <= CURRENT_DATE)
+              AND (end_date IS NULL OR end_date >= CURRENT_DATE)
+            ORDER BY start_date DESC NULLS LAST, promo_id DESC
+            LIMIT 1
+        """;
+
+        try (Connection conn = postgresHelper.connect();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) return map(rs);
+        }
+        return null;
+    }
+
 }
