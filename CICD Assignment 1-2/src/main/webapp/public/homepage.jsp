@@ -5,6 +5,7 @@
 <%@ page import="java.time.format.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="servlets.postgresHelper"%>
+<%@ page import="models.Promotion" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,6 +71,42 @@
 				</div>
 			</div>
 		</section>
+		
+		<%
+Promotion homePromo = (Promotion) request.getAttribute("homePromo");
+if (homePromo != null) {
+%>
+
+<section class="promo-banner">
+  <div class="promo-content">
+    <div class="promo-text">
+      <p class="promo-tag"><%= homePromo.getThemeTag() == null ? "Seasonal Promotion" : homePromo.getThemeTag() %></p>
+      <h2><%= homePromo.getTitle() %></h2>
+      <p class="promo-desc"><%= homePromo.getDescription() == null ? "" : homePromo.getDescription() %></p>
+
+      <% if (homePromo.getCode() != null && !homePromo.getCode().trim().isEmpty()) { %>
+        <div class="promo-code">
+          Use code: <span><%= homePromo.getCode() %></span>
+        </div>
+      <% } %>
+
+      <div class="promo-actions">
+        <a class="promo-btn" href="<%=request.getContextPath()%>/services">Explore Services</a>
+        <a class="promo-link" href="<%=request.getContextPath()%>/public/checkout.jsp">Go to Checkout</a>
+      </div>
+    </div>
+
+    <% if (homePromo.getImagePath() != null && !homePromo.getImagePath().trim().isEmpty()) { %>
+  <div class="promo-image">
+    <img src="<%= request.getContextPath() + homePromo.getImagePath() %>" 
+         alt="Promotion banner">
+  </div>
+<% } %>
+  </div>
+</section>
+
+<% } %>
+		
 
 
 		<%
