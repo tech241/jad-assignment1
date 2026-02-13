@@ -127,3 +127,7 @@ h1 {
 		margin-top: 18px;
 	}
 }
+
+.card { overflow: visible !important; }
+.page-wrap { padding-bottom: 120px; }
+.btn.btn-primary { background: #0f7a77 !important; color: #fff !important; }
