@@ -38,6 +38,11 @@ if (errMsg != null) {
 
     <main class="bookings-wrapper">
         <h1>Past Bookings</h1>
+        <div class="bookings-tabs">
+  <a class="tab" href="<%=request.getContextPath()%>/bookings/upcoming">Upcoming</a>
+  <a class="tab active" href="<%=request.getContextPath()%>/bookings/past">Past</a>
+</div>
+        
 
         <div class="bookings-list">
             <% if (bookings == null || bookings.isEmpty()) { %>
@@ -46,19 +51,59 @@ if (errMsg != null) {
 
                 <% for (BookingDisplayItem b : bookings) { %>
                     <div class="booking-card past">
-                        <h2><%= b.getServiceName() %></h2>
 
-                        <p><strong>Package:</strong> <%= b.getPackageName() %></p>
-                        <p><strong>Date:</strong> <%= b.getScheduledDate() %></p>
-                        <p><strong>Time:</strong> <%= b.getScheduledTime() %></p>
-                        <p><strong>Price:</strong> $<%= b.getPrice() %></p>
-                        <p><strong>Notes:</strong> <%= b.getNotes() %></p>
+  <div class="booking-header">
+    <div>
+      <p class="booking-title"><%= b.getServiceName() %></p>
+      <p class="booking-sub"><%= b.getPackageName() %></p>
+    </div>
+    <%
+String status = b.getStatus();
+String badgeClass = "badge-default";
+String label = status;
 
-                        <a class="feedback-btn"
-                           href="<%=request.getContextPath()%>/public/feedback.jsp?booking_id=<%= b.getBookingId() %>">
-                           Leave Feedback
-                        </a>
-                    </div>
+if ("CANCELLED".equalsIgnoreCase(status)) { badgeClass = "badge-cancelled"; label = "CANCELLED"; }
+else if ("COMPLETED".equalsIgnoreCase(status)) { badgeClass = "badge-completed"; label = "COMPLETED"; }
+else if ("PAID".equalsIgnoreCase(status)) { badgeClass = "badge-paid"; label = "PAID"; }
+else if ("PENDING".equalsIgnoreCase(status)) { badgeClass = "badge-pending"; label = "PENDING"; }
+%>
+<% if ("COMPLETED".equalsIgnoreCase(b.getStatus())) { %>
+  <a class="btn btn-primary"
+     href="<%=request.getContextPath()%>/public/feedback.jsp?booking_id=<%= b.getBookingId() %>">
+     Leave Feedback
+  </a>
+<% } %>
+
+
+<span class="status-badge <%=badgeClass%>"><%=label%></span>
+
+  </div>
+
+  <div class="booking-grid">
+    <div><span class="label">Date</span><span class="value"><%= b.getScheduledDate() %></span></div>
+    <div><span class="label">Time</span><span class="value"><%= b.getScheduledTime() %></span></div>
+    <div><span class="label">Price</span><span class="value">$<%= b.getPrice() %></span></div>
+    <div><span class="label">Booking ID</span><span class="value">#<%= b.getBookingId() %></span></div>
+  </div>
+
+  <% if (b.getNotes() != null && !b.getNotes().trim().isEmpty()) { %>
+    <p class="notes"><strong>Notes:</strong> <%= b.getNotes() %></p>
+  <% } %>
+
+  <div class="actions">
+    <a class="btn btn-primary"
+       href="<%=request.getContextPath()%>/public/feedback.jsp?booking_id=<%= b.getBookingId() %>">
+       Leave Feedback
+    </a>
+
+    <a class="btn btn-ghost"
+       href="<%=request.getContextPath()%>/public/bookingDetails.jsp?booking_id=<%= b.getBookingId() %>">
+       View Details
+    </a>
+  </div>
+
+</div>
+
                 <% } %>
 
             <% } %>
