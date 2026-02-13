@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import dao.caretakerDAO;
 import jakarta.servlet.ServletException;
@@ -14,14 +13,14 @@ import models.Caretaker;
 /**
  * Servlet implementation class getAllCaretakers
  */
-@WebServlet("/public/adminCaretakers")
-public class getAllCaretakers extends HttpServlet {
+@WebServlet("/public/adminEditCaretaker")
+public class loadAdminEditCaretaker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getAllCaretakers() {
+    public loadAdminEditCaretaker() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,9 +39,9 @@ public class getAllCaretakers extends HttpServlet {
 
         try {
             // header nav data
-            ArrayList<Caretaker> caretakers = new caretakerDAO().getCaretakers();
-            request.setAttribute("caretakers", caretakers);
-            request.getRequestDispatcher("/public/adminCaretakers.jsp").forward(request, response);
+            Caretaker caretaker = new caretakerDAO().getCaretakerByIdFull(Integer.parseInt(request.getParameter("caretakerId")));
+            request.setAttribute("caretaker", caretaker);
+            request.getRequestDispatcher("/public/adminEditCaretaker.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
