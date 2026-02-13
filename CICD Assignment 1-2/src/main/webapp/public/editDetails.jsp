@@ -7,8 +7,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/general.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/public/assets/accountoptions.css?v=<%=System.currentTimeMillis()%>">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/general.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/public/assets/accountoptions.css?v=<%=System.currentTimeMillis()%>">
 </head>
 <body>
 
@@ -103,8 +105,7 @@
 								} else {
 								String imgSrc = profileImage.startsWith("http") ? profileImage : request.getContextPath() + "/public/" + profileImage;
 								%>
-								<img class="profile-pic" src="<%=imgSrc%>"
-									alt="Profile Picture">
+								<img class="profile-pic" src="<%=imgSrc%>" alt="Profile Picture">
 								<%
 								}
 								%>
@@ -147,6 +148,7 @@
 								placeholder="Optional"><%=address == null ? "" : address%></textarea>
 						</div>
 
+						<!-- Care Needs -->
 						<div class="field full">
 							<label>Specific Care Needs</label>
 							<div class="checkbox-grid">
@@ -172,31 +174,98 @@
 							</div>
 						</div>
 
+						<div class="field full">
+							<label for="careOther">Other Care Needs (optional)</label> <input
+								type="text" id="careOther" name="careOther"
+								placeholder="e.g. Requires help with showering, needs reminder to eat">
+							<small class="hint">If not listed above, describe here.</small>
+						</div>
+
+						<div class="field">
+							<label for="mobilityLevel">Mobility Level (optional)</label> <select
+								id="mobilityLevel" name="mobilityLevel">
+								<option value="">-- Select --</option>
+								<option value="Independent">Independent</option>
+								<option value="Walking Aid">Walking Aid</option>
+								<option value="Wheelchair">Wheelchair</option>
+								<option value="Bedbound">Bedbound</option>
+							</select>
+						</div>
+
+						<div class="field">
+							<label for="preferredLanguage">Preferred Communication
+								(optional)</label> <select id="preferredLanguage"
+								name="preferredLanguage">
+								<option value="">-- Select --</option>
+								<option value="English">English</option>
+								<option value="Mandarin">Mandarin</option>
+								<option value="Malay">Malay</option>
+								<option value="Tamil">Tamil</option>
+								<option value="Simple/Slow Speech">Simple/Slow Speech</option>
+							</select>
+						</div>
+
+						<div class="field full">
+							<label for="allergies">Allergies (optional)</label> <input
+								type="text" id="allergies" name="allergies"
+								placeholder="e.g. Penicillin, peanuts, seafood">
+						</div>
+
+						<div class="field full">
+							<label for="careNotes">Care Notes / Instructions
+								(optional)</label>
+							<textarea id="careNotes" name="careNotes" rows="3"
+								placeholder="e.g. Prefers warm water shower, anxious with strangers, needs gentle reminders"></textarea>
+						</div>
+
+						<!-- Emergency Contact (PRIMARY - REQUIRED) -->
+						<div class="field full">
+							<h3 style="margin: 10px 0 0;">Emergency Contact (Primary)</h3>
+							<small class="hint">This is required for safety purposes.</small>
+						</div>
+
 						<div class="field">
 							<label for="emergencyName">Emergency Contact Name</label> <input
 								type="text" name="emergencyName" id="emergencyName"
-								value="<%=emergencyName == null ? "" : emergencyName%>">
+								value="<%=emergencyName == null ? "" : emergencyName%>" required>
 						</div>
 
 						<div class="field">
-							<label for="emergencyPhone">Emergency Contact Phone</label> <input
-								type="tel" name="emergencyPhone" id="emergencyPhone"
-								value="<%=emergencyPhone == null ? "" : emergencyPhone%>"
-								pattern="^[689][0-9]{7}$" maxlength="8" inputmode="numeric"
-								title="Singapore phone number must be 8 digits and start with 6, 8, or 9.">
+							<label for="emergencyRelation">Relationship</label> <select
+								id="emergencyRelation" name="emergencyRelation" required>
+								<option value="">-- Select --</option>
+								<option value="Spouse">Spouse</option>
+								<option value="Child">Child</option>
+								<option value="Sibling">Sibling</option>
+								<option value="Friend">Friend</option>
+								<option value="Helper">Helper</option>
+								<option value="Other">Other</option>
+							</select>
 						</div>
 
+						<div class="field">
+							<label for="emergencyPhone">Emergency Contact Phone
+								(Singapore)</label> <input type="tel" name="emergencyPhone"
+								id="emergencyPhone"
+								value="<%=emergencyPhone == null ? "" : emergencyPhone%>"
+								pattern="^[689][0-9]{7}$" maxlength="8" inputmode="numeric"
+								title="Singapore phone number must be 8 digits and start with 6, 8, or 9."
+								required>
+						</div>
+
+						<!-- Password confirm -->
 						<div class="field full">
 							<label for="password">Enter current password to confirm
 								changes</label> <input type="password" name="password" id="password"
 								required>
 						</div>
 
+
 					</div>
 					<!-- form-grid -->
 
 					<div class="form-actions">
-					<!-- DEBUG MARKER: EDIT DETAILS JSP LOADED -->
+						<!-- DEBUG MARKER: EDIT DETAILS JSP LOADED -->
 						<button type="submit" class="btn btn-primary">Save
 							Changes</button>
 					</div>
@@ -223,6 +292,18 @@
     const digitsOnly = (v) => (v || "").replace(/\D/g, ""); // remove all non-digits
     const sgPhone = (v) => /^[689]\d{7}$/.test(digitsOnly(v));
     const sgPostal = (v) => /^\d{6}$/.test(digitsOnly(v));
+    
+    const emergencyName = document.getElementById("emergencyName");
+    const emergencyRelation = document.getElementById("emergencyRelation");
+
+    if (emergencyName && emergencyName.value.trim() === "") {
+      errors.push("Emergency contact name is required.");
+    }
+    if (emergencyRelation && emergencyRelation.value.trim() === "") {
+      errors.push("Emergency contact relationship is required.");
+    }
+
+
 
     form.addEventListener("submit", function (e) {
       let errors = [];
@@ -247,7 +328,7 @@
         e.preventDefault();
         if (alertBox) {
           alertBox.style.display = "block";
-          alertBox.textContent = errors[0]; // show first error only (clean)
+          alertBox.textContent = errors[0]; // show first error only
         } else {
           alert(errors[0]);
         }
