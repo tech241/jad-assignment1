@@ -253,4 +253,54 @@ public class postgresHelper {
 
 	    postgresHelper.query("SELECT phone, address, emergency_contact_name, emergency_contact_phone, residential_area_code, care_needs FROM member WHERE id = ?", process, memberId);
 	}
+	public static void setMemberSessionFromResult(HttpSession session, ResultSet rs) {
+	    try {
+	        session.setAttribute("id", rs.getInt("id"));
+	        session.setAttribute("name", rs.getString("name"));
+	        session.setAttribute("email", rs.getString("email"));
+	        session.setAttribute("role", rs.getString("role"));
+
+	        session.setAttribute("phone", rs.getString("phone"));
+	        session.setAttribute("address", rs.getString("address"));
+	        session.setAttribute("emergency_contact_name", rs.getString("emergency_contact_name"));
+	        session.setAttribute("emergency_contact_phone", rs.getString("emergency_contact_phone"));
+	        session.setAttribute("residential_area_code", rs.getString("residential_area_code"));
+
+	        // care_needs is text[] in PostgreSQL
+	        java.sql.Array arr = rs.getArray("care_needs");
+	        if (arr != null) {
+	            String[] needs = (String[]) arr.getArray();
+	            session.setAttribute("care_needs", needs);
+	        } else {
+	            session.setAttribute("care_needs", new String[]{});
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("Error setMemberSessionFromResult: " + e);
+	        // fallback so pages don't crash
+	        session.setAttribute("care_needs", new String[]{});
+	    }
+	}
+	public static void setSessionFromMemberRow(HttpSession session, ResultSet rs) {
+	    try {
+	        session.setAttribute("id", rs.getInt("id"));
+	        session.setAttribute("name", rs.getString("name"));
+	        session.setAttribute("email", rs.getString("email"));
+	        session.setAttribute("role", rs.getString("role"));
+
+	        session.setAttribute("phone", rs.getString("phone"));
+	        session.setAttribute("address", rs.getString("address"));
+	        session.setAttribute("emergency_contact_name", rs.getString("emergency_contact_name"));
+	        session.setAttribute("emergency_contact_phone", rs.getString("emergency_contact_phone"));
+	        session.setAttribute("residential_area_code", rs.getString("residential_area_code"));
+
+	        java.sql.Array arr = rs.getArray("care_needs");
+	        session.setAttribute("care_needs", arr == null ? new String[]{} : (String[]) arr.getArray());
+	    } catch (Exception e) {
+	        System.out.println("Error setSessionFromMemberRow: " + e);
+	        session.setAttribute("care_needs", new String[]{});
+	    }
+	}
+
+
 }
