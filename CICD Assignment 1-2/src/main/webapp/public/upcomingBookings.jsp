@@ -43,7 +43,7 @@
     </div>
 
     <%
-      // ---------- NEXT APPOINTMENT SUMMARY (TOP) ----------
+      // ---------- summary for next and most upcoming appt! ----------
       LocalDateTime now = LocalDateTime.now();
       BookingDisplayItem nextBooking = null;
       LocalDateTime nextDt = null;
@@ -106,7 +106,7 @@
     %>
 
     <%
-      // ---------- MAIN LIST ----------
+      // ---------- main list of upcoming appts ----------
       if (bookings == null || bookings.isEmpty()) {
     %>
       <p class="empty-msg">No upcoming bookings found.</p>
