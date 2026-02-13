@@ -41,7 +41,7 @@
         <div class="card h-100">
           <%-- Adjust this depending on how you store cat_logo --%>
           <img class="card-img-top"
-               src="assets/images/<%= c.getLogo() %>"
+               src="<%= request.getContextPath() %>/public/assets/images/<%= c.getLogo() %>"
                alt="<%= c.getName() %>"/>
 
           <div class="card-body">

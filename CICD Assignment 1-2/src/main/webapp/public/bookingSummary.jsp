@@ -103,11 +103,8 @@
 
 				<!-- ONE checkout button for whole cart -->
 				<div style="text-align: center; margin: 30px 0;">
-					<a href="<%=request.getContextPath()%>/checkout"
-						class="btn-finalize"> Proceed to Payment </a>
-						<a href="<%=request.getContextPath()%>/services" class="btn-secondary">
-      + Add More Services
-  </a>
+					<a href="<%=request.getContextPath()%>/checkout" class="btn-primary adjacent">Proceed to Payment</a>
+						<a href="<%=request.getContextPath()%>/services" class="btn-secondary">+ Add More Services</a>
 
 				</div>
 				<!-- booking-summary-container -->

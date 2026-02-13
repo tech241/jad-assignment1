@@ -69,13 +69,13 @@
           <%
             if (imagePath != null && !imagePath.trim().isEmpty()) {
           %>
-            <img src="assets/images/<%= imagePath %>"
+            <img src="<%= request.getContextPath() %>/public/assets/images/<%= imagePath %>"
                  alt="<%= serviceName %>"
-                 onerror="this.src='assets/images/default_image.png'">
+                 onerror="this.src='<%= request.getContextPath() %>/public/assets/images/default_image.png'">
           <%
             } else {
           %>
-            <img src="assets/images/default-service.png" alt="<%= serviceName %>">
+            <img src="<%= request.getContextPath() %>/public/assets/images/default-service.png" alt="<%= serviceName %>">
           <%
             }
           %>

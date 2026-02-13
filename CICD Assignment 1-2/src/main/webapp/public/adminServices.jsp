@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -177,7 +178,7 @@
 				%>
 
 				<div class="service-card">
-					<img src="assets/<%=rsCat3.getString("image_path")%>"><br>
+					<img src="<%=request.getContextPath()%>/public/assets/<%=(rsCat3.getString("image_path").startsWith("images/") ? "" : "images/") + rsCat3.getString("image_path")%>"><br>
 					<span> <strong><%=rsCat3.getString("service_name")%></strong><br>
 						<small><%=rsCat3.getString("cat_name")%></small><br> <%=rsCat3.getString("service_description")%><br>
 						<a

@@ -293,6 +293,10 @@ h2[style*="text-align: center"] {
 	background: #1d4ed8;
 }
 
+.adjacent {
+	margin-right: 16px;
+}
+
 /* small animation */
 @keyframes fadeIn {from { opacity:0;
 	transform: translateY(10px);

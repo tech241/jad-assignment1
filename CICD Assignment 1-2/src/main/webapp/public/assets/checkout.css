@@ -45,6 +45,7 @@ h1 {
 .checkout-container {
     width: 100%;
     max-width: 900px;
+    height: calc(100vh + 256px);
 }
 
 .section-title {

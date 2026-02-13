@@ -54,11 +54,11 @@
       <div class="service-image-box">
         <%
           String imgToUse = (imagePath != null && !imagePath.trim().isEmpty())
-              ? ("assets/images/" + imagePath)
-              : "assets/images/default_image.png";
+              ? (request.getContextPath() + "/public/assets/images/" + imagePath)
+              : request.getContextPath() + "/public/assets/images/default_image.png";
         %>
         <img src="<%= imgToUse %>"
-             onerror="this.src='assets/images/default_image.png'"
+             onerror="this.src='<%= request.getContextPath() %>/public/assets/images/default_image.png'"
              alt="<%= serviceName %>">
       </div>
 
