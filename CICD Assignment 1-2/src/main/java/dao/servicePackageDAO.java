@@ -26,6 +26,7 @@ public class servicePackageDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     servicePackage p = new servicePackage();
+                	p.debugTest();
                     p.setPackageId(rs.getInt("package_id"));
                     p.setServiceId(rs.getInt("service_id"));
                     p.setPackageName(rs.getString("package_name"));
@@ -68,4 +69,6 @@ public class servicePackageDAO {
         }
         return null;
     }
+    
 }
+
