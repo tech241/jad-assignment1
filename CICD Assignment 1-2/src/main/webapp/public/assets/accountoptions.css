@@ -1,7 +1,8 @@
-@charset "UTF-8";
+/* @charset "UTF-8";
 
-@import url(account.css);
+@import url(account.css); */
 
+/*
 .center {
 	position: relative;
 
@@ -34,4 +35,379 @@ label, input, textarea, select {
 
 & #submit {
 	margin-bottom: 16px;
+} */
+
+/* .center {
+  width: 100%;
+  min-height: var(--height-no-scroll);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 16px;
 }
+
+.container {
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 26px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.container h1 {
+  margin: 0 0 18px 0;
+  font-size: 28px;
+}
+
+label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input, textarea {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.18);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+input:focus, textarea:focus {
+  border-color: rgba(0,0,0,0.35);
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin-top: 6px;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 18px;
+  padding: 11px 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--primary-colour);
+  color: white;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.92;
+}
+
+#errMsg, .form-alert {
+  display: block;
+  margin: 10px 0 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(220, 53, 69, 0.10);
+  color: var(--system-colour-red);
+  border: 1px solid rgba(220, 53, 69, 0.25);
+  font-size: 14px;
+} */
+
+@charset "UTF-8";
+@import url(account.css);
+
+/* page layout */
+.page-wrap {
+  width: 100%;
+  min-height: 100vh;      /* ✅ allow full height */
+  display: flex;
+  justify-content: center;
+  padding: 46px 16px 220px; /* ✅ enough space above footer */
+}
+
+.profile-shell {
+  width: 100%;
+  max-width: 920px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 18px;
+  letter-spacing: -0.5px;
+}
+
+/* two-column layout for account page */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+}
+
+@media (max-width: 880px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* card */
+.card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.04);
+}
+
+.avatar svg {
+  width: 30px;
+  height: 30px;
+  opacity: 0.8;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.card-subtitle {
+  margin: 3px 0 0;
+  font-size: 13px;
+  opacity: 0.72;
+}
+
+/* rows and labels */
+.kv {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 10px 14px;
+  align-items: start;
+  font-size: 14px;
+}
+
+@media (max-width: 520px) {
+  .kv { grid-template-columns: 1fr; }
+}
+
+.k {
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+.v {
+  font-weight: 600;
+}
+
+/* tags for care needs */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* actions */
+.actions {
+  display: grid;
+  gap: 10px;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary-colour);
+  color: #fff;
+  border: none;
+}
+
+.btn-danger {
+  background: rgba(220,53,69,0.10);
+  border: 1px solid rgba(220,53,69,0.30);
+  color: #b4232c;
+}
+
+/* edit form */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 14px;
+}
+
+@media (max-width: 760px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+.field label {
+  display: block;
+  margin: 10px 0 6px;
+  font-weight: 800;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.field input, .field textarea {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.16);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.field input:focus, .field textarea:focus {
+  border-color: rgba(0,0,0,0.35);
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin-top: 6px;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* alerts */
+.alert {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(220,53,69,0.25);
+  background: rgba(220,53,69,0.10);
+  color: var(--system-colour-red);
+}
+
+.profile-photo-row{
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.profile-photo-controls{
+  flex: 1;
+}
+
+.profile-pic{
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+#account-icon{
+  font-size: 95px;
+  color: #ccc;
+}
+
+.hint{
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+main.page-wrap {
+  min-height: auto !important;
+  margin-top: 64px; /* keep header spacing */
+  padding-bottom: 260px; /* keep space for footer */
+}
+
+/* DEBUG: force Save button to be visible */
+.form-actions { 
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.form-actions button,
+button.btn.btn-primary {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 9999 !important;
+  background: #0f7a77 !important;
+  color: #fff !important;
+  border: none !important;
+}
+

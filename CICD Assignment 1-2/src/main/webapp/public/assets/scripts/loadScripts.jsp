@@ -27,14 +27,16 @@
 	    
 	    // ... handle scroll stop ...
 	    progressBar.classList.remove('glowing');
+	    
+	 // the glow is removed when the scrolling stops. 
+		let scrollTimeout;
+		window.addEventListener('scroll', () => {
+		    clearTimeout(scrollTimeout);
+		    scrollTimeout = setTimeout(() => {
+		        progressBar.classList.remove('glowing');
+		    }, 500);
+		});
 	}
 
-	// the glow is removed when the scrolling stops. 
-	let scrollTimeout;
-	window.addEventListener('scroll', () => {
-	    clearTimeout(scrollTimeout);
-	    scrollTimeout = setTimeout(() => {
-	        progressBar.classList.remove('glowing');
-	    }, 500);
-	});
+	
 	</script>

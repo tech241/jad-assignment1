@@ -125,3 +125,266 @@
         text-align: center;
     }
 }
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge-paid {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-completed {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.badge-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Keep pages narrower so cards don't stretch too wide */
+.bookings-wrapper {
+  max-width: 760px;
+  margin: 120px auto 60px auto;
+  padding: 0 20px;
+}
+
+/* Tabs */
+.bookings-tabs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px 0 24px;
+}
+
+.bookings-tabs .tab {
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+  background: #fff;
+}
+
+.bookings-tabs .tab.active {
+  background: var(--colour-bg-colour);
+  color: #fff;
+  border-color: var(--colour-bg-colour);
+}
+
+/* Card layout */
+.booking-card {
+  padding: 18px 20px;
+  border-left-width: 5px;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.booking-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.booking-sub {
+  margin: 4px 0 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+/* Detail grid instead of messy paragraphs */
+.booking-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+}
+
+.booking-grid .label {
+  display: block;
+  font-size: 0.78rem;
+  color: #6b7280;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.booking-grid .value {
+  display: block;
+  margin-top: 2px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.notes {
+  margin-top: 12px;
+  color: #374151;
+}
+
+/* Buttons */
+.actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--colour-bg-colour);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.btn-danger {
+  background: #b91c1c;
+  color: #fff;
+}
+
+.btn-primary:hover { filter: brightness(0.95); }
+.btn-ghost:hover { background: #f9fafb; }
+.btn-danger:hover { filter: brightness(0.95); }
+
+/* Mobile */
+@media (max-width: 640px) {
+  .booking-grid { grid-template-columns: 1fr; }
+  .actions .btn { width: 100%; }
+}
+
+/* ---------- Next booking summary ---------- */
+.next-summary {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-left: 6px solid var(--colour-bg-colour);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 18px;
+}
+
+.next-label {
+  margin: 0 0 4px;
+  font-weight: 800;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+}
+
+.next-days {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #111;
+}
+
+.next-small {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #4b5563;
+  margin-top: 2px;
+}
+
+.next-meta {
+  margin: 8px 0 0;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* ---------- Status tracker (O -> O -> O) ---------- */
+.status-tracker {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.track-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  color: #6b7280;
+  font-size: 0.82rem;
+}
+
+.track-step .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+}
+
+.track-step.done {
+  color: #111827;
+}
+
+.track-step.done .dot {
+  border-color: var(--colour-bg-colour);
+  background: var(--colour-bg-colour);
+}
+
+.track-step.active {
+  color: #111827;
+}
+
+.track-step.active .dot {
+  border-color: var(--colour-bg-colour);
+  background: #fff;
+}
+
+.track-line {
+  height: 2px;
+  width: 42px;
+  background: #e5e7eb;
+  border-radius: 999px;
+}
+
+/* Cancelled styling */
+.status-tracker.is-cancelled .track-step,
+.status-tracker.is-cancelled .track-step .dot {
+  opacity: 0.5;
+}
+

@@ -183,3 +183,7 @@ main {
 		flex-direction: column;
 	}
 }
+
+.breadcrumb a { color: var(--colour-bg-colour); }
+.service-card:hover { border-color: var(--colour-bg-colour); }
+.book-btn { background-color: var(--colour-bg-colour); }

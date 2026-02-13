@@ -45,4 +45,9 @@ public class servicePackage {
 	public void setDurationMinutes(int durationMinutes) {
 		this.durationMinutes = durationMinutes;
 	}
+	public String debugTest() {
+	    return "THIS IS THE CORRECT VERSION";
+	}
+
 }
+

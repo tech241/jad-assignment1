@@ -52,11 +52,12 @@ public class StripeConfirmController {
         }
 
         return Map.of(
-                "sessionId", sessionId,
-                "paymentStatus", paymentStatus,
-                "updatedBookings", updated,
-                "emailSent", emailSent
-        );
+        	    "sessionId", sessionId,
+        	    "paid", paid,
+        	    "paymentStatus", paymentStatus,
+        	    "updatedBookings", updated,
+        	    "emailSent", emailSent
+        	);
     }
     
 }

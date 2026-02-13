@@ -37,51 +37,31 @@ public class login extends HttpServlet {
 		String rememberMe = request.getParameter("remember-me");
 		
 		BiConsumer<ResultSet, Integer> process = (rs, index) -> {
-			if (rs != null) {
-				try {
-					int id = rs.getInt("id");
-					String name = rs.getString("name");
-					String email = rs.getString("email");
-					String password2 = rs.getString("password");
-					String role = rs.getString("role");
-					
-					if (bcryptHelper.check(password, password2)) {
-						HttpSession session = request.getSession();
-						
-						postgresHelper.setSession(session, id, name, email, role);
-						
-						// Handle booking redirect ===
-					    String redirect = request.getParameter("redirect");
-					    String pkg = request.getParameter("package_id");
-					    String svc = request.getParameter("service_id");
+	        try {
+	            if (rs != null) {
+	                String password2 = rs.getString("password");
 
-					    if ("book".equals(redirect) && pkg != null && svc != null) {
-					    	response.sendRedirect(request.getContextPath() + "/public/bookings.jsp?package_id=" + pkg + "&service_id=" + svc);
-					        return;
-					    }
+	                if (bcryptHelper.check(password, password2)) {
+	                    HttpSession session = request.getSession(true);
+	                    postgresHelper.setSessionFromMemberRow(session, rs);
 
-					    // Default redirect if not from booking
-					    response.sendRedirect(request.getContextPath() + "/public/account.jsp");
-					} else {
-						response.sendRedirect("public/login.jsp?errMsg=Wrong password.");
-					}
-				} catch (Exception e) {
-					try {
-						response.sendRedirect("public/login.jsp?errMsg=An unknown error occured.");
-						System.out.println("Error :" + e);
-					} catch (Exception e1) {
-						System.out.println("Error :" + e1);
-					}
-				}
-			} else {
-				try {
-					// query does not give response
-					response.sendRedirect("public/login.jsp?errMsg=Member does not exist.");
-				} catch (Exception e1) {
-					System.out.println("Error :" + e1);
-				}
-			}
-		};
+	                    // Redirect after successful login (change to your desired page)
+	                    response.sendRedirect(request.getContextPath() + "/public/account.jsp");
+	                } else {
+	                    response.sendRedirect("public/login.jsp?errMsg=Invalid credentials.");
+	                }
+	            } else {
+	                response.sendRedirect("public/login.jsp?errMsg=Member does not exist.");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            try {
+	                response.sendRedirect("public/login.jsp?errMsg=Login failed due to server error.");
+	            } catch (IOException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+	    };
 		
 		// check if nameOrEmail is email
 		// otherwise verify by name

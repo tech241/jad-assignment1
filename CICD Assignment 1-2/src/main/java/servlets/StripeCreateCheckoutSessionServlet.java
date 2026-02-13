@@ -1,6 +1,7 @@
 package servlets;
 
 import dao.bookingDAO;
+import java.math.RoundingMode;
 import models.BookingItem;
 
 import jakarta.servlet.ServletException;
@@ -86,7 +87,7 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
                     return;
                 }
 
-                // ✅ update item caretaker to the final assigned caretaker (supports multiple caretakers per slot)
+                // update item caretaker to the final assigned caretaker (supports multiple caretakers per slot)
                 item.caretaker = String.valueOf(assignedCaretaker);
 
                 // Now insert booking
@@ -97,12 +98,38 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
                 BigDecimal price = new BigDecimal(priceStr);
                 totalCents += price.multiply(new BigDecimal("100")).longValue();
             }
+            
+            models.Promotion applied = (models.Promotion) session.getAttribute("appliedPromo");
 
-            String payloadJson = "{"
-                    + "\"amountCents\":" + totalCents + ","
-                    + "\"currency\":\"sgd\","
-                    + "\"bookingIds\":\"" + bookingIds.toString() + "\""
-                    + "}";
+         // subtotal is based on the cart totalCents
+         BigDecimal subtotal = new BigDecimal(totalCents).movePointLeft(2).setScale(2, RoundingMode.HALF_UP);
+         BigDecimal gst = subtotal.multiply(new BigDecimal("0.09")).setScale(2, RoundingMode.HALF_UP);
+         BigDecimal totalWithGst = subtotal.add(gst).setScale(2, RoundingMode.HALF_UP);
+
+         models.PromoResult pr = models.PromoCalculator.compute(applied, totalWithGst);
+
+         // if promo invalid at payment-time, remove it (availability / prices might have changed)
+         if (!pr.ok) {
+             session.removeAttribute("appliedPromo");
+             pr.discount = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+         }
+
+         BigDecimal finalTotal = totalWithGst.subtract(pr.discount).setScale(2, RoundingMode.HALF_UP);
+         long finalTotalCents = finalTotal.movePointRight(2).longValueExact();
+
+
+            
+         String payloadJson = "{"
+        		    + "\"amountCents\":" + finalTotalCents + ","
+        		    + "\"currency\":\"sgd\","
+        		    + "\"bookingIds\":\"" + bookingIds.toString() + "\""
+        		    + "}";
+
+            
+            System.out.println("subtotalCents=" + totalCents);
+            System.out.println("grandTotalCents=" + totalCents);
+            System.out.println("payloadJson=" + payloadJson);
+
 
             @SuppressWarnings("deprecation")
             URL url = new URL("http://localhost:8081/api/stripe/checkout-session");
@@ -117,9 +144,19 @@ public class StripeCreateCheckoutSessionServlet extends HttpServlet {
             String sessionId = extractJsonValue(resJson, "sessionId");
             String checkoutUrl = extractJsonValue(resJson, "url");
 
-            for (int bid : bookingIds) {
-                bookingDAO.setPaymentRef(bid, sessionId);
-            }
+            String promoCode = (pr.promo != null ? pr.promo.getCode() : null);
+
+         // store same totals per booking
+         for (int bid : bookingIds) {
+             bookingDAO.applyPromotionToBooking(
+                 bid,
+                 promoCode,
+                 totalWithGst,      // original_amount
+                 pr.discount,       // discount_amount
+                 finalTotal         // final_amount
+             );
+         }
+
 
             response.sendRedirect(checkoutUrl);
 

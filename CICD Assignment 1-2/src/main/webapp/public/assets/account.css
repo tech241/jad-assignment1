@@ -1,4 +1,4 @@
-@import url(general.css);
+/* @import url(general.css);
 
 .container {
 	padding: 16px;
@@ -57,4 +57,208 @@
 
 #feedback, #delete-account {
 	margin-bottom: 8px;
+}
+
+.profile-pic{
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+ */
+@import url(general.css);
+
+.container {
+	padding: 16px;
+}
+
+.profile {
+	display: flex;
+	justify-content: space-between; /* FIXED */
+	gap: 8px;
+}
+
+.profile .card {
+	padding: 16px;
+	background-color: var(--colour-bg-card);
+	color: var(--colour-text-card);
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	border-radius: 16px;
+	width: 75%;
+}
+
+.profile .card #account-icon {
+	font-size: 64px;
+}
+
+.profile .card .info h2 {
+	margin: 0;
+}
+
+.profile .buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 20%;
+}
+
+.profile .buttons button {
+	height: 50%;
+	width: 100%;
+}
+
+.section-divider {
+	margin: 32px;
+}
+
+#delete-account {
+	background-color: var(--system-colour-red);
+}
+
+#feedback, #delete-account {
+	margin-bottom: 8px;
+}
+
+.profile-pic {
+	width: 84px;
+	height: 84px;
+	border-radius: 50%;
+	object-fit: cover;
+	display: block;
+}
+
+.modal-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	display: none; /* hidden by default */
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	z-index: 9999;
+}
+
+.modal-backdrop.is-open {
+	display: flex;
+}
+
+.modal {
+	width: min(720px, 100%);
+	background: var(--colour-bg-card);
+	color: var(--colour-text-card);
+	border-radius: 16px;
+	overflow: hidden;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.modal-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-title {
+	margin: 0;
+	font-size: 18px;
+}
+
+.modal-close {
+	border: none;
+	background: transparent;
+	color: inherit;
+	font-size: 28px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 0 6px;
+}
+
+.modal-body {
+	padding: 16px;
+	max-height: 65vh;
+	overflow: auto;
+}
+
+/* key-value rows */
+.kv {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 10px;
+	padding: 10px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kv:last-child {
+	border-bottom: none;
+}
+
+.kv .k {
+	font-weight: 700;
+	opacity: 0.9;
+}
+
+.kv .v {
+	opacity: 0.95;
+	word-break: break-word;
+}
+
+.modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 12px 16px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-secondary-lite {
+	background: rgba(255, 255, 255, 0.08);
+	color: inherit;
+	border: 1px solid rgba(255, 255, 255, 0.10);
+	padding: 10px 12px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn-secondary-lite:hover {
+	background: rgba(255, 255, 255, 0.12);
+}
+
+@media ( max-width : 700px) {
+	.profile {
+		flex-direction: column;
+	}
+	.profile .card, .profile .buttons {
+		width: 100%;
+	}
+	.profile .buttons button {
+		height: auto;
+	}
+	.kv {
+		grid-template-columns: 1fr;
+	}
+	.kv .k {
+		margin-bottom: 2px;
+	}
+}
+
+.toast {
+	margin: 12px 0 16px;
+	padding: 12px 14px;
+	border-radius: 12px;
+	font-weight: 600;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.toast-success {
+	border-color: rgba(0, 255, 140, 0.25);
+}
+
+.toast-error {
+	border-color: rgba(255, 60, 60, 0.35);
 }

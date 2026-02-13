@@ -24,7 +24,7 @@ public class StripeCheckoutController {
 
 		SessionCreateParams params = SessionCreateParams.builder().setMode(SessionCreateParams.Mode.PAYMENT)
 				.setSuccessUrl("http://localhost:8080/CICD_Assignment_1-2/stripe/confirm-payment?session_id={CHECKOUT_SESSION_ID}")
-				.setCancelUrl("http://localhost:8080/CICD_Assignment_1-2/public/paymentCancel.jsp")
+				.setCancelUrl("http://localhost:8080/CICD_Assignment_1-2/payment-cancel?session_id={CHECKOUT_SESSION_ID}")
 				.addLineItem(SessionCreateParams.LineItem.builder().setQuantity(1L)
 						.setPriceData(SessionCreateParams.LineItem.PriceData.builder().setCurrency(currency)
 								.setUnitAmount(amountCents)

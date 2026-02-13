@@ -1,6 +1,8 @@
 package servlets;
 
 import dao.serviceCategoryDAO;
+import dao.PromotionDAO;
+import models.Promotion;
 import dao.serviceDAO;
 import models.serviceCategory;
 import models.serviceNavItem;
@@ -20,6 +22,8 @@ public class HomeServlet extends HttpServlet {
 
     private final serviceCategoryDAO categoryDAO = new serviceCategoryDAO();
     private final serviceDAO serviceDAO = new serviceDAO();
+    private final PromotionDAO promoDAO = new PromotionDAO();
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,6 +36,10 @@ public class HomeServlet extends HttpServlet {
 
             request.setAttribute("navCategories", categories);
             request.setAttribute("navServicesByCat", navServicesByCat);
+            
+            Promotion homePromo = promoDAO.getActiveHomePromotion();
+            request.setAttribute("homePromo", homePromo);
+
 
             request.getRequestDispatcher("/public/homepage.jsp").forward(request, response);
         } catch (Exception e) {

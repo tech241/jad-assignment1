@@ -60,39 +60,44 @@ public class StripePaymentSuccessServlet extends HttpServlet {
             req.setAttribute("navCategories", navCategories);
             req.setAttribute("navServicesByCat", navServicesByCat);
 
-            // Fetch recent bookings (within last 30 minutes to show just-paid bookings)
-            List<BookingDisplayItem> recentBookings = new ArrayList<>();
-            LocalDate today = LocalDate.now(); 
-
-            try {
-                List<BookingDisplayItem> upcomingBookings = bookingDAO.getUpcomingBookings(memberId);
-
-                // Show first 3 upcoming bookings first
-                if (upcomingBookings != null && !upcomingBookings.isEmpty()) {
-                    int count = Math.min(3, upcomingBookings.size());
-                    for (int i = 0; i < count; i++) {
-                        recentBookings.add(upcomingBookings.get(i));
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            // session id from Stripe redirect
+            String sessionId = req.getParameter("session_id");
+            if (sessionId == null || sessionId.isBlank()) {
+                req.setAttribute("errMsg", "Missing payment session id. Unable to verify payment.");
+                req.setAttribute("paymentSuccessful", false);
+                req.getRequestDispatcher("/public/paymentSuccess.jsp").forward(req, resp);
+                return;
             }
 
-            // Calculate total amount paid
+            // Fetch only the bookings linked to this payment
+            List<BookingDisplayItem> paidBookings = bookingDAO.getBookingsByPaymentRef(memberId, sessionId);
+
+            // If nothing found, show error (helping to debugging)
+            if (paidBookings == null || paidBookings.isEmpty()) {
+                req.setAttribute("errMsg", "No bookings found for this payment session.");
+                req.setAttribute("paymentSuccessful", false);
+                req.getRequestDispatcher("/public/paymentSuccess.jsp").forward(req, resp);
+                return;
+            }
+
+            // Total paid (based on DB prices for those bookings)
             BigDecimal totalPaid = BigDecimal.ZERO;
-            for (BookingDisplayItem booking : recentBookings) {
-                totalPaid = totalPaid.add(booking.getPrice());
+            for (BookingDisplayItem b : paidBookings) {
+                if (b.getPrice() != null) totalPaid = totalPaid.add(b.getPrice());
             }
+            BigDecimal gst = totalPaid.multiply(new BigDecimal("0.09")).setScale(2, java.math.RoundingMode.HALF_UP);
+            BigDecimal grandTotal = totalPaid.add(gst).setScale(2, java.math.RoundingMode.HALF_UP);
 
-            // Messages
-            String errMsg = req.getParameter("errMsg");
-            String okMsg = req.getParameter("okMsg");
+            req.setAttribute("subtotal", totalPaid);
+            req.setAttribute("gst", gst);
+            req.setAttribute("totalPaid", grandTotal);
+            req.setAttribute("recentBookings", paidBookings);
 
-            req.setAttribute("recentBookings", recentBookings);
-            req.setAttribute("totalPaid", totalPaid);
-            req.setAttribute("errMsg", errMsg);
-            req.setAttribute("okMsg", okMsg);
-            req.setAttribute("paymentSuccessful", errMsg == null);
+            // Messages (optional)
+            req.setAttribute("errMsg", req.getParameter("errMsg"));
+            req.setAttribute("okMsg", req.getParameter("okMsg"));
+
+            req.setAttribute("paymentSuccessful", true);
 
             req.getRequestDispatcher("/public/paymentSuccess.jsp").forward(req, resp);
 
@@ -101,6 +106,7 @@ public class StripePaymentSuccessServlet extends HttpServlet {
             resp.sendError(500, "Failed to load payment success page.");
         }
     }
+
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
