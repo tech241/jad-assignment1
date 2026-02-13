@@ -58,3 +58,11 @@
 #feedback, #delete-account {
 	margin-bottom: 8px;
 }
+
+.profile-pic{
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
